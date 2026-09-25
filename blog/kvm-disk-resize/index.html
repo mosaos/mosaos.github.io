@@ -1,0 +1,820 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    Changing the Disk Size of a KVM Guest | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="Changing the Disk Size of a KVM Guest | mosaos">
+<meta property="og:description" content="Steps to follow when you are running out of disk space">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;kvm-disk-resize&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;kvm-disk-resize&#x2F;kvm.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Changing the Disk Size of a KVM Guest | mosaos">
+<meta name="twitter:description" content="Steps to follow when you are running out of disk space">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;kvm-disk-resize&#x2F;kvm.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Changing the Disk Size of a KVM Guest",
+    "description": "Steps to follow when you are running out of disk space",
+    "url": "https://mosaos.github.io/blog/kvm-disk-resize/",
+    
+    "datePublished": "2026-09-22",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;kvm-disk-resize&#x2F;"
+            class="active font-bold">
+            EN
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;kvm-disk-resize&#x2F;"
+            class="">
+            JA
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/" class="hover:text-primary transition-colors">
+        Home
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/blog/" class="hover:text-primary transition-colors">
+        Blog
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      Changing the Disk Size of a KVM Guest
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      Changing the Disk Size of a KVM Guest
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-22
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/tags/kvm/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Kvm
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/linux/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Linux
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">Table of contents</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/kvm-disk-resize/#environment" class="hover:underline py-1">Environment</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/kvm-disk-resize/#procedure" class="hover:underline py-1">Procedure</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/kvm-disk-resize/#check-the-kvm-image" class="text-xs opacity-80 hover:underline py-0.5">
+                Check the KVM image</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/kvm-disk-resize/#expand-the-file-size" class="text-xs opacity-80 hover:underline py-0.5">
+                Expand the file size</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/kvm-disk-resize/#using-fdisk" class="text-xs opacity-80 hover:underline py-0.5">
+                Using fdisk</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/kvm-disk-resize/#change-the-partition-type-to-linux-lvm" class="text-xs opacity-80 hover:underline py-0.5">
+                Change the partition type to Linux LVM</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/kvm-disk-resize/#resize-the-physical-volume" class="text-xs opacity-80 hover:underline py-0.5">
+                Resize the physical volume</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/kvm-disk-resize/#resize-the-logical-volume" class="text-xs opacity-80 hover:underline py-0.5">
+                Resize the logical volume</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <p>Depending on the purpose of a KVM guest, the disk created initially may sometimes become insufficient in size.<br />
+CPU and memory resources require a reboot, but can be changed relatively easily (subject to the resources available on the KVM host).</p>
+<p>Disk settings can also be changed flexibly when external disks are mounted using NFS or similar methods. However, changing the disk capacity of the image itself requires some work. Since this is the kind of procedure that is easy to forget if you do not write it down somewhere, I am documenting the steps here.</p>
+<h2 id="environment">Environment</h2>
+<p>The environment is as follows.</p>
+<ul>
+<li>KVM host OS: Rocky 9</li>
+<li>KVM guest OS: Linux-based (using LVM)</li>
+</ul>
+<p>The image file format I use is qcow2, so the following procedure is for qcow2.</p>
+<h2 id="procedure">Procedure</h2>
+<p>* Before starting, shut down the KVM guest whose disk capacity you want to change, and back up the image if necessary.<br />
+* Since a mistake when operating the commands could, in the worst case, make the system unable to boot, I recommend making a backup.</p>
+<p>First, perform the following operations on the KVM host.</p>
+<h3 id="check-the-kvm-image">Check the KVM image</h3>
+<p>Check the format and size of the KVM image.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">qemu-img</span><span> info /var/lib/libvirt/images/&lt;image-file-name&gt;
+</span></code></pre>
+<h3 id="expand-the-file-size">Expand the file size</h3>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">qemu-img</span><span> resize</span><span style="color:#bf616a;"> -f</span><span> qcow2 &lt;image-file-name&gt; +10G
+</span></code></pre>
+<p>* Change the <code>+10G</code> part as appropriate for the amount by which you want to resize the disk.</p>
+<p>After running the command, run <code>qemu-img info</code> again and make sure that the size has been changed correctly.</p>
+<p>From this point onward, the operations are performed on the KVM guest.</p>
+<h3 id="using-fdisk">Using fdisk</h3>
+<p>Start the KVM guest with the image whose capacity has been increased.<br />
+Run fdisk and recreate the partition.</p>
+<p>* Change the device name as appropriate for your environment.<br />
+* Although there are explanations in the middle, everything up to entering <code>q</code> is an operation performed with the fdisk command.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">fdisk</span><span> /dev/vda
+</span></code></pre>
+<p>Check the current state.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">Command</span><span> (m for help)</span><span style="color:#96b5b4;">:</span><span> p
+</span><span>
+</span><span>(</span><span style="color:#bf616a;">omitted</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">Device</span><span>     Boot    Start      End  Sectors   Size Id Type
+</span><span style="color:#bf616a;">/dev/vda1  </span><span>*        2048  2099199  2097152     1G 83 Linux
+</span><span style="color:#bf616a;">/dev/vda2</span><span>        2099200 41943039 39843840    19G 8e Linux LVM
+</span></code></pre>
+<p>Resize the LVM on <code>/dev/vda2</code>.</p>
+<p>First, delete it:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">Command</span><span> (m for help)</span><span style="color:#96b5b4;">:</span><span> d
+</span><span style="color:#bf616a;">Partition</span><span> number (1,2, default 2)</span><span style="color:#96b5b4;">:</span><span> 2
+</span></code></pre>
+<p>Then create it again.<br />
+Since the basic partition 2 was deleted, recreate basic partition 2.<br />
+When entering the number of sectors, the default value (just press Enter) is fine.<br />
+(It will be created using all available free space.)</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">Command</span><span> (m for help)</span><span style="color:#96b5b4;">:</span><span> n
+</span><span style="color:#bf616a;">Partition</span><span> type
+</span><span>   </span><span style="color:#bf616a;">p</span><span>   primary (1-4)
+</span><span>   </span><span style="color:#bf616a;">e</span><span>   extended
+</span><span style="color:#bf616a;">Select</span><span> (default p)</span><span style="color:#96b5b4;">:</span><span> p
+</span><span style="color:#bf616a;">Partition</span><span> number (2-4, default 2)</span><span style="color:#96b5b4;">:</span><span> 2
+</span><span style="color:#bf616a;">First</span><span> sector (2099200-41943039, default 2099200)</span><span style="color:#96b5b4;">:
+</span><span style="color:#bf616a;">Last</span><span> sector, +/-sectors or +/-size{K,M,G,T,P} (2099200-41943039, default 41943039)</span><span style="color:#96b5b4;">:
+</span><span>
+</span><span style="color:#bf616a;">Created</span><span> a new partition  2 of type &#39;</span><span style="color:#a3be8c;">Linux</span><span>&#39; and of size 19 GiB.
+</span><span style="color:#bf616a;">Partition </span><span style="color:#65737e;">#2 contains a LVM2_member signature.
+</span><span>
+</span><span style="color:#bf616a;">Do</span><span> you want to remove the signature? </span><span style="color:#b48ead;">[</span><span>Y</span><span style="color:#b48ead;">]</span><span>es/</span><span style="color:#b48ead;">[</span><span>N</span><span style="color:#b48ead;">]</span><span>o: N
+</span></code></pre>
+<h3 id="change-the-partition-type-to-linux-lvm">Change the partition type to Linux LVM</h3>
+<p>The recreated partition type is <code>Linux</code>, so change it to <code>Linux LVM</code>.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">Command</span><span> (m for help)</span><span style="color:#96b5b4;">:</span><span> t
+</span><span style="color:#bf616a;">Partition</span><span> number (1,2, default 2)</span><span style="color:#96b5b4;">:</span><span> 2
+</span><span style="color:#bf616a;">Hex</span><span> code or alias (type L to list all)</span><span style="color:#96b5b4;">:</span><span> 8e
+</span><span>
+</span><span style="color:#bf616a;">Change</span><span> type of partition &#39;</span><span style="color:#a3be8c;">Linux</span><span>&#39; to &#39;</span><span style="color:#a3be8c;">Linux LVM</span><span>&#39;.
+</span></code></pre>
+<p>Check the state after the change:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">Command</span><span> (m for help)</span><span style="color:#96b5b4;">:</span><span> p
+</span><span>
+</span><span>(</span><span style="color:#bf616a;">omitted</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">Device</span><span>     Boot    Start      End  Sectors   Size Id Type
+</span><span style="color:#bf616a;">/dev/vda1  </span><span>*        2048  2099199  2097152     1G 83 Linux
+</span><span style="color:#bf616a;">/dev/vda2</span><span>        2099200 41943039 39843840    19G 8e Linux LVM
+</span></code></pre>
+<p>If it has been changed to the expected state (size and partition type), write the changes and exit fdisk.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">Command</span><span> (m for help)</span><span style="color:#96b5b4;">:</span><span> w
+</span><span style="color:#bf616a;">Command</span><span> (m for help)</span><span style="color:#96b5b4;">:</span><span> q
+</span></code></pre>
+<p>On current operating systems (Red Hat 7 and later), <code>partprobe</code> should allow the changes to take effect without rebooting.<br />
+* A reboot may be required depending on the OS.<br />
+* <code>partprobe</code> itself may not even be necessary.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">partprobe
+</span></code></pre>
+<h3 id="resize-the-physical-volume">Resize the physical volume</h3>
+<p>When using LVM, you need to resize the PV (physical volume) and LV (logical volume).</p>
+<p>First, resize the PV (Physical Volume).</p>
+<p>Check the current state:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pvdisplay
+</span></code></pre>
+<p>Then resize it.<br />
+This changes it so that all of the space corresponding to the size changed with fdisk is used.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pvresize</span><span> /dev/vda2
+</span></code></pre>
+<p>After resizing, run <code>pvdisplay</code> again to confirm the change.</p>
+<h3 id="resize-the-logical-volume">Resize the logical volume</h3>
+<p>Resize the logical volume.</p>
+<p>Check the current state:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">lvs
+</span><span style="color:#bf616a;">lvdisplay
+</span></code></pre>
+<p>Then resize it.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">lvextend -l</span><span> +100%</span><span style="color:#bf616a;">FREE</span><span> /dev/cl/root
+</span></code></pre>
+<p>Finally, expand the file system.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">xfs_growfs</span><span> /dev/cl/root
+</span></code></pre>
+<p>※ On Ubuntu, you may need to use something like <code>resize2fs /dev/ubuntu-vg/ubuntu-lv</code> instead.</p>
+<p>Check the size.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">df
+</span><span style="color:#bf616a;">evtmpfs</span><span>                                     912992         0     912992    0% /dev
+</span><span style="color:#bf616a;">tmpfs</span><span>                                        930236         0     930236    0% /dev/shm
+</span><span style="color:#bf616a;">tmpfs</span><span>                                        930236      8796     921440    1% /run
+</span><span style="color:#bf616a;">tmpfs</span><span>                                        930236         0     930236    0% /sys/fs/cgroup
+</span><span style="color:#bf616a;">/dev/mapper/cl-root</span><span>                        17811456   8021136    9790320   46% /
+</span><span style="color:#bf616a;">/dev/vda1</span><span>                                    999320    262420     668088   29% /boot
+</span><span style="color:#bf616a;">tmpfs</span><span>                                        186044         0     186044    0% /run/user/1000
+</span></code></pre>
+<p>If the capacity has been expanded, the operation was successful.</p>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (EN)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/">
+            <i class="fa-solid fa-home w-5"></i><span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>Works</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/tags">
+            <i class="fa-solid fa-tags w-5"></i><span>Tags</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/tags/art/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Art</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/best-practices/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Best Practices</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/blog/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Blog</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ceramics/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Ceramics</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#GitHub</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/leathercraft/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Leathercraft</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/pottery/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Pottery</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/project/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Project</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/sewing/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Sewing</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/wedding/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Wedding</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

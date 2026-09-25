@@ -1,0 +1,581 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="mosaos">
+<meta property="og:description" content="">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.ioimg&#x2F;ogp-default.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="mosaos">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.ioimg&#x2F;ogp-default.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for the home page -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "mosaos",
+    "url": "https://mosaos.github.io",
+    "description": ""
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+  
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/ja/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+
+        
+        
+        <li>
+          <a href="https://mosaos.github.io/tags"
+            class="">
+            EN
+          </a>
+        </li>
+        
+
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<div class="mx-auto max-w-3xl px-4 py-8 text-base-content">
+
+  <!-- Breadcrumbs -->
+  <nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+    <ul>
+      <li><a href="https://mosaos.github.io/ja/" class="hover:text-primary transition-colors">ホーム</a></li>
+      <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs"># Github</li>
+    </ul>
+  </nav>
+
+  <!-- Page title -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight flex items-center gap-3">
+      # Github
+      <span class="text-sm font-normal text-base-content/60">(1 posts)</span>
+    </h1>
+  </header>
+
+  <!-- Articles -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    
+
+    <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog"
+      class="works-card card bg-base-200 shadow-sm border border-base-300 overflow-hidden flex flex-col block group hover:shadow-md transition-all">
+
+      
+      
+      
+      
+      
+      
+
+      <figure class="aspect-video w-full overflow-hidden bg-base-300">
+        <img src="https://mosaos.github.io/ja/blog/zola-daisyui-blog/zola-daisyui-blog.webp" alt="Zola daisyUI blog"
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+      </figure>
+
+      <div class="card-body p-4 flex flex-col flex-grow bg-base-100">
+        <div class="text-xs opacity-60 mb-1">
+          2026-09-25
+        </div>
+
+        
+        <h2 class="card-title text-lg font-semibold leading-snug group-hover:text-primary transition-colors">
+          Zola daisyUI blog
+        </h2>
+
+        
+        <p class="text-sm leading-relaxed opacity-70 flex-grow">
+          Zola daisyUI blog の使い方
+        </p>
+        
+      </div>
+
+    </a>
+
+    
+
+  </div>
+
+</div>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (JA)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/ja/">
+            <i class="fa-solid fa-home w-5"></i><span>ホーム</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>ブログ</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>作品</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja//tags">
+            <i class="fa-solid fa-tags w-5"></i><span>タグ</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/ja/tags/ato/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#アート</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/besutopurakuteisu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ベストプラクティス</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/burogu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ブログ</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cai-feng/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#裁縫</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Github</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/jie-hun-shi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#結婚式</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/potari/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ポタリー</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/puroziekuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#プロジェクト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rezakurahuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#レザークラフト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/tao-qi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#陶器</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

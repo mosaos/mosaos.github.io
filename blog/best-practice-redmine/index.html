@@ -1,0 +1,915 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    Redmine Best Practices | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="Redmine Best Practices | mosaos">
+<meta property="og:description" content="My personal best-practice series. A summary of how I use Redmine. Not how to use it as a system, but what to pay attention to when operating it.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-redmine&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-redmine&#x2F;redmine-logo.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Redmine Best Practices | mosaos">
+<meta name="twitter:description" content="My personal best-practice series. A summary of how I use Redmine. Not how to use it as a system, but what to pay attention to when operating it.">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-redmine&#x2F;redmine-logo.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Redmine Best Practices",
+    "description": "My personal best-practice series. A summary of how I use Redmine. Not how to use it as a system, but what to pay attention to when operating it.",
+    "url": "https://mosaos.github.io/blog/best-practice-redmine/",
+    
+    "datePublished": "2026-09-22",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-redmine&#x2F;"
+            class="">
+            JA
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-redmine&#x2F;"
+            class="active font-bold">
+            EN
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/" class="hover:text-primary transition-colors">
+        Home
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/blog/" class="hover:text-primary transition-colors">
+        Blog
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      Redmine Best Practices
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      Redmine Best Practices
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-22
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/tags/redmine/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Redmine
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/project/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Project
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/best-practices/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Best Practices
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">Table of contents</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-redmine/#introduction" class="hover:underline py-1">Introduction</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-redmine/#what-is-redmine" class="hover:underline py-1">What is Redmine?</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#remove-tickets" class="text-xs opacity-80 hover:underline py-0.5">
+                Remove tickets</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#visualization" class="text-xs opacity-80 hover:underline py-0.5">
+                Visualization</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-redmine/#things-to-pay-attention-to-when-operating" class="hover:underline py-1">Things to Pay Attention to When Operating</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#do-not-create-too-many-trackers" class="text-xs opacity-80 hover:underline py-0.5">
+                Do not create too many trackers</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#too-many-input-fields" class="text-xs opacity-80 hover:underline py-0.5">
+                Too many input fields</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#keep-statuses-to-the-minimum-necessary" class="text-xs opacity-80 hover:underline py-0.5">
+                Keep statuses to the minimum necessary</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#stop-subdividing-roles-too-much" class="text-xs opacity-80 hover:underline py-0.5">
+                Stop subdividing roles too much</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#what-about-workflows" class="text-xs opacity-80 hover:underline py-0.5">
+                What about workflows?</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#do-not-unnecessarily-subdivide-projects" class="text-xs opacity-80 hover:underline py-0.5">
+                Do not unnecessarily subdivide projects</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#structuring-by-organizational-hierarchy-is-a-bad-idea" class="text-xs opacity-80 hover:underline py-0.5">
+                Structuring by organizational hierarchy is a bad idea</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#how-should-versions-be-used" class="text-xs opacity-80 hover:underline py-0.5">
+                How should Versions be used?</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-redmine/#adding-too-many-members" class="text-xs opacity-80 hover:underline py-0.5">
+                Adding too many members</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-redmine/#conclusion" class="hover:underline py-1">Conclusion</a>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <h2 id="introduction">Introduction</h2>
+<p>This is not a manual-style explanation of how to use Redmine.<br />
+Instead, I will write about the following points when using Redmine (or similar project management tools):</p>
+<ul>
+<li>Things you should pay attention to</li>
+<li>Things you should stop doing (bad practices)</li>
+</ul>
+<p>* This also includes things I have heard on Redmine Japan.<br />
+* I think these ideas are also useful when using project management tools other than Redmine.</p>
+<hr />
+<h2 id="what-is-redmine">What is Redmine?</h2>
+<p>Redmine originally started as a tool for IT developers, but today it is a <strong>project management tool</strong> used in various fields and types of work.</p>
+<p>When someone asks me, &quot;What is a project management tool?&quot;, I explain it as something that allows you to:</p>
+<p><strong>&quot;Write down things you need to do on sticky notes, and remove them when they are done&quot;</strong></p>
+<ul>
+<li>with the help of IT, and</li>
+<li>in a more systematic way.</li>
+</ul>
+<p>The sticky notes are Redmine tickets, so it basically means:</p>
+<ol>
+<li>Write what needs to be done in a ticket.</li>
+<li>Remove it when it is done.</li>
+</ol>
+<h3 id="remove-tickets">Remove tickets</h3>
+<p>So, if I had to give one purpose of using Redmine, it would be:</p>
+<p><strong>&quot;Write tickets and remove them.&quot;</strong></p>
+<p>* If you can make removing tickets feel good through gamification, it becomes easier for people to keep using the tool.</p>
+<ul>
+<li>Remove your own tickets</li>
+<li>Remove other members' tickets too</li>
+<li>Keep records</li>
+</ul>
+<p>At the same time, properly record the actions taken to complete the tickets.</p>
+<h4 id="to-make-tickets-removable">To make tickets removable</h4>
+<p>If the number of tickets that cannot be completed keeps increasing, people's motivation will not improve, and use of the tool will not be encouraged.
+To make tickets easier to complete, pay attention to the following:</p>
+<ul>
+<li>Create tickets at a manageable level of granularity
+Tickets that cover too wide a scope (are too large in granularity) cannot be easily completed.<br />
+→ Split them into child tickets (create them at a granularity that can generally be completed in a few hours to a few days).</li>
+<li>Do not write multiple tasks in one ticket
+Even when leaving records (comments), it becomes difficult to tell which task the work was for.<br />
+→ As above, split them into child tickets with an appropriate level of granularity.</li>
+<li>Create tickets with clear completion conditions
+With a ticket such as &quot;Improve operations&quot;, it is unclear what needs to be done before it can be completed.<br />
+→ Create tickets that describe the actual actions that need to be performed, such as &quot;Do XX to YY&quot;, and make the completion conditions clear.</li>
+</ul>
+<h3 id="visualization">Visualization</h3>
+<p>Keeping records makes visualization possible. Visualization is important.<br />
+Be conscious of what you want to / should visualize. If this becomes unclear, you may end up with unnecessary information or fail to capture what you actually wanted to visualize.</p>
+<p>This depends on the project, so it is difficult to say &quot;this is the answer.&quot; Here are some examples.</p>
+<p>The following is an example for a development project.</p>
+<ul>
+<li>
+<p>Things to do (or things that should be done)</p>
+<ul>
+<li>Write them in tickets (pay attention to granularity)</li>
+<li>Assign someone responsible (if undecided, assign it to the project manager or whoever is responsible for making assignments)</li>
+<li>Set a period (a tentative period is also fine)</li>
+<li>Give it an appropriate title</li>
+<li>Write a sufficient description (overview)</li>
+</ul>
+</li>
+<li>
+<p>Schedule<br />
+By recording the period and progress percentage in tickets, they can be visualized as a Gantt chart.</p>
+</li>
+<li>
+<p>Task status</p>
+<ul>
+<li>Properly write the work being done in comments. Change the status and assignee as appropriate.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="things-to-pay-attention-to-when-operating">Things to Pay Attention to When Operating</h2>
+<ul>
+<li>Do not divide settings too finely<br />
+When operating Redmine, it is tempting to divide various settings into many detailed categories.<br />
+However, the more finely you divide them, the more the cost of configuration, operation, and maintenance increases.
+I recommend not dividing them more than necessary.</li>
+<li>Basically, do not directly reflect the organizational structure<br />
+It may be fairly common to structure the data based on actual departments and positions at the beginning, but doing this will often fail or make management difficult.</li>
+</ul>
+<p>A project management tool is not a tool for managing the organizational or job-position structure within a project. It is ultimately a tool for handling tasks.<br />
+I recommend defining only the minimum necessary and efficient trackers, statuses, roles, and projects needed for the purpose.<br />
+Start with the minimum and change/improve things as necessary.</p>
+<p>The following are some specific examples of bad practices.</p>
+<h3 id="do-not-create-too-many-trackers">Do not create too many trackers</h3>
+<p>A tracker is a category for tickets, so let's create a separate tracker for each type of work.<br />
+→ <strong>&quot;Let's create separate ones for each type of work/department!&quot;</strong></p>
+<p>This is fairly common.</p>
+<p>* <strong>A Redmine tracker has the characteristics of a form</strong> (it has input fields and an approval workflow).</p>
+<p>But often,</p>
+<p>you create many trackers, only to find that they actually have the same workflow.</p>
+<ul>
+<li>If the input fields and workflow are the same, there is a high possibility that the same tracker can be used.</li>
+<li>The more settings there are, the higher the management and maintenance costs become.</li>
+<li>It becomes painful when you try to organize them later.</li>
+</ul>
+<h3 id="too-many-input-fields">Too many input fields</h3>
+<p>I said that a tracker is like a form, but<br />
+it is also easy to end up with a situation where you keep adding custom fields until you no longer know what needs to be entered.</p>
+<ul>
+<li>There are fields that are ultimately not filled in.</li>
+<li>There are fields that have become merely nominal and are not actually being used.</li>
+</ul>
+<p>Unless you plan to use the information later for analysis or aggregation, it is often sufficient to simply write it in the ticket description field.</p>
+<p>If there are items you want people to enter (but do not need to analyze), use the Issue Templates plugin.<br />
+→ This also helps prevent a proliferation of trackers.</p>
+<p>* Apparently, some systems actually have around 100 input fields... hell.<br />
+* I have seen trackers with both an assignee and a person responsible for handling the ticket. What is the difference?</p>
+<h3 id="keep-statuses-to-the-minimum-necessary">Keep statuses to the minimum necessary</h3>
+<p>Making them more detailed than necessary makes things difficult to understand.<br />
+→ A good state is one where someone who has just joined the project can understand which status to select.</p>
+<ul>
+<li>Have you organized the actual workflow?<br />
+Some statuses exist in actual business operations but are unnecessary in the system.<br />
+Stop creating statuses when it is unclear whether they are really necessary.<br />
+You can always add one when it actually becomes necessary.</li>
+<li>Do you really need a status where no assignee can be assigned?<br />
+→ This makes it more likely that tickets will not be completed.</li>
+<li>If there are multiple statuses that occupy the same position in the workflow (for example, separate ones created for different departments), consolidate them.</li>
+</ul>
+<p>* Apparently, some systems actually have around 30 statuses... Can you really understand and keep track of that workflow?<br />
+* Redmine can also be used as a Kanban board by adding a plugin, but a Kanban board with 30 statuses would be chaos...</p>
+<h3 id="stop-subdividing-roles-too-much">Stop subdividing roles too much</h3>
+<p>&quot;It is not good for too many people to be able to see things. Let's use roles to divide permissions in detail.&quot;<br />
+→ I have seen places where roles are created for each job position...</p>
+<p>PM? PMO? PL? What can each role actually do in Redmine?<br />
+→ Roles with clearly defined responsibilities, such as approver, reviewer, and observer, are better.</p>
+<p>* You do not need to create roles based on job positions, such as &quot;these permissions because they are a PM&quot; or &quot;these permissions because they are a PL.&quot;</p>
+<h3 id="what-about-workflows">What about workflows?</h3>
+<p>There is one workflow for each combination of role × tracker.</p>
+<p>The more there are, the harder they are to manage.</p>
+<p>For workflows that are the same, try to handle them with the same tracker whenever possible.</p>
+<ul>
+<li>Task (no approval required)</li>
+<li>Customer approval task</li>
+<li>Manager approval task</li>
+</ul>
+<p>If the workflows are the same, such trackers should be consolidated so that the same tracker can be used even when work crosses departments. This makes things easier to understand.</p>
+<h3 id="do-not-unnecessarily-subdivide-projects">Do not unnecessarily subdivide projects</h3>
+<p>It is common to have &quot;one project per case&quot;...</p>
+<p>If using &quot;Versions&quot; is sufficient, use Versions.</p>
+<ul>
+<li>Redmine also makes it easy to integrate with source code.<br />
+→ By using appropriate plugins together, it is possible to configure a Subversion/Git repository server on the Redmine server.<br />
+→ I recommend associating one product/service with one project.</li>
+</ul>
+<p>If you have a project such as &quot;XX Service - YY Improvement&quot;, you can create a &quot;YY Improvement&quot; version in the &quot;XX Service&quot; project. This allows you to divide the roadmap for each product/service as needed.</p>
+<ul>
+<li>GitLab Milestones work in a similar way.</li>
+</ul>
+<h3 id="structuring-by-organizational-hierarchy-is-a-bad-idea">Structuring by organizational hierarchy is a bad idea</h3>
+<p>This is common.</p>
+<p>But what if a project needs to be carried out collaboratively by multiple departments?</p>
+<p>→ I recommend structuring projects by case.<br />
+However, if the phases are different, consider whether the problem can be solved by using Versions instead of unnecessarily splitting the project.</p>
+<h3 id="how-should-versions-be-used">How should Versions be used?</h3>
+<p>Basically, I use Versions to divide a project by period.</p>
+<p>It seems that some people use them to divide projects along axes other than time, but</p>
+<p>if you later need to divide something by time, you will no longer be able to divide it appropriately. Therefore, do not use this approach except for projects where such a requirement will definitely never occur.</p>
+<h3 id="adding-too-many-members">Adding too many members</h3>
+<p>Was it too much trouble to think about? There are way too many members, aren't there?</p>
+<p>Basically, only add people who are actually involved in the project as members.</p>
+<p>Want to let someone view it only?<br />
+→ If a public project is sufficient, that is enough.</p>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>Especially when starting operations, when adding trackers, statuses, or roles, you may sometimes think:</p>
+<p><strong>&quot;I added all these fields! It's perfectly structured to match our company, and the workflows are reflected too. Awesome!&quot;</strong></p>
+<p>But you may simply have failed to analyze or abstract the actual business processes.</p>
+<p>Think about ways to make things work well with fewer settings.</p>
+<p>Having detailed settings and properly abstracting business processes are two different things.</p>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (EN)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/">
+            <i class="fa-solid fa-home w-5"></i><span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>Works</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/tags">
+            <i class="fa-solid fa-tags w-5"></i><span>Tags</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/tags/art/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Art</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/best-practices/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Best Practices</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/blog/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Blog</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ceramics/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Ceramics</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#GitHub</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/leathercraft/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Leathercraft</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/pottery/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Pottery</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/project/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Project</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/sewing/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Sewing</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/wedding/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Wedding</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

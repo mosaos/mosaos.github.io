@@ -1,0 +1,916 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    ベストプラクティス Redmine | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="ベストプラクティス Redmine | mosaos">
+<meta property="og:description" content="俺的ベストプラクティスシリーズ。Redmine の使い方まとめ。システムとしての使い方ではなくて、どういった点に気を付けて運用するか？">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-redmine&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-redmine&#x2F;redmine-logo.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ベストプラクティス Redmine | mosaos">
+<meta name="twitter:description" content="俺的ベストプラクティスシリーズ。Redmine の使い方まとめ。システムとしての使い方ではなくて、どういった点に気を付けて運用するか？">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-redmine&#x2F;redmine-logo.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ベストプラクティス Redmine",
+    "description": "俺的ベストプラクティスシリーズ。Redmine の使い方まとめ。システムとしての使い方ではなくて、どういった点に気を付けて運用するか？",
+    "url": "https://mosaos.github.io/ja/blog/best-practice-redmine/",
+    
+    "datePublished": "2026-09-22",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/ja/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-redmine&#x2F;"
+            class="active font-bold">
+            JA
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-redmine&#x2F;"
+            class="">
+            EN
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/ja/" class="hover:text-primary transition-colors">
+        ホーム
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/ja/blog/" class="hover:text-primary transition-colors">
+        ブログ
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      ベストプラクティス Redmine
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      ベストプラクティス Redmine
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-22
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/ja/tags/redmine/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Redmine
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/puroziekuto/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #プロジェクト
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/besutopurakuteisu/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #ベストプラクティス
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">目次</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#hazimeni" class="hover:underline py-1">はじめに</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#redminetoha" class="hover:underline py-1">Redmineとは</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#tiketutowoxiao-su" class="text-xs opacity-80 hover:underline py-0.5">
+                チケットを消す</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#jian-eruhua" class="text-xs opacity-80 hover:underline py-0.5">
+                見える化</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#yun-yong-surushang-deqi-wofu-kerushi" class="hover:underline py-1">運用する上で気を付ける事</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#toratukawofen-kesuginai" class="text-xs opacity-80 hover:underline py-0.5">
+                トラッカーを分けすぎない</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#ru-li-xiang-mu-duo-sugi" class="text-xs opacity-80 hover:underline py-0.5">
+                入力項目多すぎ</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#sutetasuhabi-yao-zui-xiao-xian-ni" class="text-xs opacity-80 hover:underline py-0.5">
+                ステータスは必要最小限に</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#rorumoxi-fen-hua-surunohazhi-meyou" class="text-xs opacity-80 hover:underline py-0.5">
+                ロールも細分化するのは止めよう</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#wakuhuroha" class="text-xs opacity-80 hover:underline py-0.5">
+                ワークフローは？</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#puroziekutomobu-yong-yi-nixi-fen-hua-sinai" class="text-xs opacity-80 hover:underline py-0.5">
+                プロジェクトも不用意に細分化しない</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#zu-zhi-jie-ceng-degou-zao-hua-surunohae-shou" class="text-xs opacity-80 hover:underline py-0.5">
+                組織階層で構造化するのは悪手</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#baziyonnoshi-ifang-tositedouyo" class="text-xs opacity-80 hover:underline py-0.5">
+                バージョンの使い方としてどうよ？</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#menbazhui-jia-sisugi" class="text-xs opacity-80 hover:underline py-0.5">
+                メンバー追加しすぎ</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-redmine/#zhong-warini" class="hover:underline py-1">終わりに</a>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <h2 id="hazimeni">はじめに</h2>
+<p>ここではRedmineマニュアル的な使い方の話ではなく、<br />
+Redmine ( やそれに類するプロジェクト管理ツール ) を利用する上で、</p>
+<ul>
+<li>気を付けるとよい点</li>
+<li>こういう使い方は止めた方がよい点 (バッドノウハウ)</li>
+</ul>
+<p>に関して書いてみます。</p>
+<p>※ Redmine Japan で聞いた事とかもまとめています。<br />
+※ Redmine 以外のプロジェクト管理ツールを利用する場合にも有効 ( だと思う )。</p>
+<hr />
+<h2 id="redminetoha">Redmineとは</h2>
+<p>もともとはIT開発者向けとして開始されましたが、現在では様々な分野や仕事で利用されている <strong>プロジェクト管理ツール</strong> です。</p>
+<p>プロジェクト管理ツールって何？と聞かれた場合には、<br />
+<strong>「やるべき事を付箋に書いて、できたらはがす」</strong> 事を</p>
+<ul>
+<li>ITの力を借りて、</li>
+<li>よりシステマチックに</li>
+</ul>
+<p>行うものと説明しています ( 私は )。</p>
+<p>付箋＝Redmineのチケットなので、</p>
+<ol>
+<li>やる事をチケットに書いて、</li>
+<li>出来たら消す。</li>
+</ol>
+<p>という事になります。</p>
+<h3 id="tiketutowoxiao-su">チケットを消す</h3>
+<p>という事でRedmineを使う目的を1つ上げるとすると</p>
+<p><strong>「チケットを ( 書いて ) 消すこと」</strong> になります。</p>
+<p>※ ゲーミフィケーション的に「チケットを消すのが快感」になるようできると定着しやすい。</p>
+<ul>
+<li>自分のチケットを消す</li>
+<li>他メンバーのチケットも消す</li>
+<li>記録を残す</li>
+</ul>
+<p>併せて、チケット消化のために行ったアクションをきちんと記録する。</p>
+<h4 id="xiao-sutameni">消すために</h4>
+<p>消せないチケットが増えると、モチベーションも上がりませんし、ツールの利用も促進されません。<br />
+消しやすいチケットにするために、以下のような事に気を付けましょう。</p>
+<ul>
+<li>消しやすい粒度でチケットを切る<br />
+あまりに範囲が広い ( 粒度が大きい ) チケットは消せない。<br />
+→ 子チケットに分割する ( 数時間～数日単位を目安に消化できる粒度で作る )。</li>
+<li>複数のタスクを書かない<br />
+記録 ( コメント ) を残す場合でも、どのタスクに対する作業か判りづらくなる。<br />
+→ 上と同様ですが、適切な粒度の子チケットに分割する</li>
+<li>終了条件が明確になるようなチケットを切る<br />
+「運用改善」のようなチケットだと、何が行われたら終了できるか判らない。<br />
+→「〇〇を××する」といった実際に行う必要があるアクション、及び、終了条件が判るようなチケットにする。</li>
+</ul>
+<h3 id="jian-eruhua">見える化</h3>
+<p>記録を残す事で、見える化が可能になります。可視化は重要。<br />
+何を可視化したいのか/すべきかはしっかり意識しましょう？ここがぶれると余計な情報が増えたり、可視化したいものが欠落したりします。</p>
+<p>ここはプロジェクト次第で、「これ！」というものを提示するのは難しいので、例を示します。</p>
+<p>以下、開発プロジェクトの場合の例</p>
+<ul>
+<li>やる ( べき ) 事
+<ul>
+<li>チケットに書く ( 粒度に気を付ける )</li>
+<li>担当を割り振る ( 未決ならばプロジェクト管理者等割り当てを実施する人に )</li>
+<li>期間を設定する ( 仮の期間でも良い )</li>
+<li>適切なタイトルを付ける</li>
+<li>必要十分な説明 ( 概要 ) もきちんと書く</li>
+</ul>
+</li>
+<li>スケジュール<br />
+チケットに期間、進捗率を記録する事でガントチャート化</li>
+<li>タスクの状況
+<ul>
+<li>対応内容はきちんとコメントに書く。ステータスや担当者も適宜変更する。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="yun-yong-surushang-deqi-wofu-kerushi">運用する上で気を付ける事</h2>
+<ul>
+<li>設定はあまり細かく分けない<br />
+Redmineを運用する上では、各種設定を細分化したくなります。<br />
+しかし、細分化するほど設定・運用・メンテナンスのコストは増えます。
+可能な限り細分化しない事をお勧めします。</li>
+<li>組織構造をそのまま反映するのは基本止める<br />
+実際の部署や役職を元に最初にデータを構造化するのは結構ありがちかと思われますが、これをやると大抵失敗するか、管理が辛くなります。</li>
+</ul>
+<p>プロジェクト管理ツールはプロジェクト内の組織構造や役職の構造を管理するためのツールではありません。あくまでタスクを捌くためのものです。<br />
+目的のために必要最小限で効率のよいトラッカー、ステータス、ロール、プロジェクトを定義する事をお勧めします。<br />
+最初はミニマムで始め、必要に応じて変更/改善しましょう。</p>
+<p>以下具体的なバッドノウハウ ( 例 ) を記載していきます。</p>
+<h3 id="toratukawofen-kesuginai">トラッカーを分けすぎない</h3>
+<p>トラッカーってチケットの区分だから、業務種別毎にトラッカーを分けて作ろう。<br />
+→ <strong>「業務/部署ごとに分けて作ろう！」</strong></p>
+<p>ってのはありがち。</p>
+<p>※ <strong>Redmineのトラッカー ＝ 帳票</strong> の意味合い。( 入力項目があって、承認フローがある )。</p>
+<p>でも、</p>
+<p>トラッカーをたくさん作ったけど、実はワークフローが一緒って事が多い。</p>
+<ul>
+<li>入力項目もワークフローも同じならトラッカーは同じものが使える可能性が高い。</li>
+<li>設定が多いほど、管理コストやメンテナンスコストが上がる。</li>
+<li>後で整理しようとしたときに辛くなる。</li>
+</ul>
+<h3 id="ru-li-xiang-mu-duo-sugi">入力項目多すぎ</h3>
+<p>トラッカー = 帳票と言いましたが、<br />
+カスタムフィールド追加しまくって何入力すればいいか判らない。<br />
+って事にもなりがち。</p>
+<ul>
+<li>結局入力してないフィールドがある</li>
+<li>形骸化していて、利活用されていないフィールドがある</li>
+</ul>
+<p>後々、分析や集計に利用するのでなければ、普通にチケットの説明欄に記載するので十分な事が多い。</p>
+<p>入力はしてほしい項目がある ( 分析まではしない ) のであれば、Issue Templates プラグイン使いましょう。<br />
+→ トラッカーの乱立も防止できます。</p>
+<p>※ 実際に入力項目100個とかあるらしい... 地獄<br />
+※ 担当者以外に、対応者とかあるトラッカーあるけど、違いって何？</p>
+<h3 id="sutetasuhabi-yao-zui-xiao-xian-ni">ステータスは必要最小限に</h3>
+<p>必要以上に細かくすると判り難い。<br />
+→ どのステータスを選べばよいか、プロジェクト参加したばかりの人が把握できるのがよい状態。</p>
+<ul>
+<li>業務フロー整理できていますか？<br />
+実際の業務では存在するステータスでもシステム上では不要な場合もあります。<br />
+必要かどうか微妙なステータスを作成するのは止めましょう。<br />
+どうしても必要になった時点で追加すれば済むことです。</li>
+<li>担当者が割り振れないステータス本当に必要ですか？<br />
+→ チケットが消化されなくなる可能性が高くなります。</li>
+<li>同じワークフローに位置するステータスが複数ある ( 部署が違う場合に別で作られている等 ) なら纏めましょう。</li>
+</ul>
+<p>※ 実際にステータスが30個とか...あるらしい ワークフロー把握/理解できるのか？<br />
+※ Redmineでもプラグイン追加によってカンバン利用できますが、ステータス30個のカンバンとかカオス...</p>
+<h3 id="rorumoxi-fen-hua-surunohazhi-meyou">ロールも細分化するのは止めよう</h3>
+<p>いろんな人が見れるのは良くない。ロールで詳細に権限を分けよう。<br />
+→ 役職毎とかにロール作ってるとこ見たことある。。。</p>
+<p>PMとかPMOとかPLとかRedmineで何ができるロールだっけ？
+→ 承認者、レビュワー、オブザーバー 等役割が明確なロールの方が良い。</p>
+<p>※ PM だからこの権限、PL だからこの権限、と役職に合わせてロールを作る必要はありません。</p>
+<h3 id="wakuhuroha">ワークフローは？</h3>
+<p>ワークフローはロール×トラッカーの数だけある。</p>
+<p>多くなると管理が大変。</p>
+<p>ワークフローが同じものは、できるだけ同じトラッカーで扱えるようにする。</p>
+<ul>
+<li>( 承認不要 ) タスク</li>
+<li>顧客承認タスク</li>
+<li>上長承認タスク</li>
+</ul>
+<p>等のようにワークフローが同じトラッカーはまとめてしまって、部署を跨いだ場合でも同じトラッカーが使えるようにする方が判りやすい。</p>
+<h3 id="puroziekutomobu-yong-yi-nixi-fen-hua-sinai">プロジェクトも不用意に細分化しない</h3>
+<p>「案件単位でプロジェクト」とかありがちだけど。。。</p>
+<p>「バージョン」利用で足りるのであれば、バージョンを活用しましょう。</p>
+<ul>
+<li>Redmineではソースコードとの連携も行いやすくなっています。<br />
+→ 適切なプラグインを併用する事で Redmineサーバ上で Subversion/Git リポジトリサーバ構成も可能です。<br />
+→ 製品/サービスとプロジェクトを一対一で紐づけるのがお勧め。</li>
+</ul>
+<p>「〇〇サービス××改善」のようなプロジェクトがある場合には、「〇〇サービス」プロジェクトで、「××改善」バージョンを作成する事で、任意の製品/サービスのロードマップ毎に分割可能になります。</p>
+<ul>
+<li>GitLabでのMilestoneも同様です。</li>
+</ul>
+<h3 id="zu-zhi-jie-ceng-degou-zao-hua-surunohae-shou">組織階層で構造化するのは悪手</h3>
+<p>ありがちです。</p>
+<p>が、複数の部署が連携して行わなければいけないプロジェクトの場合は？</p>
+<p>→ おすすめは案件単位<br />
+但し、フェーズが分かれる場合には不用意にプロジェクト分割せずに、バージョン利用解決できないか検討しましょう。</p>
+<h3 id="baziyonnoshi-ifang-tositedouyo">バージョンの使い方としてどうよ？</h3>
+<p>基本、バージョンは期間を区切るものとして使うようにしています。</p>
+<p>プロジェクトを期間以外の軸で分割するのに使っている場合もあるようですが、</p>
+<p>期間で分割したくなった場合に、適切に分割できなくなるので、その手の要件が絶対に発生しないプロジェクト以外で採用するのは止めましょう。</p>
+<h3 id="menbazhui-jia-sisugi">メンバー追加しすぎ</h3>
+<p>考えるの面倒だったの？ メンバー多すぎだろ？</p>
+<p>基本的には、当該プロジェクトに実際に関わる方のみメンバー追加するようにしましょう。</p>
+<p>閲覧だけさせたい？
+→ 公開プロジェクトでよいのであれば、それで足りる。</p>
+<hr />
+<h2 id="zhong-warini">終わりに</h2>
+<p>特に運用開始時、トラッカーのステータス、ロールの追加を行う際に、<br />
+「項目追加したぞ！うちの会社に併せて構造化されている＆ワークフローも反映されてて完璧。スゲー！」<br />
+とか思ってしまう場合もあるかもしれませんが、</p>
+<p>単に業務分析や抽象化が出来ていないだけかもしれません。<br />
+より少ない設定でうまく回せるような方法を考えましょう。</p>
+<p>設定が細かいことと、業務を適切に抽象化できていることは別です。</p>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (JA)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/ja/">
+            <i class="fa-solid fa-home w-5"></i><span>ホーム</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>ブログ</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>作品</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja//tags">
+            <i class="fa-solid fa-tags w-5"></i><span>タグ</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/ja/tags/ato/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#アート</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/besutopurakuteisu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ベストプラクティス</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/burogu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ブログ</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cai-feng/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#裁縫</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Github</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/jie-hun-shi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#結婚式</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/potari/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ポタリー</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/puroziekuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#プロジェクト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rezakurahuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#レザークラフト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/tao-qi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#陶器</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,1130 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    Building a Docker Repository with Nexus Repository Manager | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="Building a Docker Repository with Nexus Repository Manager | mosaos">
+<meta property="og:description" content="This is a guide for building Nexus Repository Manager (NXRM).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;nxrm&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;nxrm&#x2F;nxrm-logo.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Building a Docker Repository with Nexus Repository Manager | mosaos">
+<meta name="twitter:description" content="This is a guide for building Nexus Repository Manager (NXRM).">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;nxrm&#x2F;nxrm-logo.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Building a Docker Repository with Nexus Repository Manager",
+    "description": "This is a guide for building Nexus Repository Manager (NXRM).",
+    "url": "https://mosaos.github.io/blog/nxrm/",
+    
+    "datePublished": "2026-09-22",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;nxrm&#x2F;"
+            class="">
+            JA
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;nxrm&#x2F;"
+            class="active font-bold">
+            EN
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/" class="hover:text-primary transition-colors">
+        Home
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/blog/" class="hover:text-primary transition-colors">
+        Blog
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      Building a Docker Repository with Nexus Repository Manager
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      Building a Docker Repository with Nexus Repository Manager
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-22
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/tags/repository/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Repository
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/docker/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Docker
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/ci-cd/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #CI&#x2F;CD
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">Table of contents</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#introduction" class="hover:underline py-1">Introduction</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#environment" class="hover:underline py-1">Environment</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#prerequisites" class="hover:underline py-1">Prerequisites</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#installation-procedure-server" class="hover:underline py-1">Installation Procedure (Server)</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#dnf-update" class="text-xs opacity-80 hover:underline py-0.5">
+                dnf update</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#nfs-client-configuration" class="text-xs opacity-80 hover:underline py-0.5">
+                NFS Client Configuration</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#install-nxrm" class="text-xs opacity-80 hover:underline py-0.5">
+                Install NXRM</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#nxrm-configuration" class="text-xs opacity-80 hover:underline py-0.5">
+                NXRM Configuration</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#additional-firewall-configuration" class="text-xs opacity-80 hover:underline py-0.5">
+                Additional Firewall Configuration</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#installation-procedure-client" class="hover:underline py-1">Installation Procedure (Client)</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#environment-1" class="text-xs opacity-80 hover:underline py-0.5">
+                Environment</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#connectivity-check" class="text-xs opacity-80 hover:underline py-0.5">
+                Connectivity Check</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#configure-daemon-json" class="text-xs opacity-80 hover:underline py-0.5">
+                Configure daemon.json</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#registering-pushing-docker-images" class="hover:underline py-1">Registering (Pushing) Docker Images</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#log-in-to-nxrm" class="text-xs opacity-80 hover:underline py-0.5">
+                Log in to NXRM</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#push" class="text-xs opacity-80 hover:underline py-0.5">
+                Push</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#pull" class="text-xs opacity-80 hover:underline py-0.5">
+                Pull</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#mirror-configuration" class="hover:underline py-1">Mirror Configuration</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#edit-the-nginx-configuration" class="text-xs opacity-80 hover:underline py-0.5">
+                Edit the nginx Configuration</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#restart-nginx" class="text-xs opacity-80 hover:underline py-0.5">
+                Restart nginx</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#client-side-configuration" class="text-xs opacity-80 hover:underline py-0.5">
+                Client-side Configuration</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#troubleshooting" class="hover:underline py-1">Troubleshooting</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/nxrm/#incorrect-request-destination" class="text-xs opacity-80 hover:underline py-0.5">
+                Incorrect Request Destination</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/nxrm/#references" class="hover:underline py-1">References</a>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <h2 id="introduction">Introduction</h2>
+<blockquote>
+<p><strong>This article is a rewrite of an old article, so some information may be outdated. However, the NXRM built using this procedure is still running as of September 2026.</strong></p>
+</blockquote>
+<p>It seems that the use of Docker has been increasing, but Docker images were not shared between developers. When using Docker, each developer had to build the images from Dockerfiles individually, which was inconvenient.</p>
+<p>To solve this problem, I built a Docker repository. The procedure for building and using it is described below.</p>
+<p>I used <a href="https://www.sonatype.com/nexus/repository-oss">Nexus Repository OSS</a> (<code>NXRM</code>) to build the repository.</p>
+<p>NXRM is an OSS repository manager that can be used not only for Docker repositories, but also for various libraries and images such as Maven.
+It can also work as a proxy for Docker Hub. In addition, by merging a private (hosted) repository with an external (cached) repository using the group repository feature, internal and external repositories can be handled transparently.</p>
+<p>ECR (Elastic Container Registry), etc. can also be used, but NXRM may be easier to adopt for teams where it is difficult to use such services because of cost.</p>
+<blockquote>
+<ul>
+<li>In an internal LAN, it is also possible to cache Docker images and various libraries to reduce traffic.</li>
+<li>It is also possible to build an image with GitLab CI, and then register (push) the image to NXRM. GitLab can also be self-hosted.</li>
+</ul>
+</blockquote>
+<p>Using NXRM may solve repository-related problems. If you have problems like those described above, it may be worth trying.</p>
+<hr />
+<h2 id="environment">Environment</h2>
+<ul>
+<li>OS: <code>CentOS 8</code> (built as a KVM guest)
+Currently upgraded to <code>Rocky 9</code></li>
+<li>The repository directory is mounted from a directory on the host.
+Since the cache repository tends to become large, I thought mounting a directory from the host would be easier to manage than managing it inside the KVM guest.</li>
+<li>I initially tried to use 9p_virtio, but it did not work well, so I use NFS.</li>
+<li><a href="https://help.sonatype.com/repomanager3/high-availability/configuring-blob-stores">Configuring Blob Stores</a> says to use NFS v4, so I use NFSv4.</li>
+<li>Configure the NFS server on the KVM host in advance.</li>
+<li>The directory on the host is <code>/var/opt/nexus</code>.</li>
+</ul>
+<hr />
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>TLS (HTTPS) is not enabled because this is operated in a closed environment with internal access only.
+<em>There are several ways to enable TLS for NXRM. Please refer to the official documentation, etc.</em></li>
+<li><code>nexus_hostname</code> is the hostname of the host where Nexus Repository Manager is installed.
+If the host cannot be accessed by hostname, an IP address can also be used.</li>
+</ul>
+<hr />
+<h2 id="installation-procedure-server">Installation Procedure (Server)</h2>
+<h3 id="dnf-update">dnf update</h3>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">dnf</span><span> update
+</span></code></pre>
+<h3 id="nfs-client-configuration">NFS Client Configuration</h3>
+<p>Mount the directory on the KVM host using NFS.</p>
+<h4 id="install-the-package">Install the package</h4>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">dnf -y</span><span> install nfs-utils
+</span></code></pre>
+<h4 id="edit-the-configuration-file">Edit the configuration file</h4>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">vi</span><span> /etc/idmapd.conf
+</span></code></pre>
+<p>Edit the following part:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Domain = mosaos.local
+</span></code></pre>
+<h4 id="mount">Mount</h4>
+<p>First, check whether it can be mounted.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mount -t</span><span> nfs kvmhost:/var/opt/nexus /mnt
+</span></code></pre>
+<p>If it works, unmount it.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">umount</span><span> /mnt
+</span></code></pre>
+<p>Add the configuration to <code>/etc/fstab</code> so that it is automatically mounted.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">vi</span><span> /etc/fstab
+</span></code></pre>
+<p>Add the following:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>kvmhost:/var/opt/nexus /opt/sonatype-work nfs4 rw,sync,tcp,hard,intr,rsize=32768,wsize=32768 0 0
+</span></code></pre>
+<p>Mount it.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mount -a
+</span></code></pre>
+<h3 id="install-nxrm">Install NXRM</h3>
+<p>Install it using <code>ansible-playbook</code>.</p>
+<p><a href="https://github.com/mosaos/sonatype-nexus3-ansible">mosaos/sonatype-nexus3-ansible</a></p>
+<p>Clone the project:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> clone https://github.com/mosaos/sonatype-nexus3-ansible
+</span></code></pre>
+<p>Run ansible-playbook:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span> sonatype_nexus3_ansible
+</span><span style="color:#bf616a;">ansible-playbook -i</span><span> hosts site.yml
+</span></code></pre>
+<h3 id="nxrm-configuration">NXRM Configuration</h3>
+<p>The configuration is mostly based on the following article:</p>
+<p><a href="https://blog.sonatype.com/using-nexus-3-as-your-repository-part-3-docker-images">Using Nexus 3 as Your Repository - Part 3: Docker Images</a></p>
+<p>Create the following repositories:</p>
+<table><thead><tr><th>Name</th><th>Type</th><th>Port (HTTP)</th></tr></thead><tbody>
+<tr><td>docker-private</td><td>docker (hosted)</td><td>5001</td></tr>
+<tr><td>docker-hub</td><td>docker (proxy)</td><td>-</td></tr>
+<tr><td>docker-group</td><td>docker (group)</td><td>5000</td></tr>
+</tbody></table>
+<p>The settings when creating each repository are as follows.</p>
+<h4 id="docker-private">docker-private</h4>
+<ul>
+<li>Create it as <code>docker (hosted)</code>.</li>
+<li>Check HTTP and specify the port number (<code>5001</code>).</li>
+<li>Check <code>Enable Docker V1 API:</code>.</li>
+</ul>
+<h4 id="docker-hub">docker-hub</h4>
+<ul>
+<li>Create it as <code>docker (proxy)</code>.</li>
+<li>Specify <code>https://registry-1.docker.io</code> for <code>Remote storage:</code>.</li>
+<li>Select <code>User Docker Hub</code> for <code>Docker Index:</code>.</li>
+<li>Check <code>Enable Docker V1 API:</code>.</li>
+</ul>
+<h4 id="docker-group">docker-group</h4>
+<ul>
+<li>Create it as <code>docker (group)</code>.</li>
+<li>Check HTTP and specify the port number (<code>5000</code>).</li>
+<li>Add the two repositories created above to <code>Member repositories:</code>.</li>
+<li>Check <code>Enable Docker V1 API:</code>.</li>
+</ul>
+<blockquote>
+<p>In my environment, I could not push unless <code>Enable Docker V1 API:</code> was checked.</p>
+</blockquote>
+<h3 id="additional-firewall-configuration">Additional Firewall Configuration</h3>
+<p>After creating the repositories, allow <code>5000/tcp</code> and <code>5001/tcp</code> on the host where NXRM is installed.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">firewall-cmd --add-port</span><span>=5000/tcp</span><span style="color:#bf616a;"> --permanent --zone</span><span>=public
+</span><span style="color:#bf616a;">firewall-cmd --add-port</span><span>=5001/tcp</span><span style="color:#bf616a;"> --permanent --zone</span><span>=public
+</span><span style="color:#bf616a;">firewall-cmd --reload
+</span></code></pre>
+<hr />
+<h2 id="installation-procedure-client">Installation Procedure (Client)</h2>
+<p>Set up the Docker environment.</p>
+<p>A configuration is required to connect to a repository that does not use TLS.</p>
+<h3 id="environment-1">Environment</h3>
+<p>I confirmed this procedure with the following environment.</p>
+<ul>
+<li>OS: CentOS 8</li>
+<li>Docker: 19.03.8</li>
+</ul>
+<h3 id="connectivity-check">Connectivity Check</h3>
+<p>When sending a request to NXRM with curl, if it returns a response saying that it is not a Docker request, it is OK.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">curl</span><span> http://nexus_hostname:5000/
+</span><span>&lt;html&gt;
+</span><span>&lt;head&gt;
+</span><span>&lt;meta </span><span style="color:#bf616a;">http-equiv</span><span>=&quot;</span><span style="color:#a3be8c;">Content-Type</span><span>&quot; </span><span style="color:#bf616a;">content</span><span>=&quot;</span><span style="color:#a3be8c;">text/html;charset=utf-8</span><span>&quot;</span><span style="color:#a3be8c;">/</span><span>&gt;
+</span><span>&lt;title&gt;Error </span><span style="color:#bf616a;">400</span><span> Not a Docker request&lt;/title&gt;
+</span><span>&lt;/head&gt;
+</span><span>&lt;body&gt;&lt;h2&gt;HTTP </span><span style="color:#bf616a;">ERROR</span><span> 400 Not a Docker request&lt;/h2&gt;
+</span><span>&lt;table&gt;
+</span><span>&lt;tr&gt;&lt;th&gt;URI:&lt;/th&gt;&lt;td&gt;/&lt;/td&gt;&lt;/tr&gt;
+</span><span>&lt;tr&gt;&lt;th&gt;STATUS:&lt;/th&gt;&lt;td&gt;</span><span style="color:#d08770;">400</span><span>&lt;/td&gt;&lt;/tr&gt;
+</span><span>&lt;tr&gt;&lt;th&gt;MESSAGE:&lt;/th&gt;&lt;td&gt;Not </span><span style="color:#bf616a;">a</span><span> Docker request&lt;/td&gt;&lt;/tr&gt;
+</span><span>&lt;tr&gt;&lt;th&gt;SERVLET:&lt;/th&gt;&lt;td&gt;-&lt;/td&gt;&lt;/tr&gt;
+</span><span>&lt;/table&gt;
+</span><span>&lt;hr&gt;&lt;a </span><span style="color:#bf616a;">href</span><span>=&quot;</span><span style="color:#a3be8c;">http://eclipse.org/jetty</span><span>&quot;&gt;Powered </span><span style="color:#bf616a;">by</span><span> Jetty:// 9.4.30.v</span><span style="color:#d08770;">20200611</span><span>&lt;/a&gt;&lt;                                                                                                                                         hr/&gt;
+</span><span>
+</span><span>&lt;/body&gt;
+</span><span>&lt;/html&gt;
+</span></code></pre>
+<h3 id="configure-daemon-json">Configure daemon.json</h3>
+<p>Create <code>daemon.json</code> and configure Docker.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">vi</span><span> /etc/docker/daemon.json
+</span></code></pre>
+<p>When using a repository that does not use TLS, it must be specified in <code>insecure-registries</code>.</p>
+<blockquote>
+<p>It is also possible to specify this every time on the command line, but it is troublesome, so I recommend configuring the Docker daemon.</p>
+</blockquote>
+<p>Add the registries created in NXRM to <code>insecure-registries</code>.</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  &quot;</span><span style="color:#a3be8c;">debug</span><span>&quot;: </span><span style="color:#d08770;">true</span><span>,
+</span><span>  &quot;</span><span style="color:#a3be8c;">insecure-registries</span><span>&quot;: [&quot;</span><span style="color:#a3be8c;">nexus_hostname:5000</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">nexus_hostname:5001</span><span>&quot;]
+</span><span>}
+</span></code></pre>
+<blockquote>
+<p>The configuration when also using the mirror setting is described below.</p>
+</blockquote>
+<p>After creating <code>daemon.json</code>, restart the Docker daemon.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">systemctl</span><span> restart docker
+</span></code></pre>
+<h2 id="registering-pushing-docker-images">Registering (Pushing) Docker Images</h2>
+<h3 id="log-in-to-nxrm">Log in to NXRM</h3>
+<p>Specify an NXRM user for the username and password.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> login nexus_hostname:5000
+</span><span style="color:#bf616a;">docker</span><span> login nexus_hostname:5001
+</span></code></pre>
+<p>You will be asked to enter a username and password. Log in with your own account.</p>
+<p>A WARNING will be displayed when running the command, but if <code>Login Succeeded</code> is displayed, the login was successful.</p>
+<blockquote>
+<p>The authentication information is recorded in <code>~/.docker/config.json</code> after running the command.</p>
+</blockquote>
+<h3 id="push">Push</h3>
+<p>Push the image to the hosted repository.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> tag image_name:version nexus_hostname:5001/image_name:version
+</span><span style="color:#bf616a;">docker</span><span> push nexus_hostname:5001/library/image_name:version
+</span></code></pre>
+<p>For some reason, if I did not add <code>library</code>, I got a 404 (NOT FOUND) when pulling.</p>
+<blockquote>
+<p>I think it may be necessary to use a tag such as <code>accountname/imagename:version</code>, in the same way as Docker Hub.
+Official images do not have the account name part, but in this kind of tagging, they seem to be under <code>library</code>. In fact, when I downloaded the official MariaDB image and checked it in the proxy repository, its name was <code>library/mariadb</code>.</p>
+</blockquote>
+<h3 id="pull">Pull</h3>
+<p>Check whether the pushed image can be retrieved.</p>
+<p>The destination is not the hosted repository that was registered above, but the group repository that combines the hosted and proxy repositories.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> pull nexus_hostname:5000/image_name:version
+</span></code></pre>
+<h2 id="mirror-configuration">Mirror Configuration</h2>
+<p>With the configuration so far, it is possible to register (push) and retrieve (pull) Docker images that were created by ourselves from the repository server.</p>
+<p>However, with this configuration, our own images and external images (hosted on Docker Hub) cannot be handled transparently.</p>
+<p>Change the configuration so that they can be handled transparently.</p>
+<p>Specifically, even when retrieving an image hosted by ourselves, it should be possible to retrieve it without specifying <code>repository-server:port</code>, as follows.</p>
+<blockquote>
+<p>When pushing, <code>repository-server:port</code> must be specified.</p>
+</blockquote>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> pull image_name:version
+</span></code></pre>
+<p>Docker can be configured to use <code>registry-mirrors</code> as a Docker Hub mirror, so it should be possible to solve this by configuring the group repository we created as the mirror.</p>
+<p>However, there is a problem where authentication information is not correctly passed to the mirror site, so some additional configuration is necessary.</p>
+<p>Reference: <a href="https://qiita.com/fukasawah/items/48330564736d3368b632#registry-mirrors%E3%81%8C%E6%A9%9F%E8%83%BD%E3%81%97%E3%81%AA%E3%81%84">registry-mirrorsが機能しない</a></p>
+<p>As a solution, I use the method described in <a href="https://github.com/moby/moby/issues/30880">Docker is not passing auth informations when pulling from a mirror registry #30880</a>, where the authentication information is overwritten on the Nginx (proxy) side and the request is sent to Nexus.</p>
+<h3 id="edit-the-nginx-configuration">Edit the nginx Configuration</h3>
+<p>I finally used the following configuration.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">events </span><span>{
+</span><span>    worker_connections  1024;
+</span><span>}
+</span><span>
+</span><span style="color:#bf616a;">http </span><span>{
+</span><span>
+</span><span>  proxy_send_timeout 120;
+</span><span>  proxy_read_timeout 300;
+</span><span>  proxy_buffering    off;
+</span><span>  keepalive_timeout  5 5;
+</span><span>  tcp_nodelay        on;
+</span><span>
+</span><span>  log_format upstreamlog </span><span style="color:#b48ead;">[</span><span>$</span><span style="color:#bf616a;">time_local</span><span style="color:#b48ead;">] </span><span>$</span><span style="color:#bf616a;">remote_addr</span><span> -  $</span><span style="color:#bf616a;">host</span><span> - $</span><span style="color:#bf616a;">upstream_addr</span><span> - $</span><span style="color:#bf616a;">request</span><span>;
+</span><span>  access_log /var/log/nginx/upstream.log upstreamlog;
+</span><span>
+</span><span>  server {
+</span><span>    listen   *:80;
+</span><span>    server_name  www.example.com;
+</span><span>
+</span><span>    </span><span style="color:#65737e;"># allow large uploads of files
+</span><span>    client_max_body_size 1G;
+</span><span>
+</span><span>    </span><span style="color:#65737e;"># optimize downloading files larger than 1G
+</span><span>    </span><span style="color:#65737e;">#proxy_max_temp_file_size 2G;
+</span><span>
+</span><span>    location </span><span style="color:#bf616a;">~</span><span> ^/(v1|v2)/ {
+</span><span>      if ($</span><span style="color:#bf616a;">authorization</span><span> = &#39;&#39;) {
+</span><span>        set $</span><span style="color:#bf616a;">authorization </span><span>&quot;</span><span style="color:#a3be8c;">Basic XyzAbCdefg1234567890Mzk2Zi00NWYxLWJiNjYtN2ExOWRkM2EyOTVk</span><span>&quot;;
+</span><span>      }
+</span><span>      proxy_pass http://127.0.0.1:5000;
+</span><span>      proxy_set_header   Authorization $</span><span style="color:#bf616a;">authorization</span><span>;
+</span><span>      proxy_set_header   Host $</span><span style="color:#bf616a;">host</span><span>;
+</span><span>      proxy_set_header   X-Real-IP $</span><span style="color:#bf616a;">remote_addr</span><span>;
+</span><span>      proxy_set_header   X-Forwarded-For $</span><span style="color:#bf616a;">proxy_add_x_forwarded_for</span><span>;
+</span><span>      proxy_set_header   X-Forwarded-Proto $</span><span style="color:#bf616a;">scheme</span><span>;
+</span><span>      proxy_set_header   X-Forwarded-Port $</span><span style="color:#bf616a;">server_port</span><span>;
+</span><span>    }
+</span><span>
+</span><span>    location / {
+</span><span>      </span><span style="color:#65737e;"># Use IPv4 upstream address instead of DNS name to avoid attempts by nginx to use IPv6 DNS lookup
+</span><span>      proxy_pass http://127.0.0.1:8081/;
+</span><span>      proxy_set_header Host $</span><span style="color:#bf616a;">host</span><span>;
+</span><span>      proxy_set_header X-Real-IP $</span><span style="color:#bf616a;">remote_addr</span><span>;
+</span><span>      proxy_set_header X-Forwarded-For $</span><span style="color:#bf616a;">proxy_add_x_forwarded_for</span><span>;
+</span><span>    }
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>When accessing a repository, the URL starts with <code>/v1</code> or <code>/v2</code>, so in this case the request is forwarded to the group repository.
+At this time, authentication information is set using <code>proxy_set_header Authorization ...</code>.</p>
+<p>The Basic Authentication value to set in <code>$authorization</code> can be generated as follows.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">echo </span><span style="color:#bf616a;">-n </span><span>&#39;</span><span style="color:#a3be8c;">username:password</span><span>&#39; | </span><span style="color:#bf616a;">base64
+</span></code></pre>
+<p>The above configuration also outputs <code>upstreamlog</code> so that the actual forwarding destination can be checked.</p>
+<p>I noticed the problem where pulling did not work unless I added <code>library</code> when pushing by checking this log.
+If an image can be pushed but cannot be pulled and a 404 occurs, the URL that the Docker client uses to retrieve the manifests may be different from the location where the image was pushed.
+In this case, checking <code>upstreamlog</code> may help solve the problem.</p>
+<h3 id="restart-nginx">Restart nginx</h3>
+<p>Check that there are no problems with the configuration:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">nginx -t
+</span></code></pre>
+<p>If there are no problems, restart it.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">systemctl</span><span> restart nginx
+</span></code></pre>
+<h3 id="client-side-configuration">Client-side Configuration</h3>
+<p>Change <code>/etc/docker/daemon.json</code> as follows.
+Specify the Nexus host in <code>registry-mirrors</code> and <code>insecure-registries</code>.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>{
+</span><span>  &quot;debug&quot;: true,
+</span><span>  &quot;insecure-registries&quot;: [
+</span><span>    &quot;nexus_hostname&quot;,
+</span><span>    &quot;nexus_hostname:5000&quot;,
+</span><span>    &quot;nexus_hostname:5001&quot;
+</span><span>  ],
+</span><span>  &quot;registry-mirrors&quot;: [
+</span><span>    &quot;http://nexus_hostname&quot;
+</span><span>  ]
+</span><span>}
+</span></code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>The mirror configuration was the most difficult part for me.</p>
+<p>When a problem occurs, I recommend checking the following.</p>
+<ul>
+<li>Docker (client-side) logs
+In my environment, they were output to syslog (<code>/var/log/messages/</code>).</li>
+<li>Nexus Repository Manager logs
+The output directory is <code>/opt/sonatype-work/nexus3/log</code>.</li>
+<li>nginx logs
+If you are using a proxy, also use the <code>upstreamlog</code> described above.</li>
+</ul>
+<h3 id="incorrect-request-destination">Incorrect Request Destination</h3>
+<p>When I pushed an image without adding <code>library</code>, it was pushed to the hosted repository with the following structure:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>/v2
+</span><span>  |- blobs
+</span><span>  |  |- sha256:.....
+</span><span>  |  |- sha256:.....
+</span><span>  |  |- sha256:.....
+</span><span>  |  |- sha256:.....
+</span><span>  |- image_name
+</span><span>    |- manifests
+</span><span>    |  |- sha256:...
+</span><span>    |- tags
+</span><span>       |- latest
+</span></code></pre>
+<p>After configuring the mirror, when I ran <code>docker pull image_name</code>, the following error was output in the Docker log:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Oct 13 02:36:40 localhost dockerd[17647]: time=&quot;2020-10-13T02:36:40.054981034-04:00&quot; level=info msg=&quot;Attempting next endpoint for pull after error: Get https://nexus_hostname:5000/v2/library/image_name/manifests/latest: unauthorized: access to the requested resource is not authorized&quot;
+</span></code></pre>
+<p>I found that it was accessing <code>/v2/library/image_name/...</code>.
+(In fact, I noticed this from <code>upstreamlog</code> before checking the Docker log.)</p>
+<p>After pushing the image again as follows, I confirmed that it could be pulled.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> push nexus_hostname:5001/library/image_name:latest
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> pull image_name
+</span></code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://blog.sonatype.com/using-nexus-3-as-your-repository-part-3-docker-images">Using Nexus 3 as Your Repository - Part 3: Docker Images</a></li>
+<li><a href="https://help.sonatype.com/repomanager3/installation">Installation</a></li>
+<li><a href="https://help.sonatype.com/repomanager3/high-availability/configuring-blob-stores">Configuring Blob Stores</a></li>
+<li><a href="https://gist.github.com/koudaiii/e0e75072cc54e87e06a1">NFS v4の設定内容まとめ</a></li>
+<li><a href="https://qiita.com/fukasawah/items/48330564736d3368b632#registry-mirrors%E3%81%8C%E6%A9%9F%E8%83%BD%E3%81%97%E3%81%AA%E3%81%84">registry-mirrorsが機能しない</a></li>
+<li><a href="https://github.com/moby/moby/issues/30880">Docker is not passing auth informations when pulling from a mirror registry #30880</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (EN)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/">
+            <i class="fa-solid fa-home w-5"></i><span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>Works</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/tags">
+            <i class="fa-solid fa-tags w-5"></i><span>Tags</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/tags/art/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Art</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/best-practices/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Best Practices</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/blog/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Blog</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ceramics/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Ceramics</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#GitHub</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/leathercraft/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Leathercraft</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/pottery/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Pottery</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/project/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Project</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/sewing/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Sewing</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/wedding/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Wedding</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,1058 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    Coding Rules (Java) | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="Coding Rules (Java) | mosaos">
+<meta property="og:description" content="Personal coding rules for Java development. For my own reuse lol">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;java-coding-rule&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;java-coding-rule&#x2F;java-logo.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Coding Rules (Java) | mosaos">
+<meta name="twitter:description" content="Personal coding rules for Java development. For my own reuse lol">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;java-coding-rule&#x2F;java-logo.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Coding Rules (Java)",
+    "description": "Personal coding rules for Java development. For my own reuse lol",
+    "url": "https://mosaos.github.io/blog/java-coding-rule/",
+    
+    "datePublished": "2026-09-22",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;java-coding-rule&#x2F;"
+            class="">
+            JA
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;java-coding-rule&#x2F;"
+            class="active font-bold">
+            EN
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/" class="hover:text-primary transition-colors">
+        Home
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/blog/" class="hover:text-primary transition-colors">
+        Blog
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      Coding Rules (Java)
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      Coding Rules (Java)
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-22
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/tags/java/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Java
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/rule/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Rule
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">Table of contents</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/java-coding-rule/#introduction" class="hover:underline py-1">Introduction</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/java-coding-rule/#files" class="hover:underline py-1">Files</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/java-coding-rule/#file-hierarchy" class="hover:underline py-1">File Hierarchy</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/java-coding-rule/#naming-conventions" class="hover:underline py-1">Naming Conventions</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#uppercase-and-lowercase" class="text-xs opacity-80 hover:underline py-0.5">
+                Uppercase and Lowercase</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#package-names" class="text-xs opacity-80 hover:underline py-0.5">
+                Package Names</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#class-names" class="text-xs opacity-80 hover:underline py-0.5">
+                Class Names</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#exception-class-names" class="text-xs opacity-80 hover:underline py-0.5">
+                Exception Class Names</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#interface-names" class="text-xs opacity-80 hover:underline py-0.5">
+                Interface Names</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#implementation-class-names" class="text-xs opacity-80 hover:underline py-0.5">
+                Implementation Class Names</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#abstract-class-names" class="text-xs opacity-80 hover:underline py-0.5">
+                Abstract Class Names</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#constants-static-final" class="text-xs opacity-80 hover:underline py-0.5">
+                Constants (static final)</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#method-names" class="text-xs opacity-80 hover:underline py-0.5">
+                Method Names</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#english-and-japanese" class="text-xs opacity-80 hover:underline py-0.5">
+                English and Japanese</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#naming-symmetry" class="text-xs opacity-80 hover:underline py-0.5">
+                Naming Symmetry</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#loop-counters" class="text-xs opacity-80 hover:underline py-0.5">
+                Loop Counters</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#variables-with-a-narrow-scope" class="text-xs opacity-80 hover:underline py-0.5">
+                Variables with a Narrow Scope</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#meaningful-names" class="text-xs opacity-80 hover:underline py-0.5">
+                Meaningful Names</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/java-coding-rule/#style" class="hover:underline py-1">Style</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#comments" class="text-xs opacity-80 hover:underline py-0.5">
+                Comments</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#imports" class="text-xs opacity-80 hover:underline py-0.5">
+                Imports</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#scope" class="text-xs opacity-80 hover:underline py-0.5">
+                Scope</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#instance-variables" class="text-xs opacity-80 hover:underline py-0.5">
+                Instance Variables</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#use-of-local-variables" class="text-xs opacity-80 hover:underline py-0.5">
+                Use of Local Variables</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#use-of-final" class="text-xs opacity-80 hover:underline py-0.5">
+                Use of final</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#comparison" class="text-xs opacity-80 hover:underline py-0.5">
+                Comparison</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#boolean-comparison" class="text-xs opacity-80 hover:underline py-0.5">
+                Boolean Comparison</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#loops" class="text-xs opacity-80 hover:underline py-0.5">
+                Loops</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#referencing-through-interfaces" class="text-xs opacity-80 hover:underline py-0.5">
+                Referencing Through Interfaces</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#numbers" class="text-xs opacity-80 hover:underline py-0.5">
+                Numbers</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#try-with-resources" class="text-xs opacity-80 hover:underline py-0.5">
+                Try-With-Resources</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#string-concatenation" class="text-xs opacity-80 hover:underline py-0.5">
+                String Concatenation</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#use-of-system-out-print" class="text-xs opacity-80 hover:underline py-0.5">
+                Use of System.out.print</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#lambdas" class="text-xs opacity-80 hover:underline py-0.5">
+                Lambdas</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#stream-api" class="text-xs opacity-80 hover:underline py-0.5">
+                Stream API</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/java-coding-rule/#var-local-variable-type-inference" class="text-xs opacity-80 hover:underline py-0.5">
+                var (Local-Variable Type Inference)</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <p>Personal coding rules I have compiled through Java development.
+<em>These rules also reflect experience in product development in corporate environments.</em></p>
+<h2 id="introduction">Introduction</h2>
+<p>One indicator of whether code is good or not is whether it is &quot;easy for other people to understand.&quot;
+Whether code is easy to understand is determined by various factors, including not only the clarity of the logic, but also formatting and the conventional use of APIs.<br />
+When coding in a project consisting of multiple people, it is necessary to be conscious of whether the code is easy for others to understand as well.</p>
+<p>Prioritizing readability is also beneficial for myself when I need to maintain code that I may not have touched for a long time.</p>
+<p>This document describes coding rules and recommendations for application development projects using Java as the development language.</p>
+<p>This does not mean that &quot;you only need to pay attention to what is written here.&quot; Please code flexibly while keeping in mind the perspective of writing code that is easy to understand.</p>
+<p><em>This document was created as a draft, so it is intended for reference only. It is recommended that the rules be modified as appropriate for each project and its users.</em></p>
+<h2 id="files">Files</h2>
+<p>Each public class should be placed in a file named after that class.</p>
+<ul>
+<li>Do not write multiple public classes in a single file.</li>
+<li>A non-public class that is not used by other classes may be included in the file of the public class that uses it (as an inner class). However, inner classes should not be used in principle.</li>
+</ul>
+<p>The file encoding should be UTF-8.</p>
+<h2 id="file-hierarchy">File Hierarchy</h2>
+<p>Follow Maven's standard directory layout.</p>
+<p>Maven has been used as a de facto standard build tool for Java for a long time, and using Maven's standard directory layout makes the project structure easy for many Java developers to understand.</p>
+<h2 id="naming-conventions">Naming Conventions</h2>
+<h3 id="uppercase-and-lowercase">Uppercase and Lowercase</h3>
+<p>Java is case-sensitive, but do not write code that distinguishes identifiers solely by differences in uppercase and lowercase letters.</p>
+<p>Bad example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    </span><span style="color:#b48ead;">private int</span><span> num;
+</span><span>    </span><span style="color:#b48ead;">private int </span><span style="color:#ebcb8b;">Num</span><span>;
+</span></code></pre>
+<p>Good example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    </span><span style="color:#b48ead;">private int</span><span> cartNumber;
+</span><span>    </span><span style="color:#b48ead;">private int</span><span> productNumber;
+</span></code></pre>
+<h3 id="package-names">Package Names</h3>
+<ul>
+<li>Use strings consisting of lowercase English letters separated by &quot;.&quot; and include a name representing the application/project.</li>
+<li>If the application is intended to be publicly released, basically include the domain name.</li>
+</ul>
+<p>Example) <code>com.mosaos.projectname</code></p>
+<h3 id="class-names">Class Names</h3>
+<p>Use UpperCamelCase.</p>
+<p>Example) <code>UpperCamelCase</code></p>
+<h3 id="exception-class-names">Exception Class Names</h3>
+<p>Use a class name ending in <code>Exception</code>.</p>
+<h3 id="interface-names">Interface Names</h3>
+<p>Follow the same naming convention as class names.</p>
+<h3 id="implementation-class-names">Implementation Class Names</h3>
+<p>If it is necessary to distinguish an implementation class from its interface, append <code>Impl</code> to the end.</p>
+<h3 id="abstract-class-names">Abstract Class Names</h3>
+<p>If there is no suitable name, start with <code>Abstract</code> and use a name that suggests the subclasses.</p>
+<p>Do not create abstract classes unnecessarily.</p>
+<p>Consider carefully whether an abstract class is really necessary, except when there is a clear purpose such as the Template pattern.</p>
+<p>Avoid creating abstract classes (using inheritance) for reasons such as the following:</p>
+<ul>
+<li>
+<p>Inheritance for sharing methods</p>
+<ul>
+<li>It becomes difficult to modify or add functionality to common methods.</li>
+<li>Common methods keep being added to the base class, eventually creating a God class.</li>
+</ul>
+</li>
+<li>
+<p>Inheritance for sharing member variables</p>
+<ul>
+<li>Member variables become difficult to modify because doing so affects derived classes.</li>
+</ul>
+</li>
+</ul>
+<h3 id="constants-static-final">Constants (<code>static final</code>)</h3>
+<p>Use uppercase snake case.</p>
+<p>Example) <code>UPPER_SNAKE_CASE</code></p>
+<h3 id="method-names">Method Names</h3>
+<p>Use lowerCamelCase.</p>
+<p>Example) <code>lowerCamelCase</code></p>
+<p>For methods that perform an operation, use a name in the form of <strong>verb + object</strong>, rather than <strong>object + verb</strong>.</p>
+<p>Bad example) <code>couponGet</code><br />
+Good example) <code>getCoupon</code></p>
+<h4 id="attribute-access">Attribute Access</h4>
+<p>For methods that retrieve attributes, use the <code>getXxx</code> or <code>isXxx</code> form (<code>xxx</code> is the attribute name).</p>
+<h4 id="attribute-setting">Attribute Setting</h4>
+<p>For methods that set attributes, use the <code>setXxx</code> form (<code>xxx</code> is the attribute name).</p>
+<h3 id="english-and-japanese">English and Japanese</h3>
+<p>Use English as the basic language for all identifiers. In exceptional cases where translating a term into English is difficult, romanized Japanese may also be used. However, whenever possible, create and maintain a terminology dictionary and avoid using different names for the same term.</p>
+<h3 id="naming-symmetry">Naming Symmetry</h3>
+<p>When naming things, pay attention to the following English word pairs:</p>
+<ul>
+<li>add / remove</li>
+<li>insert / delete</li>
+<li>get / set</li>
+<li>start / stop</li>
+<li>begin / end</li>
+<li>send / receive</li>
+<li>first / last</li>
+<li>get / release</li>
+<li>put / get</li>
+<li>up / down</li>
+<li>show / hide</li>
+<li>source / target</li>
+<li>open / close</li>
+<li>source / destination</li>
+<li>increment / decrement</li>
+<li>lock / unlock</li>
+<li>old / new</li>
+<li>next / previous</li>
+</ul>
+<h3 id="loop-counters">Loop Counters</h3>
+<p>Use <code>i</code>, <code>j</code>, and <code>k</code> for loop counters with a narrow scope.</p>
+<h3 id="variables-with-a-narrow-scope">Variables with a Narrow Scope</h3>
+<p>Abbreviations may be used for variable names with a narrow scope. However, do not overuse abbreviations to the point that readability is reduced.</p>
+<p>Example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    </span><span style="color:#ebcb8b;">InputStream</span><span> in = </span><span style="color:#b48ead;">new </span><span style="color:#ebcb8b;">BufferedInputStream</span><span>(...);
+</span></code></pre>
+<h3 id="meaningful-names">Meaningful Names</h3>
+<p>As a general rule, use names whose meaning can be understood from the name itself.</p>
+<p>Bad example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    </span><span style="color:#bf616a;">copy</span><span>(s1, s2);
+</span></code></pre>
+<p>Good example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    </span><span style="color:#bf616a;">copy</span><span>(source, destination);
+</span></code></pre>
+<h2 id="style">Style</h2>
+<p>The coding style should follow the style of the JDK source code.</p>
+<p>It is similar to the K&amp;R style for the C language, but the opening <code>{</code> of a class/method definition should be written on the same line rather than on a new line.</p>
+<p>Use <a href="https://checkstyle.sourceforge.io/">Checkstyle</a> to check the style and automate the process as much as possible.</p>
+<h3 id="comments">Comments</h3>
+<ul>
+<li>
+<p>As a general rule, write Javadoc comments for public classes and methods.</p>
+</li>
+<li>
+<p>Write only necessary comments, and keep them concise.</p>
+</li>
+<li>
+<p>Write comments that explain why something is done.</p>
+</li>
+<li>
+<p>Write comments before writing the code.<br />
+As you will find when you try it, one of the best ways to write good comments is to describe the processing concisely in comments before writing the code.<br />
+If the processing consists of multiple steps, write each step as a separate line of comments before starting the implementation.<br />
+This ensures that comments are written and also helps ensure that the implementation follows what was described in the comments.</p>
+</li>
+<li>
+<p>Make use of <code>TODO</code> comments.<br />
+Since IDEs such as Eclipse allow TODOs to be viewed together, use <code>TODO</code> comments to describe work that should be done later when something remains unfinished due to reasons such as waiting for another person's implementation or waiting for the specification to be finalized.
+<em>When viewing the list in Eclipse, use the <code>Tasks View</code>.</em>
+<em>In addition to TODO, the following comment tags can be used as task tags.</em></p>
+<ul>
+<li><code>FIXME</code>: A fix is required.</li>
+<li><code>XXX</code>: Dangerous! It works, but it is unclear why it works.</li>
+</ul>
+<p><em>There are other tags besides FIXME and XXX, but when using them in Eclipse, you need to add the comments to be used under</em>
+<em>[Settings] &gt; [Java] &gt; [Compiler] &gt; [Task Tags].</em></p>
+</li>
+</ul>
+<h3 id="imports">Imports</h3>
+<p>As a general rule, do not use <code>*</code> in import statements.</p>
+<h3 id="scope">Scope</h3>
+<p>Set appropriate scopes for methods and fields.</p>
+<h3 id="instance-variables">Instance Variables</h3>
+<p>As a general rule, use private scope and write setters/getters as necessary.<br />
+For simple setters/getters that only set or retrieve values, use <a href="https://projectlombok.org/">Lombok</a> as appropriate to improve code readability and development efficiency.</p>
+<h3 id="use-of-local-variables">Use of Local Variables</h3>
+<p>Except for entity classes, bean classes, and similar classes, avoid using instance variables as much as possible.<br />
+In particular, when using a DI container such as the Spring Framework, certain classes may be instantiated as singletons by default. Therefore, using instance variables carelessly can result in a thread-unsafe implementation.<br />
+As a result, a bug may not be detected during unit or integration testing and may only occur in actual production use.
+In some cases, this can lead to serious problems such as the leakage of personal information, so implement such code with care.</p>
+<h3 id="use-of-final">Use of <code>final</code></h3>
+<p>Use <code>final</code> appropriately as necessary.</p>
+<ul>
+<li>Classes that should not be inherited</li>
+<li>Methods that should not be overridden</li>
+<li>Variables whose values do not change (or should not change)</li>
+</ul>
+<h3 id="comparison">Comparison</h3>
+<p>Use the <code>equals</code> method when comparing objects.
+Using <code>==</code> is acceptable when you want to compare whether two references refer to the same instance.</p>
+<h3 id="boolean-comparison">Boolean Comparison</h3>
+<p>Do not compare boolean variables in conditional expressions.</p>
+<p>Bad example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>  </span><span style="color:#b48ead;">if </span><span>(isEmpty == </span><span style="color:#d08770;">true</span><span>)
+</span></code></pre>
+<p>Good example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>  </span><span style="color:#b48ead;">if </span><span>(isEmpty)
+</span></code></pre>
+<h3 id="loops">Loops</h3>
+<p>Use an enhanced <code>for</code> loop when it can be used.</p>
+<h3 id="referencing-through-interfaces">Referencing Through Interfaces</h3>
+<p>As a general rule, use interfaces when declaring object references. In particular, the following coding style is sometimes seen when using the Java API, but it is not a good implementation and should be avoided.</p>
+<p>Bad example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    </span><span style="color:#ebcb8b;">ArrayList</span><span>&lt;</span><span style="color:#ebcb8b;">Entry</span><span>&gt; list = </span><span style="color:#b48ead;">new </span><span style="color:#ebcb8b;">ArrayList</span><span>&lt;</span><span style="color:#ebcb8b;">Entry</span><span>&gt;();
+</span></code></pre>
+<p>Good example)</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>    </span><span style="color:#ebcb8b;">List</span><span>&lt;</span><span style="color:#ebcb8b;">Entry</span><span>&gt; list = </span><span style="color:#b48ead;">new </span><span style="color:#ebcb8b;">ArrayList</span><span>&lt;</span><span style="color:#ebcb8b;">Entry</span><span>&gt;();
+</span></code></pre>
+<h3 id="numbers">Numbers</h3>
+<p>Use the <code>BigDecimal</code> class appropriately when necessary.<br />
+Strictly speaking, arithmetic operations using primitive types or types other than <code>BigDecimal</code> may result in rounding errors.<br />
+When exact calculations are required, such as in financial or scientific applications, <code>BigDecimal</code> is suitable.</p>
+<h3 id="try-with-resources">Try-With-Resources</h3>
+<p>When using classes that require resource cleanup, such as streams, use try-with-resources whenever possible.</p>
+<h3 id="string-concatenation">String Concatenation</h3>
+<p>When performance may be a concern with string concatenation, such as when performing string concatenation inside a loop, use <code>StringBuilder</code> (or <code>StringBuffer</code>).<br />
+<em>Use <code>StringBuffer</code> when thread safety is required.</em></p>
+<h3 id="use-of-system-out-print">Use of <code>System.out.print</code></h3>
+<p>Replace it with a logging API.<br />
+Except when standard output is absolutely necessary or when using it for temporary debugging purposes, do not use <code>System.out.print</code>, <code>System.err.print</code>, or related methods in production-level applications.</p>
+<ul>
+<li>It is difficult to identify where the output originated.</li>
+<li>With a logging API, the source of the output can be identified more easily through log format configuration, and the output destination, log level, and other settings can be changed centrally.</li>
+</ul>
+<h3 id="lambdas">Lambdas</h3>
+<p>Lambda expressions may be used wherever they are applicable.</p>
+<h3 id="stream-api">Stream API</h3>
+<p>The Stream API may be used.<br />
+However, because an instance is generated for each intermediate operation in the Stream API, performance may be worse than when using an enhanced <code>for</code> loop.<br />
+When implementing performance-critical processing, it is recommended to measure the performance of each approach before deciding which implementation method to use.</p>
+<h3 id="var-local-variable-type-inference"><code>var</code> (Local-Variable Type Inference)</h3>
+<p>As a general rule, do not use <code>var</code>.<br />
+As can be seen from the widespread adoption of TypeScript and similar technologies, ensuring <code>type safety</code> is strongly emphasized in modern team development. Robustness of the code should be prioritized over the reduced effort provided by type inference.<br />
+However, its use is permitted in exceptional cases where not using <code>var</code> would have a significantly greater disadvantage due to factors such as scope.</p>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (EN)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/">
+            <i class="fa-solid fa-home w-5"></i><span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>Works</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/tags">
+            <i class="fa-solid fa-tags w-5"></i><span>Tags</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/tags/art/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Art</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/best-practices/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Best Practices</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/blog/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Blog</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ceramics/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Ceramics</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#GitHub</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/leathercraft/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Leathercraft</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/pottery/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Pottery</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/project/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Project</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/sewing/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Sewing</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/wedding/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Wedding</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

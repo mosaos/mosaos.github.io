@@ -1,0 +1,1078 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    Zola daisyUI blog | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="Zola daisyUI blog | mosaos">
+<meta property="og:description" content="Zola daisyUI blog の使い方">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;zola-daisyui-blog.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zola daisyUI blog | mosaos">
+<meta name="twitter:description" content="Zola daisyUI blog の使い方">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;zola-daisyui-blog.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Zola daisyUI blog",
+    "description": "Zola daisyUI blog の使い方",
+    "url": "https://mosaos.github.io/ja/blog/zola-daisyui-blog/",
+    
+    "datePublished": "2026-09-25",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/ja/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;"
+            class="active font-bold">
+            JA
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;"
+            class="">
+            EN
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/ja/" class="hover:text-primary transition-colors">
+        ホーム
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/ja/blog/" class="hover:text-primary transition-colors">
+        ブログ
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      Zola daisyUI blog
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      Zola daisyUI blog
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-25
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/ja/tags/zola/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Zola
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/daisyui/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #daisyUI
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/burogu/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #ブログ
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/git/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Git
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/github/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Github
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">目次</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#hazimeni" class="hover:underline py-1">はじめに</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#nazezuo-tutaka" class="hover:underline py-1">なぜ作ったか？</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#ji-neng" class="hover:underline py-1">機能</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#kai-fa-huan-jing" class="hover:underline py-1">開発環境</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#gou-zhu-shou-shun" class="hover:underline py-1">構築手順</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#ge-zhong-ripozitorinozuo-cheng" class="text-xs opacity-80 hover:underline py-0.5">
+                各種リポジトリの作成</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#yi-dan-rokarudedong-zuo-que-ren" class="text-xs opacity-80 hover:underline py-0.5">
+                一旦ローカルで動作確認</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#gitignore-nodiao-zheng" class="text-xs opacity-80 hover:underline py-0.5">
+                .gitignore の調整</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#pat-github-personal-access-token-nozhun-bei" class="text-xs opacity-80 hover:underline py-0.5">
+                PAT(GitHub Personal Access Token)の準備</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#github-secrets-hedeng-lu" class="text-xs opacity-80 hover:underline py-0.5">
+                GitHub Secrets へ登録</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#githhub-actions-wakuhuronozuo-cheng" class="text-xs opacity-80 hover:underline py-0.5">
+                GithHub Actions ワークフローの作成</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#depuroixian-yuzaming-github-io-ce-no-github-pages-she-ding" class="text-xs opacity-80 hover:underline py-0.5">
+                デプロイ先 ( ユーザ名.github.io ) 側の GitHub Pages 設定</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#content-geng-xin-wotoriganisuru" class="hover:underline py-1">content 更新をトリガーにする</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#apurice-my-portfolio-noshe-ding" class="text-xs opacity-80 hover:underline py-0.5">
+                アプリ側 ( my-portfolio ) の設定</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#kontentuce-my-portfolio-content-noshe-ding" class="text-xs opacity-80 hover:underline py-0.5">
+                コンテンツ側 ( my-portfolio-content ) の設定</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#github-workflows-deploy-yml-2" class="text-xs opacity-80 hover:underline py-0.5">
+                .github&#x2F;workflows&#x2F;deploy.yml</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#zola-daisyui-blog-nogeng-xin-nizhui-sui-suru" class="hover:underline py-1">zola-daisyui-blog の更新に追随する</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#upstream-deng-lu" class="text-xs opacity-80 hover:underline py-0.5">
+                upstream 登録</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/#yuan-notenpuretonobian-geng-woshi-yong-suru" class="text-xs opacity-80 hover:underline py-0.5">
+                元のテンプレートの変更を適用する</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <h2 id="hazimeni">はじめに</h2>
+<p>Zola + daisyUI 使ったブログテンプレート作ったので、備忘録かねて記事にしてます。</p>
+<p>作った理由、セットアップ手順等を記しています。</p>
+<hr />
+<h2 id="nazezuo-tutaka">なぜ作ったか？</h2>
+<p>以前から Github pages での個人情報発信は考えていたのだが、ようやく重い腰を上げてアプリを構築した。</p>
+<p><a href="https://github.com/mosaos/zola-daisyui-blog">mosaos/zola-daisyui-blog</a></p>
+<p>※ 実例は当サイト</p>
+<p>当初 React-typescript で簡単なものを実装したり(markdown を表示可能にするところまでは作ってた)、Astro 使う方がとかの AI アドバイスに従って試したりしてたのだが、最終的には以下の技術スタックに落ち着くことに。</p>
+<ul>
+<li><strong>Zola</strong><br />
+Rust 製の SSG ( 静的サイトジェネレータ )</li>
+<li><strong>daisyUI</strong><br />
+tailwind CSS 状のコンポーネントライブラリ</li>
+<li><strong>Github pages</strong><br />
+当初からの要件</li>
+</ul>
+<p>node 止めたのはメンテ地獄にはなりたくないという理由。実務でも React 案件には携わったりしてるのだが、node 系は</p>
+<ul>
+<li>関連するパッケージが多い</li>
+<li>セキュリティ(脆弱性)対応多い</li>
+<li>破壊的変更多い</li>
+</ul>
+<p>破壊的変更は私の得意な言語が Java ( Spring Boot とか)のせいもあるのだが、中身変わってないのにメンテが発生するのは、仕事でやるのはさておき個人の情報発信では面倒。</p>
+<p>といった理由で上記の構成になったのだ。 daisyUI も node 必要という人もいるかもだが、CDNで公開されている full.css とかを利用すれば tailwind / daisyUI のビルドプロセスは無しで使える (全部入りにはなる)。最適化がーって話もあるかもだが、メンテ地獄嫌！が最重要な要件なので、CDNのリソース使うのは正義。</p>
+<hr />
+<h2 id="ji-neng">機能</h2>
+<p>作ったテンプレ。詳細は README.md 参照なのだが、以下のようになっている。<br />
+※ ほぼほぼ Zola/daisyUI 等の特性ではある。</p>
+<ul>
+<li><strong>レスポンシブデザイン</strong><br />
+daisyUIとTailwind CSSによる、モバイルにも対応したシンプルで使いやすいレイアウト。</li>
+<li><strong>Markdownベース</strong><br />
+Markdown でブログ記事やポートフォリオ作品を簡単に作成可能。記事には目次 ( TOC ) を表示することもできます。</li>
+<li><strong>多言語対応</strong><br />
+多言語切り替え機能を標準搭載。必要に応じて任意の数の言語に拡張可能。</li>
+<li><strong>静的サイト生成 ( SSG )</strong><br />
+高速かつ安全で、Node.jsなどのサーバーサイドランタイムを必要としない。</li>
+<li><strong>Dev Containers対応</strong><br />
+開発環境をすぐに構築でき、環境構築の手間を軽減。</li>
+<li><strong>タグ対応</strong><br />
+タグ付けにより、コンテンツを整理・分類できる。</li>
+<li><strong>画像カルーセル / スライドショー</strong><br />
+ポートフォリオ作品などに複数の写真や画像を表示できる、カルーセルを用意。</li>
+</ul>
+<hr />
+<h2 id="kai-fa-huan-jing">開発環境</h2>
+<p>以下で確認しています。</p>
+<ul>
+<li>Windows 11</li>
+<li>WSL2 ( Ubuntu )</li>
+<li>docker-ce<br />
+Dev Container 使う場合。Desktop ではない。企業でライセンス無い場合も可能。</li>
+<li>VS Code</li>
+</ul>
+<hr />
+<h2 id="gou-zhu-shou-shun">構築手順</h2>
+<p>アプリ部分は Template プロジェクトとして github に登録してあります。お勧めの手順は以下。</p>
+<p>尚、ローカルでの動作確認のためにシンボリックリンクを使うので WSL2 上推奨です ( windows の場合 )。<br />
+※ Mac は知らんのだ。</p>
+<h3 id="ge-zhong-ripozitorinozuo-cheng">各種リポジトリの作成</h3>
+<ol>
+<li><a href="https://github.com/mosaos/zola-daisyui-blog">mosaos/zola-daisyui-blog</a> にアクセス。</li>
+<li><code>Use this template</code> &gt; <code>Create a new repository</code> をクリック。自分のリポジトリとして作成する ( <code>my-portfolio</code> 等 )。<code>Private</code> でもOK。</li>
+<li>コンテンツ用リポジトリを別途作成する。<code>my-portfolio-content</code> 等。<code>Private</code> でよい。<br />
+これはアプリ部分とコンテンツ部分を分離することで、今後アプリ部分がアップデートした場合に更新しやするするため。面倒な場合は、分離せずに、2 の <code>my-portfolio</code> にコンテンツを含めても問題ない。</li>
+<li>github pages 用のリポジトリを作製する (<code>Public</code>)。ドメイン直下で公開する場合には <code>ユーザ名.github.io</code> をリポジトリ名とする。</li>
+</ol>
+<h3 id="yi-dan-rokarudedong-zuo-que-ren">一旦ローカルで動作確認</h3>
+<blockquote>
+<p>※コンテンツ用リポジトリを分離していない場合は、シンボリックで付け替える作業は不要</p>
+</blockquote>
+<h4 id="fei-devcontainer-nochang-he">非 DevContainer の場合</h4>
+<p>コンテンツをアプリ側の <code>content</code> にシンボリックリンクする。</p>
+<p>アプリ側 ( <code>my-portfolio</code> ) 側の <code>content</code> は削除</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span> /path/to/my-portfolio
+</span><span style="color:#bf616a;">rm -rf</span><span> content
+</span></code></pre>
+<p>コンテンツリポジトリ(<code>my-portfolio-content</code>)をシンボリックリンク<br />
+※ 以下は <code>my-portfolio</code> と <code>my-portfolio-content</code> が同じ階層にある場合</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">ln -s</span><span> ../my-portfolio-content content
+</span></code></pre>
+<h4 id="devcontainer-nochang-he">DevContainer の場合</h4>
+<p>シンボリックリンクは機能しないため、mount する。</p>
+<p><code>my-portfolio</code> の <code>content</code> は削除せずに中身を消しておく。</p>
+<p><code>my-portfolio</code> の <code>devcontainer.json</code> に以下 ( <code>mounts</code> 定義 ) を追記する。</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>    &quot;</span><span style="color:#a3be8c;">forwardPorts</span><span>&quot;: [
+</span><span>        </span><span style="color:#d08770;">1111
+</span><span>    ],
+</span><span>    </span><span style="color:#65737e;">// ホスト側の content 用リポジトリを、コンテナ内の zola 側 content ディレクトリにバインドマウントする
+</span><span>    &quot;</span><span style="color:#a3be8c;">mounts</span><span>&quot;: [
+</span><span>        {
+</span><span>            &quot;</span><span style="color:#a3be8c;">source</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">${localWorkspaceFolder}/../my-portfolio-content</span><span>&quot;,
+</span><span>            &quot;</span><span style="color:#a3be8c;">target</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">${containerWorkspaceFolder}/content</span><span>&quot;,
+</span><span>            &quot;</span><span style="color:#a3be8c;">type</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">bind</span><span>&quot;
+</span><span>        }
+</span><span>    ]
+</span><span>    </span><span style="color:#65737e;">// &quot;remoteUser&quot;: &quot;root&quot;
+</span></code></pre>
+<p>設定したら <code>Rebuild Container</code> して、DevContainer から <code>content</code> の中身が見えれば(リンクされていれば)成功</p>
+<h4 id="dong-zuo-que-ren">動作確認</h4>
+<p>ローカルで動作確認</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span> /path/to/my-portfolio
+</span></code></pre>
+<p>DevContainer の場合は、VS Code に入って DevContainer のターミナルから確認する。</p>
+<p>そうでない場合には WSL2(Ubuntu) に導入した zola を使って確認すればOK</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">code</span><span> .
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">zola</span><span> serve</span><span style="color:#bf616a;"> --interface</span><span> 0.0.0.0</span><span style="color:#bf616a;"> --port</span><span> 1111</span><span style="color:#bf616a;"> --base-url</span><span> /
+</span></code></pre>
+<p>VSCode の場合、<code>Your application running on port 1111 is available. See all forwarded ports</code> というダイアログが表示されるので、<code>Open in Browser</code> をクリックして、サイトが表示されれば OK。<br />
+非 VS Code の場合、http://localhost:1111/ を開いて確認できれば OK。</p>
+<h3 id="gitignore-nodiao-zheng">.gitignore の調整</h3>
+<p>動作が確認できたら、<br />
+<code>my-portfolio</code> 側で <code>my-portfolio-content</code> のファイルを多重管理しないように <code>content</code> フォルダ以下は除外しておく ( 以下を追記 )。</p>
+<pre data-lang=".gitignore" style="background-color:#2b303b;color:#c0c5ce;" class="language-.gitignore "><code class="language-.gitignore" data-lang=".gitignore"><span style="color:#bf616a;">content</span><span style="color:#65737e;">/**
+</span></code></pre>
+<p><code>my-portfolio</code> で以下も行っておいた方がいいかも。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> rm</span><span style="color:#bf616a;"> --cached -r</span><span> content
+</span></code></pre>
+<p>ここまでで ローカル側での開発/確認環境が出来たことになる。</p>
+<p>必要に応じてコンテンツ追加や、アプリ部分のカスタマイズ等を行うのだ。</p>
+<h3 id="pat-github-personal-access-token-nozhun-bei">PAT(GitHub Personal Access Token)の準備</h3>
+<p>ここからは GitHub Actions で GitHub Pages にサイトを公開するための設定になる。<br />
+※ ローカル/Dev Container の Zola でSSG 生成して手動でページ公開するといった場合には必要ない。</p>
+<p>my-portfolio からは別のプライベートリポジトリ ( my-portfolio-content )と、公開リポジトリ ( ユーザ名.github.io ) へのアクセス権が必要になる。以下の手順で PAT を用意する。</p>
+<ol>
+<li>
+<p>画面右の自分のアイコンから <code>Settings</code> &gt; <code>Developer settings</code> &gt; <code>Personal access tokens</code> から <code>Tokens (classic)</code> を開く</p>
+</li>
+<li>
+<p><code>Generate new token (classic)</code> をクリック</p>
+</li>
+<li>
+<p>Note に説明 ( <code>portfolio deploy token</code> 等 ) を記載し、Expiration Date を設定する</p>
+<ul>
+<li><strong>推奨</strong>:<br />
+セキュリティの観点から <strong><code>30 days</code> または <code>60 days</code></strong> ( 定期的な更新が必要 )</li>
+<li><strong>個人運用での妥協案</strong>:<br />
+更新の手間を減らしたい場合は <strong><code>90 days</code></strong>（期限切れ間近にリマインドメールが届く）</li>
+</ul>
+<p>※ <code>No expiration</code>(無期限) はトークン漏洩時のリスクが高いため非推奨。</p>
+</li>
+<li>
+<p><code>Select scopes</code> で以下にチェックを入れる</p>
+<ul>
+<li>repo</li>
+</ul>
+</li>
+<li>
+<p>ページ下部の <code>Generate token</code> をクリックし、生成されたトークを控えておく ( ※ 一度閉じると再表示不可 )</p>
+</li>
+</ol>
+<h3 id="github-secrets-hedeng-lu">GitHub Secrets へ登録</h3>
+<p>発行したトークンを、アプリ側のリポジトリ ( <code>my-portfolio</code> ) に秘密鍵として登録する。</p>
+<ol>
+<li>自分の <code>my-portfolio</code> リポジトリのページを開く。</li>
+<li><code>Settings</code> &gt; <code>Secrets and variables</code> &gt; <code>Actions</code> に移動する。</li>
+<li><code>New repository secret</code> をクリックする。
+<ul>
+<li>Name: GH_PAT ( または分かりやすい名前 )</li>
+<li>Secret: さっきコピーしたPAT の文字列を貼り付ける。</li>
+</ul>
+</li>
+<li><code>Add secret</code> で保存。</li>
+</ol>
+<h3 id="githhub-actions-wakuhuronozuo-cheng">GithHub Actions ワークフローの作成</h3>
+<p>アプリ側のリポジトリ ( <code>my-portfolio</code> ) のルートに、GitHub Actions 用の設定ファイルを作成する。</p>
+<p>※ 作者の設定になっているので適宜変更すること</p>
+<h4 id="github-workflows-deploy-yml">.github/workflows/deploy.yml</h4>
+<pre data-lang="yaml" style="background-color:#2b303b;color:#c0c5ce;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Build and Deploy Zola Site
+</span><span>
+</span><span style="color:#d08770;">on</span><span>:
+</span><span>  </span><span style="color:#bf616a;">push</span><span>:
+</span><span>    </span><span style="color:#bf616a;">branches</span><span>:
+</span><span>      - </span><span style="color:#a3be8c;">main </span><span style="color:#65737e;"># または master ( 自身のメインブランチに合わせる )
+</span><span>
+</span><span style="color:#bf616a;">jobs</span><span>:
+</span><span>  </span><span style="color:#bf616a;">build-and-deploy</span><span>:
+</span><span>    </span><span style="color:#bf616a;">runs-on</span><span>: </span><span style="color:#a3be8c;">ubuntu-latest
+</span><span>    </span><span style="color:#bf616a;">steps</span><span>:
+</span><span>      </span><span style="color:#65737e;"># 1. アプリリポジトリをチェックアウト
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Checkout my-portfolio
+</span><span>        </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">actions/checkout@v4
+</span><span>
+</span><span>      </span><span style="color:#65737e;"># 2. コンテンツリポジトリ(Private)を content/ フォルダへ直接チェックアウト
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Checkout my-portfolio-content
+</span><span>        </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">actions/checkout@v4
+</span><span>        </span><span style="color:#bf616a;">with</span><span>:
+</span><span>          </span><span style="color:#bf616a;">repository</span><span>: </span><span style="color:#a3be8c;">mosaos/my-portfolio-content </span><span style="color:#65737e;"># ユーザー名/コンテンツリポジトリ名
+</span><span>          </span><span style="color:#bf616a;">token</span><span>: </span><span style="color:#a3be8c;">${{ secrets.GH_PAT }}
+</span><span>          </span><span style="color:#bf616a;">path</span><span>: </span><span style="color:#a3be8c;">content
+</span><span>
+</span><span>      </span><span style="color:#65737e;"># 3. Zola のインストール
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Setup Zola
+</span><span>        </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">taiki-e/install-action@v2
+</span><span>        </span><span style="color:#bf616a;">with</span><span>:
+</span><span>          </span><span style="color:#bf616a;">tool</span><span>: </span><span style="color:#a3be8c;">zola@0.17.2 </span><span style="color:#65737e;"># バージョンは開発環境に合わせる
+</span><span>
+</span><span>      </span><span style="color:#65737e;"># 4. Zola でサイトをビルド
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Build Zola site
+</span><span>        </span><span style="color:#bf616a;">run</span><span>: </span><span style="color:#a3be8c;">zola build
+</span><span>
+</span><span>      </span><span style="color:#65737e;"># 5. ビルド成果物（public/）を mosaos.github.io リポジトリへプッシュ
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Push to mosaos.github.io
+</span><span>        </span><span style="color:#bf616a;">env</span><span>:
+</span><span>          </span><span style="color:#bf616a;">GH_TOKEN</span><span>: </span><span style="color:#a3be8c;">${{ secrets.GH_PAT }}
+</span><span>        </span><span style="color:#bf616a;">run</span><span>: </span><span style="color:#b48ead;">|
+</span><span style="color:#a3be8c;">          git config --global user.name &quot;GitHub Actions Bot&quot;
+</span><span style="color:#a3be8c;">          git config --global user.email &quot;actions@github.com&quot;
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">          # ビルド結果が出力される public ディレクトリに移動
+</span><span style="color:#a3be8c;">          cd public
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">          # Gitリポジトリとして初期化してプッシュ
+</span><span style="color:#a3be8c;">          git init
+</span><span style="color:#a3be8c;">          git checkout -b main
+</span><span style="color:#a3be8c;">          git remote add origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/mosaos/mosaos.github.io.git
+</span><span style="color:#a3be8c;">          git add -A
+</span><span style="color:#a3be8c;">          git commit -m &quot;Deploy from my-portfolio CI/CD at $(date)&quot;
+</span><span style="color:#a3be8c;">          git push -f origin main
+</span></code></pre>
+<p>設定ファイルを作成したら commit / push する。</p>
+<p>※ commit / push 前には config.yml で base_url を 自分の github pages の url に変更しておきましょう。</p>
+<p>※ Action が実行されれば OK。この時点で content が登録されていない場合は failure になるが、content 登録後に　Rerun して問題なければ OK。</p>
+<h3 id="depuroixian-yuzaming-github-io-ce-no-github-pages-she-ding">デプロイ先 ( ユーザ名.github.io ) 側の GitHub Pages 設定</h3>
+<ol>
+<li><code>ユーザ名.github.io</code> リポジトリの <code>Settings</code> &gt; <code>Pages</code> を開く。</li>
+<li><code>Build and deployment</code> 設定：
+<ul>
+<li><code>Source</code> : <code>Deploy from a branch</code> を選択する。</li>
+<li><code>Branch</code> : <code>main</code> ( or <code>master</code> )、フォルダは <code>/</code> (root) を選択して <code>Save</code> を押す。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="content-geng-xin-wotoriganisuru">content 更新をトリガーにする</h2>
+<p>上記の設定の場合、my-portfolio への更新 ( main に push ) が Actions のトリガーになります。<br />
+通常は content が更新された場合にサイトが更新される方が便利でしょう。</p>
+<p>この場合以下の設定をアプリ側 ( my-portfolio ) とコンテンツ側 ( my-portfolio-content ) に追加しましょう。</p>
+<h3 id="apurice-my-portfolio-noshe-ding">アプリ側 ( my-portfolio ) の設定</h3>
+<p>アプリ側の <code>.github/workflows/deploy.yml</code> の <code>on:</code> セクションを書き換えて、コンテンツ側からの合図 ( repository_dispatch ) を待ち受けられるようにします。</p>
+<h4 id="github-workflows-deploy-yml-1">.github/workflows/deploy.yml</h4>
+<p>頭に以下を追記します。</p>
+<p>アプリ側のリポジトリに実施したのと同じ方法で、<code>GH_PAT</code> Secrets 登録も行ってください。</p>
+<pre data-lang="yaml" style="background-color:#2b303b;color:#c0c5ce;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Build and Deploy Zola Site
+</span><span>
+</span><span style="color:#d08770;">on</span><span>:
+</span><span>  </span><span style="color:#bf616a;">push</span><span>:
+</span><span>    </span><span style="color:#bf616a;">branches</span><span>:
+</span><span>      - </span><span style="color:#a3be8c;">main </span><span style="color:#65737e;"># または master
+</span><span>  </span><span style="color:#65737e;"># 外部 ( コンテンツ側 ) からの待ち受け設定を追記
+</span><span>  </span><span style="color:#bf616a;">repository_dispatch</span><span>:
+</span><span>    </span><span style="color:#bf616a;">types</span><span>: [</span><span style="color:#a3be8c;">content_updated</span><span>]
+</span><span>
+</span><span style="color:#bf616a;">jobs</span><span>:
+</span><span>  </span><span style="color:#bf616a;">build-and-deploy</span><span>:
+</span><span>    </span><span style="color:#bf616a;">runs-on</span><span>: </span><span style="color:#a3be8c;">ubuntu-latest
+</span><span>    </span><span style="color:#65737e;">#  ( 以下略 )
+</span></code></pre>
+<h3 id="kontentuce-my-portfolio-content-noshe-ding">コンテンツ側 ( my-portfolio-content ) の設定</h3>
+<h3 id="github-workflows-deploy-yml-2">.github/workflows/deploy.yml</h3>
+<p>設定を新規作成します。</p>
+<pre data-lang="yaml" style="background-color:#2b303b;color:#c0c5ce;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Trigger App Build on Content Push
+</span><span>
+</span><span style="color:#d08770;">on</span><span>:
+</span><span>  </span><span style="color:#bf616a;">push</span><span>:
+</span><span>    </span><span style="color:#bf616a;">branches</span><span>:
+</span><span>      - </span><span style="color:#a3be8c;">main </span><span style="color:#65737e;"># 記事（Markdown）を管理するメインブランチに合わせる
+</span><span>
+</span><span style="color:#bf616a;">jobs</span><span>:
+</span><span>  </span><span style="color:#bf616a;">trigger_dispatch</span><span>:
+</span><span>    </span><span style="color:#bf616a;">runs-on</span><span>: </span><span style="color:#a3be8c;">ubuntu-latest
+</span><span>    </span><span style="color:#bf616a;">steps</span><span>:
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Repository Dispatch
+</span><span>        </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">peter-evans/repository-dispatch@v3
+</span><span>        </span><span style="color:#bf616a;">with</span><span>:
+</span><span>          </span><span style="color:#bf616a;">token</span><span>: </span><span style="color:#a3be8c;">${{ secrets.GH_PAT }} </span><span style="color:#65737e;"># コンテンツ側にも同じGH_PATをSecretに登録しておく
+</span><span>          </span><span style="color:#bf616a;">repository</span><span>: </span><span style="color:#a3be8c;">mosaos/my-portfolio </span><span style="color:#65737e;"># ターゲットとなるアプリ側のリポジトリ
+</span><span>          </span><span style="color:#bf616a;">event-type</span><span>: </span><span style="color:#a3be8c;">content_updated </span><span style="color:#65737e;"># アプリ側のtypesで待ち受けている名前と完全一致させる（ハイフンに注意）
+</span></code></pre>
+<hr />
+<h2 id="zola-daisyui-blog-nogeng-xin-nizhui-sui-suru">zola-daisyui-blog の更新に追随する</h2>
+<h3 id="upstream-deng-lu">upstream 登録</h3>
+<p><code>Use this template</code> で作成したリポジトリは、Fork とは異なり元のリポジトリとは完全に独立した状態になっています。もし、元のテンプレートリポジトリの更新に追随したいときは以下を実行しておきましょう。</p>
+<p>作製したプロジェクトのルートに移動し</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span> my-portfolio
+</span></code></pre>
+<p>upstream 設定する。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> remote add upstream https://github.com/mosaos/zola-daisyui-blog
+</span></code></pre>
+<p>登録できたかは以下で確認できます。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> remote</span><span style="color:#bf616a;"> -v
+</span></code></pre>
+<h3 id="yuan-notenpuretonobian-geng-woshi-yong-suru">元のテンプレートの変更を適用する</h3>
+<p>まずは変更を取得します。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> fetch upstream
+</span></code></pre>
+<p>通常のマージだと履歴が無関係と判断されてしまうため <code>--allow-unrelated-histories</code> を付けて merge します。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> merge upstream/main</span><span style="color:#bf616a;"> --allow-unrelated-histories
+</span></code></pre>
+<p>元テンプレートの変更がマージされます。自分が書き換えた部分とテンプレートの更新部分でコンフリクトがあれば、修正します。</p>
+<p>修正が完了したらコミットしましょう。</p>
+<p>あとは自分のリポジトリに push して完了です。</p>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (JA)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/ja/">
+            <i class="fa-solid fa-home w-5"></i><span>ホーム</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>ブログ</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>作品</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja//tags">
+            <i class="fa-solid fa-tags w-5"></i><span>タグ</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/ja/tags/ato/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#アート</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/besutopurakuteisu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ベストプラクティス</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/burogu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ブログ</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cai-feng/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#裁縫</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Github</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/jie-hun-shi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#結婚式</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/potari/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ポタリー</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/puroziekuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#プロジェクト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rezakurahuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#レザークラフト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/tao-qi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#陶器</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

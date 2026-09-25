@@ -1,0 +1,906 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    ベストプラクティス cron | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="ベストプラクティス cron | mosaos">
+<meta property="og:description" content="cron の俺的ベストプラクティスw">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-cron&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-cron&#x2F;linux-logo.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ベストプラクティス cron | mosaos">
+<meta name="twitter:description" content="cron の俺的ベストプラクティスw">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-cron&#x2F;linux-logo.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ベストプラクティス cron",
+    "description": "cron の俺的ベストプラクティスw",
+    "url": "https://mosaos.github.io/ja/blog/best-practice-cron/",
+    
+    "datePublished": "2026-09-22",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/ja/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-cron&#x2F;"
+            class="">
+            EN
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-cron&#x2F;"
+            class="active font-bold">
+            JA
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/ja/" class="hover:text-primary transition-colors">
+        ホーム
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/ja/blog/" class="hover:text-primary transition-colors">
+        ブログ
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      ベストプラクティス cron
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      ベストプラクティス cron
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-22
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/ja/tags/linux/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Linux
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/cron/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #cron
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/besutopurakuteisu/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #ベストプラクティス
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">目次</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#kai-fa" class="hover:underline py-1">開発</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#etc-cron-d-woshi-u" class="text-xs opacity-80 hover:underline py-0.5">
+                &#x2F;etc&#x2F;cron.d を使う</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#tasukuwoshi-xing-surusierusukuriputowoli-yong-suru" class="text-xs opacity-80 hover:underline py-0.5">
+                タスクを実行するシェルスクリプトを利用する</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#sukuriputonokodeingururuwojue-meru" class="text-xs opacity-80 hover:underline py-0.5">
+                スクリプトのコーディングルールを決める</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#baziyonguan-li-suru" class="text-xs opacity-80 hover:underline py-0.5">
+                バージョン管理する</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#duo-zhong-qi-dong-wofang-gu" class="text-xs opacity-80 hover:underline py-0.5">
+                多重起動を防ぐ</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#taimuautowoshi-u" class="text-xs opacity-80 hover:underline py-0.5">
+                タイムアウトを使う</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#yun-yong" class="hover:underline py-1">運用</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#quan-xian-wojiao-ru" class="text-xs opacity-80 hover:underline py-0.5">
+                権限を絞る</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#chu-li-woshe-tenai" class="text-xs opacity-80 hover:underline py-0.5">
+                出力を捨てない</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-cron/#sonota" class="hover:underline py-1">その他</a>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <p>cron の一時停止で問題が発生したのを契機に、差分管理等の話が某所で出たので cron のベストプラクティスに関して示す。</p>
+<p>※ とりあえず話聞いて思ってた事、思いついた事を書いただけなので、そのうち他の項目も思い出したり「やっぱこれ違ってた」になるかもしれない。<br />
+※ 俺の cron 的な Tips なので、適当なカスタマイズやプロジェクト毎の最適化推奨。</p>
+<p>※ かつての記事のリライトのため、現状の環境とは異なる部分があります。</p>
+<h2 id="kai-fa">開発</h2>
+<p>まずは開発 ( cron実装/設定者 ) 寄りのプラクティスから。</p>
+<h3 id="etc-cron-d-woshi-u">/etc/cron.d を使う</h3>
+<p>利用している環境でサポートしている事が前提になりますが、可能であれば <code>/etc/cron.d/</code> を利用しましょう。<br />
+※ <code>crontab -e</code> で直接 crontab を編集しない。</p>
+<p>具体的には /etc/cron.d/ 下に複数の crontab 設定ファイルを配置します。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">ls</span><span> /etc/cron.d/
+</span><span style="color:#bf616a;">system-a
+</span><span style="color:#bf616a;">system-b
+</span></code></pre>
+<p>system-a の例</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># system-a cron jobs
+</span><span style="color:#bf616a;">SHELL</span><span>=</span><span style="color:#a3be8c;">/bin/bash
+</span><span style="color:#bf616a;">PATH</span><span>=</span><span style="color:#a3be8c;">/sbin:/bin:/usr/sbin:/usr/bin
+</span><span style="color:#bf616a;">MAILTO</span><span>=</span><span style="color:#a3be8c;">root
+</span><span style="color:#bf616a;">0 </span><span>* * * *  sysauser sysa-task01
+</span><span style="color:#bf616a;">30 </span><span>* * * * sysauser sysa-task02
+</span></code></pre>
+<p>これにより</p>
+<ul>
+<li>crontab 設定を意味のある形でグループ化できる。</li>
+<li>個々の設定に適切なパーミッションを付与する事で、他システムの crontab 設定を不要に編集しないようにする事も可能。</li>
+<li>cron 用のシェルスクリプト ( 後述 ) と同様にバージョン管理する場合によりよく機能する。</li>
+</ul>
+<p>個々のユーザが利用する cron 設定を許容する ( ユーザが <code>crontab -e</code> で設定を編集する ) のもOKですが、多くの場合、個々のユーザが cron を利用する・しなければならないユースケースは少ないと思われます。</p>
+<h3 id="tasukuwoshi-xing-surusierusukuriputowoli-yong-suru">タスクを実行するシェルスクリプトを利用する</h3>
+<p>簡単なコマンドやワンライナーで実行可能な処理の場合に、crontab に直接システムやミドルウェアのコマンドを記載する事は可能ですが、
+組織で管理するタスクを実行する場合には、必ずタスクを実行するシェルスクリプトを作成し、このファイルに処理を実装。crontab にはシェルスクリプトを実行するように指定する方法をお勧めします。<br />
+こうする事で以下のようなメリットが生まれます。</p>
+<ul>
+<li>cron 実行時にはユーザがログインした場合とは環境変数の扱いが異なるためにトラブルが発生する事がある。シェルスクリプト化する事で、コマンド実行前に必要な環境変数を設定したり、場合によっては変更する事が容易になる。</li>
+<li>シェルスクリプト自体をバージョン管理する事で、処理内容の変更履歴をトラッキングしたり、PR/MRプロセスを挟む事で適切なレビューを行うといった事が可能になる。</li>
+<li>cron で指定したスクリプトから別の ( 環境変数の設定や通知、ログ出力等の ) 共通処理用スクリプトを呼び出してから実処理を呼び出すといった事も容易になる。</li>
+</ul>
+<h3 id="sukuriputonokodeingururuwojue-meru">スクリプトのコーディングルールを決める</h3>
+<p>がっちりルール化する必要はないかと思いますが、判りやすいテンプレートを用意するなどして、記載レベルや処理内容をできる範囲で統一した方がよいでしょう。</p>
+<ul>
+<li>適度な粒度でコメントを書く</li>
+<li>変更される可能性のある値は変数化</li>
+<li>共通処理を決めてこれを使う。<br />
+共通スクリプト化して呼び出す等</li>
+</ul>
+<h3 id="baziyonguan-li-suru">バージョン管理する</h3>
+<p>バージョン管理をする理由としては、問題発生時に元に戻したり、差分を確認したりする事ももちろんですが、これ以外に以下の点も目指す。</p>
+<ul>
+<li>
+<p>CI/CD によるデプロイ<br />
+現状 アプリケーションのデプロイに関しては CI/CD によるデプロイを行っているプロジェクトも増えてきていると思いますが、Linux のスクリプトや cron 設定等もバージョン管理システムで管理し、CI/CD によるデプロイを行うようにすべきです。<br />
+<a href="https://12factor.net">The Twelve Factor App</a> で提唱されている内容等にも繋がりますね。</p>
+</li>
+<li>
+<p>PR/MR によるレビュー<br />
+リリース/変更絡みでインシデントが発生した場合に、</p>
+<ul>
+<li>一人で作業した。</li>
+<li>チェック体制がなかった。機能していなかった。</li>
+<li>レビューを行っていなかった。<br />
+ので対策として「これからはちゃんとする」。</li>
+</ul>
+<p>といった話を何度も聞いている気がしますが、この手の対策はスローガンだけ掲げてもまたそのうち元に戻る事が多い。<br />
+常に PR/MR (プルリクエスト/マージリクエスト) を行う形にして、必ずチェックが入るようにシステム/ツールの力を借りる方が改善効果が高いです。</p>
+</li>
+</ul>
+<p>※ GitLab でも push 可能な権限を制限できるはず。MR必須の運用にするならば、指定ブランチへの直pushを制限する等 ( スローガンではなく ) ツールで制約を。</p>
+<h3 id="duo-zhong-qi-dong-wofang-gu">多重起動を防ぐ</h3>
+<p>アプリケーションを実装する場合には、処理言語系 ( Java 等 ) で多重起動を防ぐための仕組みを利用するのも可だが、Linux の標準ツールである <code>flock</code> を使う事で多重起動を防ぐ事が可能。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">*/5 </span><span>* * * *  appuser  flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-task.lock cron-task
+</span></code></pre>
+<p>実際の例を以下に示す。</p>
+<h4 id="sukuriputo">スクリプト</h4>
+<p>処理内容を含むスクリプトを作る。<br />
+/root/scripts/sleep.sh を以下で作成。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;">#!/bin/bash
+</span><span>
+</span><span style="color:#bf616a;">INTERVAL</span><span>=</span><span style="color:#a3be8c;">300
+</span><span>
+</span><span style="color:#bf616a;">sleep </span><span>$</span><span style="color:#bf616a;">INTERVAL
+</span><span>
+</span><span style="color:#96b5b4;">echo  </span><span>&quot;$</span><span style="color:#bf616a;">INTERVAL</span><span style="color:#a3be8c;"> sec slept</span><span>&quot;
+</span></code></pre>
+<p>インターバルで指定した秒数スリープした後 echo でメッセージ出力するだけ。<br />
+300 秒 ( 5分間 ) ジョブ継続するように指定。</p>
+<h4 id="cron-she-ding">cron 設定</h4>
+<p>cron 設定は /etc/cron.d/test ファイルを作る。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># put some comment here
+</span><span style="color:#bf616a;">* </span><span>* * * * root flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh
+</span></code></pre>
+<p>flock で多重起動されないようにしています。<br />
+実行は 1 分間隔。</p>
+<h4 id="shi-xing-jie-guo">実行結果</h4>
+<p>/var/log/cron の出力</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">Feb</span><span>  8 16:07:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7083</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:08:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7087</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:09:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7089</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:10:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7091</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:11:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7093</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:12:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7082</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (300 sec slept)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:12:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7096</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:13:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7100</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:14:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7102</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:15:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7104</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:16:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7108</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (flock</span><span style="color:#bf616a;"> -n</span><span> /var/lock/cron-test-sleep.lock /root/scripts/sleep.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:17:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7095</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (300 sec slept)
+</span></code></pre>
+<p>1 分間隔で cron ジョブが実行されていますが、実際の処理 ( echo ) は5分間隔になっているのが確認できます。</p>
+<h3 id="taimuautowoshi-u">タイムアウトを使う</h3>
+<p>タスクの種類によってはタイムアウトを利用するのが有用な場合があります。<br />
+通常 cron で実行されるジョブは時間制限なしで実行されますが、場合によっては望ましくない場合があります。<br />
+一定間隔で実行しているジョブの場合に、一定時間で終了しないと重複してジョブ実行される等。</p>
+<p>こういった場合 <code>timeout</code> ( /usr/bin/timeout ) を利用する等して、実行時間を制限できないか試してみるとよいでしょう。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">*/5 </span><span>* * * *  appuser  timeout 10s cron-task
+</span></code></pre>
+<p>flock と同様、実際の例を以下に示す。</p>
+<h4 id="sukuriputo-1">スクリプト</h4>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;">#!/bin/bash
+</span><span>
+</span><span style="color:#b48ead;">while </span><span style="color:#bf616a;">true
+</span><span style="color:#b48ead;">do
+</span><span>  </span><span style="color:#bf616a;">date
+</span><span>  </span><span style="color:#bf616a;">sleep</span><span> 1
+</span><span style="color:#b48ead;">done
+</span></code></pre>
+<p>1秒間隔で <code>date</code> 出力</p>
+<h4 id="cron-she-ding-1">cron 設定</h4>
+<p>/etc/cron.d/test ファイルを編集。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># put some comment here
+</span><span style="color:#bf616a;">* </span><span>* * * * root timeout 10s /root/scripts/loop.sh
+</span></code></pre>
+<p>10秒でタイムアウト。</p>
+<h4 id="shi-xing-jie-guo-1">実行結果</h4>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">Feb</span><span>  8 16:49:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7261</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (timeout 10s /root/scripts/loop.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:01 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:02 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:02 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:03 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:03 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:04 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:04 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:05 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:05 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:06 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:06 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:07 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:07 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:08 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:08 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:09 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:09 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:49:10 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7260</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:49:10 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7287</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMD</span><span> (timeout 10s /root/scripts/loop.sh)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:01 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:01 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:02 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:02 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:03 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:03 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:04 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:04 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:05 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:05 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:06 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:06 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:07 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:07 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:08 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:08 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:09 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:09 JST)
+</span><span style="color:#bf616a;">Feb</span><span>  8 16:50:10 mosaos-dev CROND</span><span style="color:#b48ead;">[</span><span>7286</span><span style="color:#b48ead;">]</span><span>: (root) </span><span style="color:#bf616a;">CMDOUT</span><span> (2022年  2月  8日 火曜日 16:50:10 JST)
+</span></code></pre>
+<p>10秒で処理が中断されているのが判る。タスクによっては途中終了するのは大分まずい可能性があるので、使いどころは注意する事。</p>
+<h2 id="yun-yong">運用</h2>
+<p>運用寄りのプラクティス。</p>
+<h3 id="quan-xian-wojiao-ru">権限を絞る</h3>
+<p>cron ジョブを実行する場合には実行ユーザ名を適切に指定し権限を制限する。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">0 </span><span>* * * *  root  cron-task
+</span></code></pre>
+<p>上記の crontab 設定は root ユーザで実行するように指定していますが、rootで実行された場合、例えば実行ジョブがシステムディレクトリの重要部分を破壊するものであっても、制限を行うのが困難になります。
+アプリケーション毎に必要最小限の権限を有するユーザを作成し、これらユーザを指定する方がよいでしょう。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">0 </span><span>* * * *  appuser  cron-task
+</span></code></pre>
+<h3 id="chu-li-woshe-tenai">出力を捨てない</h3>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">*/5 </span><span>* * * *  appuser  cron-task &gt;/dev/null </span><span style="color:#d08770;">2</span><span>&gt;&amp;</span><span style="color:#d08770;">1
+</span></code></pre>
+<p><code>/dev/null</code> にリダイレクトしない。<br />
+ネットのサンプル等を見てそのまま記載した場合に、よく判らずに出力を捨ててしまっている場合があるかもしれません。<br />
+が、問題が発生した場合の手がかりを捨てる事になるので、特別な理由がない限り出力は捨てないでおきましょう。</p>
+<hr />
+<h2 id="sonota">その他</h2>
+<ul>
+<li>インシデント管理では対策は行われず対応したのみでチケットクローズしてる現場も多数見てきたのだが、その手の環境では、不注意でやっちゃいました系は今後も起こり続ける可能性が高いだろう。<br />
+似たような問題が頻発する場合、その手の問題が発生しにくいプラットフォーム (ジョブ管理ツール) の導入を検討した方がよい。</li>
+<li>商用管理ツールは高い... という場合、オープンソースという手もある。<a href="https://dolphinscheduler.apache.org/">DolphinScheduler</a> とか。<br />
+使ったことないけど、画面イメージ見た感じはいい感じかも。big data distributed workflow scheduling system の謳い文句通りであれば今後暫くは使えそう。</li>
+<li>今後、コンテナ化を推進するのであれば k8s の <a href="https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/">CronJob</a> を利用する等。<br />
+プラットフォームによって最適な選択肢は変わってくる可能性も考慮すべし。</li>
+<li>ベストプラクティスがあっても、実装する個々の開発者や運用担当者が実施しなければ意味はない。<br />
+プロジェクトや担当者レベルで対応するよりは企業全体である程度の方針を示してベストプラクティスは横展開すべき。</li>
+</ul>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (JA)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/ja/">
+            <i class="fa-solid fa-home w-5"></i><span>ホーム</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>ブログ</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>作品</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja//tags">
+            <i class="fa-solid fa-tags w-5"></i><span>タグ</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/ja/tags/ato/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#アート</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/besutopurakuteisu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ベストプラクティス</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/burogu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ブログ</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cai-feng/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#裁縫</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Github</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/jie-hun-shi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#結婚式</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/potari/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ポタリー</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/puroziekuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#プロジェクト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rezakurahuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#レザークラフト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/tao-qi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#陶器</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

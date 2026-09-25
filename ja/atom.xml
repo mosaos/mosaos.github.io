@@ -1,0 +1,2124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja">
+    <title>mosaos</title>
+    <link href="https://mosaos.github.io/ja/atom.xml" rel="self" type="application/atom+xml"/>
+    <link href="https://mosaos.github.io"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-09-25T00:00:00+00:00</updated>
+    <id>https://mosaos.github.io/ja/atom.xml</id>
+    <entry xml:lang="ja">
+        <title>Zola daisyUI blog</title>
+        <published>2026-09-25T00:00:00+00:00</published>
+        <updated>2026-09-25T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/zola-daisyui-blog/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/zola-daisyui-blog/</id>
+        
+        <content type="html">&lt;h2 id=&quot;hazimeni&quot;&gt;はじめに&lt;&#x2F;h2&gt;
+&lt;p&gt;Zola + daisyUI 使ったブログテンプレート作ったので、備忘録かねて記事にしてます。&lt;&#x2F;p&gt;
+&lt;p&gt;作った理由、セットアップ手順等を記しています。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;nazezuo-tutaka&quot;&gt;なぜ作ったか？&lt;&#x2F;h2&gt;
+&lt;p&gt;以前から Github pages での個人情報発信は考えていたのだが、ようやく重い腰を上げてアプリを構築した。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;mosaos&#x2F;zola-daisyui-blog&quot;&gt;mosaos&#x2F;zola-daisyui-blog&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;※ 実例は当サイト&lt;&#x2F;p&gt;
+&lt;p&gt;当初 React-typescript で簡単なものを実装したり(markdown を表示可能にするところまでは作ってた)、Astro 使う方がとかの AI アドバイスに従って試したりしてたのだが、最終的には以下の技術スタックに落ち着くことに。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Zola&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+Rust 製の SSG ( 静的サイトジェネレータ )&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;daisyUI&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+tailwind CSS 状のコンポーネントライブラリ&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;Github pages&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+当初からの要件&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;node 止めたのはメンテ地獄にはなりたくないという理由。実務でも React 案件には携わったりしてるのだが、node 系は&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;関連するパッケージが多い&lt;&#x2F;li&gt;
+&lt;li&gt;セキュリティ(脆弱性)対応多い&lt;&#x2F;li&gt;
+&lt;li&gt;破壊的変更多い&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;破壊的変更は私の得意な言語が Java ( Spring Boot とか)のせいもあるのだが、中身変わってないのにメンテが発生するのは、仕事でやるのはさておき個人の情報発信では面倒。&lt;&#x2F;p&gt;
+&lt;p&gt;といった理由で上記の構成になったのだ。 daisyUI も node 必要という人もいるかもだが、CDNで公開されている full.css とかを利用すれば tailwind &#x2F; daisyUI のビルドプロセスは無しで使える (全部入りにはなる)。最適化がーって話もあるかもだが、メンテ地獄嫌！が最重要な要件なので、CDNのリソース使うのは正義。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;ji-neng&quot;&gt;機能&lt;&#x2F;h2&gt;
+&lt;p&gt;作ったテンプレ。詳細は README.md 参照なのだが、以下のようになっている。&lt;br &#x2F;&gt;
+※ ほぼほぼ Zola&#x2F;daisyUI 等の特性ではある。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;レスポンシブデザイン&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+daisyUIとTailwind CSSによる、モバイルにも対応したシンプルで使いやすいレイアウト。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;Markdownベース&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+Markdown でブログ記事やポートフォリオ作品を簡単に作成可能。記事には目次 ( TOC ) を表示することもできます。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;多言語対応&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+多言語切り替え機能を標準搭載。必要に応じて任意の数の言語に拡張可能。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;静的サイト生成 ( SSG )&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+高速かつ安全で、Node.jsなどのサーバーサイドランタイムを必要としない。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;Dev Containers対応&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+開発環境をすぐに構築でき、環境構築の手間を軽減。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;タグ対応&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+タグ付けにより、コンテンツを整理・分類できる。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;画像カルーセル &#x2F; スライドショー&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+ポートフォリオ作品などに複数の写真や画像を表示できる、カルーセルを用意。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;kai-fa-huan-jing&quot;&gt;開発環境&lt;&#x2F;h2&gt;
+&lt;p&gt;以下で確認しています。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows 11&lt;&#x2F;li&gt;
+&lt;li&gt;WSL2 ( Ubuntu )&lt;&#x2F;li&gt;
+&lt;li&gt;docker-ce&lt;br &#x2F;&gt;
+Dev Container 使う場合。Desktop ではない。企業でライセンス無い場合も可能。&lt;&#x2F;li&gt;
+&lt;li&gt;VS Code&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;gou-zhu-shou-shun&quot;&gt;構築手順&lt;&#x2F;h2&gt;
+&lt;p&gt;アプリ部分は Template プロジェクトとして github に登録してあります。お勧めの手順は以下。&lt;&#x2F;p&gt;
+&lt;p&gt;尚、ローカルでの動作確認のためにシンボリックリンクを使うので WSL2 上推奨です ( windows の場合 )。&lt;br &#x2F;&gt;
+※ Mac は知らんのだ。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ge-zhong-ripozitorinozuo-cheng&quot;&gt;各種リポジトリの作成&lt;&#x2F;h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;mosaos&#x2F;zola-daisyui-blog&quot;&gt;mosaos&#x2F;zola-daisyui-blog&lt;&#x2F;a&gt; にアクセス。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Use this template&lt;&#x2F;code&gt; &amp;gt; &lt;code&gt;Create a new repository&lt;&#x2F;code&gt; をクリック。自分のリポジトリとして作成する ( &lt;code&gt;my-portfolio&lt;&#x2F;code&gt; 等 )。&lt;code&gt;Private&lt;&#x2F;code&gt; でもOK。&lt;&#x2F;li&gt;
+&lt;li&gt;コンテンツ用リポジトリを別途作成する。&lt;code&gt;my-portfolio-content&lt;&#x2F;code&gt; 等。&lt;code&gt;Private&lt;&#x2F;code&gt; でよい。&lt;br &#x2F;&gt;
+これはアプリ部分とコンテンツ部分を分離することで、今後アプリ部分がアップデートした場合に更新しやするするため。面倒な場合は、分離せずに、2 の &lt;code&gt;my-portfolio&lt;&#x2F;code&gt; にコンテンツを含めても問題ない。&lt;&#x2F;li&gt;
+&lt;li&gt;github pages 用のリポジトリを作製する (&lt;code&gt;Public&lt;&#x2F;code&gt;)。ドメイン直下で公開する場合には &lt;code&gt;ユーザ名.github.io&lt;&#x2F;code&gt; をリポジトリ名とする。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h3 id=&quot;yi-dan-rokarudedong-zuo-que-ren&quot;&gt;一旦ローカルで動作確認&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;※コンテンツ用リポジトリを分離していない場合は、シンボリックで付け替える作業は不要&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h4 id=&quot;fei-devcontainer-nochang-he&quot;&gt;非 DevContainer の場合&lt;&#x2F;h4&gt;
+&lt;p&gt;コンテンツをアプリ側の &lt;code&gt;content&lt;&#x2F;code&gt; にシンボリックリンクする。&lt;&#x2F;p&gt;
+&lt;p&gt;アプリ側 ( &lt;code&gt;my-portfolio&lt;&#x2F;code&gt; ) 側の &lt;code&gt;content&lt;&#x2F;code&gt; は削除&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;path&#x2F;to&#x2F;my-portfolio
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rm -rf&lt;&#x2F;span&gt;&lt;span&gt; content
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;コンテンツリポジトリ(&lt;code&gt;my-portfolio-content&lt;&#x2F;code&gt;)をシンボリックリンク&lt;br &#x2F;&gt;
+※ 以下は &lt;code&gt;my-portfolio&lt;&#x2F;code&gt; と &lt;code&gt;my-portfolio-content&lt;&#x2F;code&gt; が同じ階層にある場合&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ln -s&lt;&#x2F;span&gt;&lt;span&gt; ..&#x2F;my-portfolio-content content
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;devcontainer-nochang-he&quot;&gt;DevContainer の場合&lt;&#x2F;h4&gt;
+&lt;p&gt;シンボリックリンクは機能しないため、mount する。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;my-portfolio&lt;&#x2F;code&gt; の &lt;code&gt;content&lt;&#x2F;code&gt; は削除せずに中身を消しておく。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;my-portfolio&lt;&#x2F;code&gt; の &lt;code&gt;devcontainer.json&lt;&#x2F;code&gt; に以下 ( &lt;code&gt;mounts&lt;&#x2F;code&gt; 定義 ) を追記する。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;json&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-json &quot;&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;forwardPorts&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: [
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1111
+&lt;&#x2F;span&gt;&lt;span&gt;    ],
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; ホスト側の content 用リポジトリを、コンテナ内の zola 側 content ディレクトリにバインドマウントする
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mounts&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: [
+&lt;&#x2F;span&gt;&lt;span&gt;        {
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;source&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;${localWorkspaceFolder}&#x2F;..&#x2F;my-portfolio-content&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;target&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;${containerWorkspaceFolder}&#x2F;content&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bind&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    ]
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; &amp;quot;remoteUser&amp;quot;: &amp;quot;root&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;設定したら &lt;code&gt;Rebuild Container&lt;&#x2F;code&gt; して、DevContainer から &lt;code&gt;content&lt;&#x2F;code&gt; の中身が見えれば(リンクされていれば)成功&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;dong-zuo-que-ren&quot;&gt;動作確認&lt;&#x2F;h4&gt;
+&lt;p&gt;ローカルで動作確認&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;path&#x2F;to&#x2F;my-portfolio
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;DevContainer の場合は、VS Code に入って DevContainer のターミナルから確認する。&lt;&#x2F;p&gt;
+&lt;p&gt;そうでない場合には WSL2(Ubuntu) に導入した zola を使って確認すればOK&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span&gt; .
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zola&lt;&#x2F;span&gt;&lt;span&gt; serve&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --interface&lt;&#x2F;span&gt;&lt;span&gt; 0.0.0.0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --port&lt;&#x2F;span&gt;&lt;span&gt; 1111&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --base-url&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;VSCode の場合、&lt;code&gt;Your application running on port 1111 is available. See all forwarded ports&lt;&#x2F;code&gt; というダイアログが表示されるので、&lt;code&gt;Open in Browser&lt;&#x2F;code&gt; をクリックして、サイトが表示されれば OK。&lt;br &#x2F;&gt;
+非 VS Code の場合、http:&#x2F;&#x2F;localhost:1111&#x2F; を開いて確認できれば OK。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;gitignore-nodiao-zheng&quot;&gt;.gitignore の調整&lt;&#x2F;h3&gt;
+&lt;p&gt;動作が確認できたら、&lt;br &#x2F;&gt;
+&lt;code&gt;my-portfolio&lt;&#x2F;code&gt; 側で &lt;code&gt;my-portfolio-content&lt;&#x2F;code&gt; のファイルを多重管理しないように &lt;code&gt;content&lt;&#x2F;code&gt; フォルダ以下は除外しておく ( 以下を追記 )。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;.gitignore&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-.gitignore &quot;&gt;&lt;code class=&quot;language-.gitignore&quot; data-lang=&quot;.gitignore&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;content&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;my-portfolio&lt;&#x2F;code&gt; で以下も行っておいた方がいいかも。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span&gt; rm&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --cached -r&lt;&#x2F;span&gt;&lt;span&gt; content
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;ここまでで ローカル側での開発&#x2F;確認環境が出来たことになる。&lt;&#x2F;p&gt;
+&lt;p&gt;必要に応じてコンテンツ追加や、アプリ部分のカスタマイズ等を行うのだ。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;pat-github-personal-access-token-nozhun-bei&quot;&gt;PAT(GitHub Personal Access Token)の準備&lt;&#x2F;h3&gt;
+&lt;p&gt;ここからは GitHub Actions で GitHub Pages にサイトを公開するための設定になる。&lt;br &#x2F;&gt;
+※ ローカル&#x2F;Dev Container の Zola でSSG 生成して手動でページ公開するといった場合には必要ない。&lt;&#x2F;p&gt;
+&lt;p&gt;my-portfolio からは別のプライベートリポジトリ ( my-portfolio-content )と、公開リポジトリ ( ユーザ名.github.io ) へのアクセス権が必要になる。以下の手順で PAT を用意する。&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;画面右の自分のアイコンから &lt;code&gt;Settings&lt;&#x2F;code&gt; &amp;gt; &lt;code&gt;Developer settings&lt;&#x2F;code&gt; &amp;gt; &lt;code&gt;Personal access tokens&lt;&#x2F;code&gt; から &lt;code&gt;Tokens (classic)&lt;&#x2F;code&gt; を開く&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Generate new token (classic)&lt;&#x2F;code&gt; をクリック&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Note に説明 ( &lt;code&gt;portfolio deploy token&lt;&#x2F;code&gt; 等 ) を記載し、Expiration Date を設定する&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;推奨&lt;&#x2F;strong&gt;:&lt;br &#x2F;&gt;
+セキュリティの観点から &lt;strong&gt;&lt;code&gt;30 days&lt;&#x2F;code&gt; または &lt;code&gt;60 days&lt;&#x2F;code&gt;&lt;&#x2F;strong&gt; ( 定期的な更新が必要 )&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;個人運用での妥協案&lt;&#x2F;strong&gt;:&lt;br &#x2F;&gt;
+更新の手間を減らしたい場合は &lt;strong&gt;&lt;code&gt;90 days&lt;&#x2F;code&gt;&lt;&#x2F;strong&gt;（期限切れ間近にリマインドメールが届く）&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;※ &lt;code&gt;No expiration&lt;&#x2F;code&gt;(無期限) はトークン漏洩時のリスクが高いため非推奨。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Select scopes&lt;&#x2F;code&gt; で以下にチェックを入れる&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;repo&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;ページ下部の &lt;code&gt;Generate token&lt;&#x2F;code&gt; をクリックし、生成されたトークを控えておく ( ※ 一度閉じると再表示不可 )&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h3 id=&quot;github-secrets-hedeng-lu&quot;&gt;GitHub Secrets へ登録&lt;&#x2F;h3&gt;
+&lt;p&gt;発行したトークンを、アプリ側のリポジトリ ( &lt;code&gt;my-portfolio&lt;&#x2F;code&gt; ) に秘密鍵として登録する。&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;自分の &lt;code&gt;my-portfolio&lt;&#x2F;code&gt; リポジトリのページを開く。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Settings&lt;&#x2F;code&gt; &amp;gt; &lt;code&gt;Secrets and variables&lt;&#x2F;code&gt; &amp;gt; &lt;code&gt;Actions&lt;&#x2F;code&gt; に移動する。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;New repository secret&lt;&#x2F;code&gt; をクリックする。
+&lt;ul&gt;
+&lt;li&gt;Name: GH_PAT ( または分かりやすい名前 )&lt;&#x2F;li&gt;
+&lt;li&gt;Secret: さっきコピーしたPAT の文字列を貼り付ける。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Add secret&lt;&#x2F;code&gt; で保存。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h3 id=&quot;githhub-actions-wakuhuronozuo-cheng&quot;&gt;GithHub Actions ワークフローの作成&lt;&#x2F;h3&gt;
+&lt;p&gt;アプリ側のリポジトリ ( &lt;code&gt;my-portfolio&lt;&#x2F;code&gt; ) のルートに、GitHub Actions 用の設定ファイルを作成する。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 作者の設定になっているので適宜変更すること&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;github-workflows-deploy-yml&quot;&gt;.github&#x2F;workflows&#x2F;deploy.yml&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;yaml&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-yaml &quot;&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Build and Deploy Zola Site
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;on&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;branches&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;main &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# または master ( 自身のメインブランチに合わせる )
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;jobs&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;build-and-deploy&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;runs-on&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ubuntu-latest
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;steps&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 1. アプリリポジトリをチェックアウト
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Checkout my-portfolio
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;uses&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;actions&#x2F;checkout@v4
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 2. コンテンツリポジトリ(Private)を content&#x2F; フォルダへ直接チェックアウト
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Checkout my-portfolio-content
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;uses&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;actions&#x2F;checkout@v4
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;with&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;repository&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mosaos&#x2F;my-portfolio-content &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ユーザー名&#x2F;コンテンツリポジトリ名
+&lt;&#x2F;span&gt;&lt;span&gt;          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;token&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;${{ secrets.GH_PAT }}
+&lt;&#x2F;span&gt;&lt;span&gt;          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;path&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;content
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 3. Zola のインストール
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Setup Zola
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;uses&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;taiki-e&#x2F;install-action@v2
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;with&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;tool&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;zola@0.17.2 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# バージョンは開発環境に合わせる
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 4. Zola でサイトをビルド
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Build Zola site
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;run&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;zola build
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 5. ビルド成果物（public&#x2F;）を mosaos.github.io リポジトリへプッシュ
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Push to mosaos.github.io
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;env&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GH_TOKEN&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;${{ secrets.GH_PAT }}
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;run&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;|
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          git config --global user.name &amp;quot;GitHub Actions Bot&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          git config --global user.email &amp;quot;actions@github.com&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          # ビルド結果が出力される public ディレクトリに移動
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          cd public
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          # Gitリポジトリとして初期化してプッシュ
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          git init
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          git checkout -b main
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          git remote add origin https:&#x2F;&#x2F;x-access-token:${{ secrets.GH_PAT }}@github.com&#x2F;mosaos&#x2F;mosaos.github.io.git
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          git add -A
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          git commit -m &amp;quot;Deploy from my-portfolio CI&#x2F;CD at $(date)&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;          git push -f origin main
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;設定ファイルを作成したら commit &#x2F; push する。&lt;&#x2F;p&gt;
+&lt;p&gt;※ commit &#x2F; push 前には config.yml で base_url を 自分の github pages の url に変更しておきましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;※ Action が実行されれば OK。この時点で content が登録されていない場合は failure になるが、content 登録後に　Rerun して問題なければ OK。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;depuroixian-yuzaming-github-io-ce-no-github-pages-she-ding&quot;&gt;デプロイ先 ( ユーザ名.github.io ) 側の GitHub Pages 設定&lt;&#x2F;h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;ユーザ名.github.io&lt;&#x2F;code&gt; リポジトリの &lt;code&gt;Settings&lt;&#x2F;code&gt; &amp;gt; &lt;code&gt;Pages&lt;&#x2F;code&gt; を開く。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Build and deployment&lt;&#x2F;code&gt; 設定：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Source&lt;&#x2F;code&gt; : &lt;code&gt;Deploy from a branch&lt;&#x2F;code&gt; を選択する。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Branch&lt;&#x2F;code&gt; : &lt;code&gt;main&lt;&#x2F;code&gt; ( or &lt;code&gt;master&lt;&#x2F;code&gt; )、フォルダは &lt;code&gt;&#x2F;&lt;&#x2F;code&gt; (root) を選択して &lt;code&gt;Save&lt;&#x2F;code&gt; を押す。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;content-geng-xin-wotoriganisuru&quot;&gt;content 更新をトリガーにする&lt;&#x2F;h2&gt;
+&lt;p&gt;上記の設定の場合、my-portfolio への更新 ( main に push ) が Actions のトリガーになります。&lt;br &#x2F;&gt;
+通常は content が更新された場合にサイトが更新される方が便利でしょう。&lt;&#x2F;p&gt;
+&lt;p&gt;この場合以下の設定をアプリ側 ( my-portfolio ) とコンテンツ側 ( my-portfolio-content ) に追加しましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;apurice-my-portfolio-noshe-ding&quot;&gt;アプリ側 ( my-portfolio ) の設定&lt;&#x2F;h3&gt;
+&lt;p&gt;アプリ側の &lt;code&gt;.github&#x2F;workflows&#x2F;deploy.yml&lt;&#x2F;code&gt; の &lt;code&gt;on:&lt;&#x2F;code&gt; セクションを書き換えて、コンテンツ側からの合図 ( repository_dispatch ) を待ち受けられるようにします。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;github-workflows-deploy-yml-1&quot;&gt;.github&#x2F;workflows&#x2F;deploy.yml&lt;&#x2F;h4&gt;
+&lt;p&gt;頭に以下を追記します。&lt;&#x2F;p&gt;
+&lt;p&gt;アプリ側のリポジトリに実施したのと同じ方法で、&lt;code&gt;GH_PAT&lt;&#x2F;code&gt; Secrets 登録も行ってください。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;yaml&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-yaml &quot;&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Build and Deploy Zola Site
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;on&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;branches&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;main &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# または master
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 外部 ( コンテンツ側 ) からの待ち受け設定を追記
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;repository_dispatch&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;types&lt;&#x2F;span&gt;&lt;span&gt;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;content_updated&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;jobs&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;build-and-deploy&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;runs-on&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ubuntu-latest
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;#  ( 以下略 )
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;kontentuce-my-portfolio-content-noshe-ding&quot;&gt;コンテンツ側 ( my-portfolio-content ) の設定&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;github-workflows-deploy-yml-2&quot;&gt;.github&#x2F;workflows&#x2F;deploy.yml&lt;&#x2F;h3&gt;
+&lt;p&gt;設定を新規作成します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;yaml&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-yaml &quot;&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Trigger App Build on Content Push
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;on&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;branches&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;main &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 記事（Markdown）を管理するメインブランチに合わせる
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;jobs&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trigger_dispatch&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;runs-on&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ubuntu-latest
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;steps&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;      - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Repository Dispatch
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;uses&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;peter-evans&#x2F;repository-dispatch@v3
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;with&lt;&#x2F;span&gt;&lt;span&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;token&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;${{ secrets.GH_PAT }} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# コンテンツ側にも同じGH_PATをSecretに登録しておく
+&lt;&#x2F;span&gt;&lt;span&gt;          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;repository&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mosaos&#x2F;my-portfolio &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# ターゲットとなるアプリ側のリポジトリ
+&lt;&#x2F;span&gt;&lt;span&gt;          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;event-type&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;content_updated &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# アプリ側のtypesで待ち受けている名前と完全一致させる（ハイフンに注意）
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;zola-daisyui-blog-nogeng-xin-nizhui-sui-suru&quot;&gt;zola-daisyui-blog の更新に追随する&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;upstream-deng-lu&quot;&gt;upstream 登録&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;Use this template&lt;&#x2F;code&gt; で作成したリポジトリは、Fork とは異なり元のリポジトリとは完全に独立した状態になっています。もし、元のテンプレートリポジトリの更新に追随したいときは以下を実行しておきましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;作製したプロジェクトのルートに移動し&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span&gt; my-portfolio
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;upstream 設定する。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span&gt; remote add upstream https:&#x2F;&#x2F;github.com&#x2F;mosaos&#x2F;zola-daisyui-blog
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;登録できたかは以下で確認できます。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span&gt; remote&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;yuan-notenpuretonobian-geng-woshi-yong-suru&quot;&gt;元のテンプレートの変更を適用する&lt;&#x2F;h3&gt;
+&lt;p&gt;まずは変更を取得します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span&gt; fetch upstream
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;通常のマージだと履歴が無関係と判断されてしまうため &lt;code&gt;--allow-unrelated-histories&lt;&#x2F;code&gt; を付けて merge します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span&gt; merge upstream&#x2F;main&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --allow-unrelated-histories
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;元テンプレートの変更がマージされます。自分が書き換えた部分とテンプレートの更新部分でコンフリクトがあれば、修正します。&lt;&#x2F;p&gt;
+&lt;p&gt;修正が完了したらコミットしましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;あとは自分のリポジトリに push して完了です。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>About Me</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/about/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/about/</id>
+        
+        <content type="html">&lt;h2 id=&quot;purohuiru&quot;&gt;プロフィール&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;名前&lt;&#x2F;strong&gt; : mosaos&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;職種&lt;&#x2F;strong&gt; : シニアエンジニア &#x2F; システムアーキテクト &#x2F; テックリード &#x2F; 講師&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;活動領域&lt;&#x2F;strong&gt; : 低レイヤー（物理制御・KVM・インフラ）からWebアプリケーション開発、大規模プロジェクトのファシリテーション・組織的教育までカバー。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;ji-shu-samari&quot;&gt;技術サマリー&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;strong&gt;【物理制御からDB、大規模PJのファシリテーションまでを完遂するアーキテクト】&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;圧倒的な問題解決能力とリスク管理:&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+サービス急成長期のDB負荷危機に対し、迅速なPoCを経てオンラインでのテーブルタイプ変更を断行。リリース直前の設計不備に対しても、事業インパクトを優先した現実的な改善ロードマップを提示しプロジェクトを成功に導く。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;カオスな現場を整理するファシリテーション:&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+ステークホルダー間の調整が難航する会議において、ホワイトボードを用いた可視化により課題の本質を抽出。複雑な調整をシンプルに解決し、専門家からも高い評価を獲得。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;アーキテクチャ設計とパフォーマンス最適化:&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+理論に留まらず、Seasar2 + JAX-RS (Jersey) による高パフォーマンスなREST APIの構築や、C++によるビデオフィルタ実装など、低レイヤーからWebまで広範囲をカバー。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;実戦型教育のスペシャリスト:&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+アクティブリコール重視の独自カリキュラムにより、累計数百名のエンジニアを現場へ輩出。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;FinOps &amp;amp; DevOps:&lt;&#x2F;strong&gt;&lt;br &#x2F;&gt;
+AWS CUR可視化によるコスト最適化、および自作KVM基盤上へのDevOps環境（GitLab-CI&#x2F;Sentry等）の構築。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;zhu-najing-li&quot;&gt;主な経歴&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;現在&lt;&#x2F;strong&gt; : 都内企業にて、アプリケーション開発およびエンジニアリンググループのマネジメント、社内勉強会・仮想化基盤の啓蒙&#x2F;主導等に従事。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;過去の主な参画領域&lt;&#x2F;strong&gt; :
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;大手自動車メーカー向け開発・コンサル&lt;&#x2F;strong&gt;: 独自フレームワークのセキュリティ分析からの刷新提案、高級車ブランド向けシミュレーター開発の完遂。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;自営業 &#x2F; フリーランス&lt;&#x2F;strong&gt;: 大規模な動画配信プラットフォームの更改、大手小売業ECサイトの刷新など、Javaアーキテクトや、DBエンジニアとして各種プロジェクトに参画。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;外資系R&amp;amp;D&lt;&#x2F;strong&gt;: Windows サーバグループのR&amp;amp;D（日本拠点）、ネットワークコンポーネントや相互運用パッケージのQA・検証を担当。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;黎明期からのSI・Webオープン系開発&lt;&#x2F;strong&gt;: 汎用機オペレータからC++による端末アプリ開発、大規模なJ2EE&#x2F;Java案件のテックリード・プロジェクトマネジメントを多数経験。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;tekunikarusukiru&quot;&gt;テクニカルスキル&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;言語:&lt;&#x2F;strong&gt; Java (Spring&#x2F;Seasar2), C#, C++, C, Python, PHP, JavaScript (React), etc.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;DB:&lt;&#x2F;strong&gt; MySQL, PostgreSQL, Oracle, DB2&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;インフラ:&lt;&#x2F;strong&gt; AWS, Docker, k8s, KVM, Linux, OpenVPN, GitLab-CI, Sentry, Metabase, etc.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>ベストプラクティス cron</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/best-practice-cron/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/best-practice-cron/</id>
+        
+        <content type="html">&lt;p&gt;cron の一時停止で問題が発生したのを契機に、差分管理等の話が某所で出たので cron のベストプラクティスに関して示す。&lt;&#x2F;p&gt;
+&lt;p&gt;※ とりあえず話聞いて思ってた事、思いついた事を書いただけなので、そのうち他の項目も思い出したり「やっぱこれ違ってた」になるかもしれない。&lt;br &#x2F;&gt;
+※ 俺の cron 的な Tips なので、適当なカスタマイズやプロジェクト毎の最適化推奨。&lt;&#x2F;p&gt;
+&lt;p&gt;※ かつての記事のリライトのため、現状の環境とは異なる部分があります。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;kai-fa&quot;&gt;開発&lt;&#x2F;h2&gt;
+&lt;p&gt;まずは開発 ( cron実装&#x2F;設定者 ) 寄りのプラクティスから。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;etc-cron-d-woshi-u&quot;&gt;&#x2F;etc&#x2F;cron.d を使う&lt;&#x2F;h3&gt;
+&lt;p&gt;利用している環境でサポートしている事が前提になりますが、可能であれば &lt;code&gt;&#x2F;etc&#x2F;cron.d&#x2F;&lt;&#x2F;code&gt; を利用しましょう。&lt;br &#x2F;&gt;
+※ &lt;code&gt;crontab -e&lt;&#x2F;code&gt; で直接 crontab を編集しない。&lt;&#x2F;p&gt;
+&lt;p&gt;具体的には &#x2F;etc&#x2F;cron.d&#x2F; 下に複数の crontab 設定ファイルを配置します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ls&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;etc&#x2F;cron.d&#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;system-a
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;system-b
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;system-a の例&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# system-a cron jobs
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;SHELL&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;PATH&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;sbin:&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;MAILTO&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;root
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;* * * *  sysauser sysa-task01
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;30 &lt;&#x2F;span&gt;&lt;span&gt;* * * * sysauser sysa-task02
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;これにより&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;crontab 設定を意味のある形でグループ化できる。&lt;&#x2F;li&gt;
+&lt;li&gt;個々の設定に適切なパーミッションを付与する事で、他システムの crontab 設定を不要に編集しないようにする事も可能。&lt;&#x2F;li&gt;
+&lt;li&gt;cron 用のシェルスクリプト ( 後述 ) と同様にバージョン管理する場合によりよく機能する。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;個々のユーザが利用する cron 設定を許容する ( ユーザが &lt;code&gt;crontab -e&lt;&#x2F;code&gt; で設定を編集する ) のもOKですが、多くの場合、個々のユーザが cron を利用する・しなければならないユースケースは少ないと思われます。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;tasukuwoshi-xing-surusierusukuriputowoli-yong-suru&quot;&gt;タスクを実行するシェルスクリプトを利用する&lt;&#x2F;h3&gt;
+&lt;p&gt;簡単なコマンドやワンライナーで実行可能な処理の場合に、crontab に直接システムやミドルウェアのコマンドを記載する事は可能ですが、
+組織で管理するタスクを実行する場合には、必ずタスクを実行するシェルスクリプトを作成し、このファイルに処理を実装。crontab にはシェルスクリプトを実行するように指定する方法をお勧めします。&lt;br &#x2F;&gt;
+こうする事で以下のようなメリットが生まれます。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;cron 実行時にはユーザがログインした場合とは環境変数の扱いが異なるためにトラブルが発生する事がある。シェルスクリプト化する事で、コマンド実行前に必要な環境変数を設定したり、場合によっては変更する事が容易になる。&lt;&#x2F;li&gt;
+&lt;li&gt;シェルスクリプト自体をバージョン管理する事で、処理内容の変更履歴をトラッキングしたり、PR&#x2F;MRプロセスを挟む事で適切なレビューを行うといった事が可能になる。&lt;&#x2F;li&gt;
+&lt;li&gt;cron で指定したスクリプトから別の ( 環境変数の設定や通知、ログ出力等の ) 共通処理用スクリプトを呼び出してから実処理を呼び出すといった事も容易になる。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;sukuriputonokodeingururuwojue-meru&quot;&gt;スクリプトのコーディングルールを決める&lt;&#x2F;h3&gt;
+&lt;p&gt;がっちりルール化する必要はないかと思いますが、判りやすいテンプレートを用意するなどして、記載レベルや処理内容をできる範囲で統一した方がよいでしょう。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;適度な粒度でコメントを書く&lt;&#x2F;li&gt;
+&lt;li&gt;変更される可能性のある値は変数化&lt;&#x2F;li&gt;
+&lt;li&gt;共通処理を決めてこれを使う。&lt;br &#x2F;&gt;
+共通スクリプト化して呼び出す等&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;baziyonguan-li-suru&quot;&gt;バージョン管理する&lt;&#x2F;h3&gt;
+&lt;p&gt;バージョン管理をする理由としては、問題発生時に元に戻したり、差分を確認したりする事ももちろんですが、これ以外に以下の点も目指す。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;CI&#x2F;CD によるデプロイ&lt;br &#x2F;&gt;
+現状 アプリケーションのデプロイに関しては CI&#x2F;CD によるデプロイを行っているプロジェクトも増えてきていると思いますが、Linux のスクリプトや cron 設定等もバージョン管理システムで管理し、CI&#x2F;CD によるデプロイを行うようにすべきです。&lt;br &#x2F;&gt;
+&lt;a href=&quot;https:&#x2F;&#x2F;12factor.net&quot;&gt;The Twelve Factor App&lt;&#x2F;a&gt; で提唱されている内容等にも繋がりますね。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;PR&#x2F;MR によるレビュー&lt;br &#x2F;&gt;
+リリース&#x2F;変更絡みでインシデントが発生した場合に、&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;一人で作業した。&lt;&#x2F;li&gt;
+&lt;li&gt;チェック体制がなかった。機能していなかった。&lt;&#x2F;li&gt;
+&lt;li&gt;レビューを行っていなかった。&lt;br &#x2F;&gt;
+ので対策として「これからはちゃんとする」。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;といった話を何度も聞いている気がしますが、この手の対策はスローガンだけ掲げてもまたそのうち元に戻る事が多い。&lt;br &#x2F;&gt;
+常に PR&#x2F;MR (プルリクエスト&#x2F;マージリクエスト) を行う形にして、必ずチェックが入るようにシステム&#x2F;ツールの力を借りる方が改善効果が高いです。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;※ GitLab でも push 可能な権限を制限できるはず。MR必須の運用にするならば、指定ブランチへの直pushを制限する等 ( スローガンではなく ) ツールで制約を。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;duo-zhong-qi-dong-wofang-gu&quot;&gt;多重起動を防ぐ&lt;&#x2F;h3&gt;
+&lt;p&gt;アプリケーションを実装する場合には、処理言語系 ( Java 等 ) で多重起動を防ぐための仕組みを利用するのも可だが、Linux の標準ツールである &lt;code&gt;flock&lt;&#x2F;code&gt; を使う事で多重起動を防ぐ事が可能。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;*&#x2F;5 &lt;&#x2F;span&gt;&lt;span&gt;* * * *  appuser  flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-task.lock cron-task
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;実際の例を以下に示す。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;sukuriputo&quot;&gt;スクリプト&lt;&#x2F;h4&gt;
+&lt;p&gt;処理内容を含むスクリプトを作る。&lt;br &#x2F;&gt;
+&#x2F;root&#x2F;scripts&#x2F;sleep.sh を以下で作成。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;INTERVAL&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;300
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sleep &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;INTERVAL
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;echo  &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;INTERVAL&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; sec slept&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;インターバルで指定した秒数スリープした後 echo でメッセージ出力するだけ。&lt;br &#x2F;&gt;
+300 秒 ( 5分間 ) ジョブ継続するように指定。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;cron-she-ding&quot;&gt;cron 設定&lt;&#x2F;h4&gt;
+&lt;p&gt;cron 設定は &#x2F;etc&#x2F;cron.d&#x2F;test ファイルを作る。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# put some comment here
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;* &lt;&#x2F;span&gt;&lt;span&gt;* * * * root flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;flock で多重起動されないようにしています。&lt;br &#x2F;&gt;
+実行は 1 分間隔。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;shi-xing-jie-guo&quot;&gt;実行結果&lt;&#x2F;h4&gt;
+&lt;p&gt;&#x2F;var&#x2F;log&#x2F;cron の出力&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:07:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7083&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:08:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7087&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:09:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7089&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:10:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7091&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:11:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7093&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:12:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7082&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (300 sec slept)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:12:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7096&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:13:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7100&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:14:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7102&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:15:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7104&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:16:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7108&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (flock&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -n&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;var&#x2F;lock&#x2F;cron-test-sleep.lock &#x2F;root&#x2F;scripts&#x2F;sleep.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:17:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7095&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (300 sec slept)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;1 分間隔で cron ジョブが実行されていますが、実際の処理 ( echo ) は5分間隔になっているのが確認できます。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;taimuautowoshi-u&quot;&gt;タイムアウトを使う&lt;&#x2F;h3&gt;
+&lt;p&gt;タスクの種類によってはタイムアウトを利用するのが有用な場合があります。&lt;br &#x2F;&gt;
+通常 cron で実行されるジョブは時間制限なしで実行されますが、場合によっては望ましくない場合があります。&lt;br &#x2F;&gt;
+一定間隔で実行しているジョブの場合に、一定時間で終了しないと重複してジョブ実行される等。&lt;&#x2F;p&gt;
+&lt;p&gt;こういった場合 &lt;code&gt;timeout&lt;&#x2F;code&gt; ( &#x2F;usr&#x2F;bin&#x2F;timeout ) を利用する等して、実行時間を制限できないか試してみるとよいでしょう。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;*&#x2F;5 &lt;&#x2F;span&gt;&lt;span&gt;* * * *  appuser  timeout 10s cron-task
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;flock と同様、実際の例を以下に示す。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;sukuriputo-1&quot;&gt;スクリプト&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;date
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sleep&lt;&#x2F;span&gt;&lt;span&gt; 1
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;done
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;1秒間隔で &lt;code&gt;date&lt;&#x2F;code&gt; 出力&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;cron-she-ding-1&quot;&gt;cron 設定&lt;&#x2F;h4&gt;
+&lt;p&gt;&#x2F;etc&#x2F;cron.d&#x2F;test ファイルを編集。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# put some comment here
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;* &lt;&#x2F;span&gt;&lt;span&gt;* * * * root timeout 10s &#x2F;root&#x2F;scripts&#x2F;loop.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;10秒でタイムアウト。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;shi-xing-jie-guo-1&quot;&gt;実行結果&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7261&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (timeout 10s &#x2F;root&#x2F;scripts&#x2F;loop.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:01 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:02 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:02 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:03 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:03 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:04 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:04 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:05 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:05 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:06 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:06 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:07 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:07 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:08 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:08 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:09 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:09 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:49:10 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7260&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:49:10 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7287&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMD&lt;&#x2F;span&gt;&lt;span&gt; (timeout 10s &#x2F;root&#x2F;scripts&#x2F;loop.sh)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:01 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:01 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:02 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:02 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:03 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:03 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:04 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:04 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:05 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:05 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:06 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:06 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:07 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:07 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:08 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:08 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:09 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:09 JST)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Feb&lt;&#x2F;span&gt;&lt;span&gt;  8 16:50:10 mosaos-dev CROND&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;7286&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;: (root) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CMDOUT&lt;&#x2F;span&gt;&lt;span&gt; (2022年  2月  8日 火曜日 16:50:10 JST)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;10秒で処理が中断されているのが判る。タスクによっては途中終了するのは大分まずい可能性があるので、使いどころは注意する事。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;yun-yong&quot;&gt;運用&lt;&#x2F;h2&gt;
+&lt;p&gt;運用寄りのプラクティス。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;quan-xian-wojiao-ru&quot;&gt;権限を絞る&lt;&#x2F;h3&gt;
+&lt;p&gt;cron ジョブを実行する場合には実行ユーザ名を適切に指定し権限を制限する。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;* * * *  root  cron-task
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;上記の crontab 設定は root ユーザで実行するように指定していますが、rootで実行された場合、例えば実行ジョブがシステムディレクトリの重要部分を破壊するものであっても、制限を行うのが困難になります。
+アプリケーション毎に必要最小限の権限を有するユーザを作成し、これらユーザを指定する方がよいでしょう。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;* * * *  appuser  cron-task
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;chu-li-woshe-tenai&quot;&gt;出力を捨てない&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;*&#x2F;5 &lt;&#x2F;span&gt;&lt;span&gt;* * * *  appuser  cron-task &amp;gt;&#x2F;dev&#x2F;null &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;&#x2F;dev&#x2F;null&lt;&#x2F;code&gt; にリダイレクトしない。&lt;br &#x2F;&gt;
+ネットのサンプル等を見てそのまま記載した場合に、よく判らずに出力を捨ててしまっている場合があるかもしれません。&lt;br &#x2F;&gt;
+が、問題が発生した場合の手がかりを捨てる事になるので、特別な理由がない限り出力は捨てないでおきましょう。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;sonota&quot;&gt;その他&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;インシデント管理では対策は行われず対応したのみでチケットクローズしてる現場も多数見てきたのだが、その手の環境では、不注意でやっちゃいました系は今後も起こり続ける可能性が高いだろう。&lt;br &#x2F;&gt;
+似たような問題が頻発する場合、その手の問題が発生しにくいプラットフォーム (ジョブ管理ツール) の導入を検討した方がよい。&lt;&#x2F;li&gt;
+&lt;li&gt;商用管理ツールは高い... という場合、オープンソースという手もある。&lt;a href=&quot;https:&#x2F;&#x2F;dolphinscheduler.apache.org&#x2F;&quot;&gt;DolphinScheduler&lt;&#x2F;a&gt; とか。&lt;br &#x2F;&gt;
+使ったことないけど、画面イメージ見た感じはいい感じかも。big data distributed workflow scheduling system の謳い文句通りであれば今後暫くは使えそう。&lt;&#x2F;li&gt;
+&lt;li&gt;今後、コンテナ化を推進するのであれば k8s の &lt;a href=&quot;https:&#x2F;&#x2F;kubernetes.io&#x2F;docs&#x2F;concepts&#x2F;workloads&#x2F;controllers&#x2F;cron-jobs&#x2F;&quot;&gt;CronJob&lt;&#x2F;a&gt; を利用する等。&lt;br &#x2F;&gt;
+プラットフォームによって最適な選択肢は変わってくる可能性も考慮すべし。&lt;&#x2F;li&gt;
+&lt;li&gt;ベストプラクティスがあっても、実装する個々の開発者や運用担当者が実施しなければ意味はない。&lt;br &#x2F;&gt;
+プロジェクトや担当者レベルで対応するよりは企業全体である程度の方針を示してベストプラクティスは横展開すべき。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>ベストプラクティス GitLab</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/best-practice-gitlab/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/best-practice-gitlab/</id>
+        
+        <content type="html">&lt;p&gt;ベストプラクティス シリーズ。&lt;&#x2F;p&gt;
+&lt;p&gt;俺の GitLab 的な?&lt;&#x2F;p&gt;
+&lt;p&gt;※ かつての記事のリライトのため、現状の GitLab の UI とはズレがある可能性があります。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;hazimeni&quot;&gt;はじめに&lt;&#x2F;h2&gt;
+&lt;p&gt;個人で GitHub 使ってたり、業務で GitLab 使っている中で、&lt;&#x2F;p&gt;
+&lt;p&gt;うまくいった事・うまくいかなかった事 いずれもあるわけですが、これら経験を踏まえて、&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;こうすると上手くいく ( かもよ )&lt;&#x2F;li&gt;
+&lt;li&gt;こうすると失敗する ( かもよ )&lt;&#x2F;li&gt;
+&lt;li&gt;この機能使うと便利 ( かもよ )&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;的な Tips をまとめてみます。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 俺の 〇〇 的な Tips なので、適当なカスタマイズやプロジェクト毎の最適化推奨。&lt;br &#x2F;&gt;
+※ 職場等では殆ど利用されていないと思われる系機能に関しても記す。活用する事でプロジェクトの質を上げる事が可能 ( かもよ )。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;git&quot;&gt;Git&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;strong&gt;基本操作は自分で覚えましょう。&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;GitLab を利用する場合、Git は利用するはず。&lt;br &#x2F;&gt;
+※ Issue管理は使わない場合はありそう ( タスク管理は Redmine だけど、ソース管理は GitLab という管理ツールミックス状態 )&lt;&#x2F;p&gt;
+&lt;p&gt;Git の使い方が怪しい場合は、以下のような方法を利用して基本操作はマスターしましょう。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;自分で学ぶ &#x2F; 調べる ( 書籍 &#x2F; ネット )&lt;&#x2F;li&gt;
+&lt;li&gt;個人で github 等を使って慣れる&lt;&#x2F;li&gt;
+&lt;li&gt;詳しい人に聞く&lt;br &#x2F;&gt;
+企業によっては、全くわかってない状況の方に一から教えてくれる人は少ないかもしれない。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;操作に自信がない場合に、実運用しているブランチを適当に触って壊すとか、企業&#x2F;プロジェクトによっては追放されるかもな事象です。テスト用のリポジトリ用意して練習しましょう。&lt;br &#x2F;&gt;
+練習もせず本番環境壊したとかなると、無能扱いされても仕方ありません。&lt;&#x2F;p&gt;
+&lt;p&gt;GitLab + GitLab Runner 込みで docker-compose で環境構築する事も可能なので、色々弄ってみたい向きには docker で環境構築するのをお勧めします。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 昔 Git も SVN も使い方怪しいって人見た事あるけど、本当に開発者だったのか? ( 経歴詐称じゃないよね? ) と冗談交じりで疑われていた。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;quan-xian-guan-li&quot;&gt;権限管理&lt;&#x2F;h2&gt;
+&lt;p&gt;プロジェクトにメンバーを追加する場合には適切なロールを割り当てるようにしましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;..&#x2F;best-practice-cron&#x2F;&quot;&gt;ベストプラクティス cron&lt;&#x2F;a&gt; に書いた&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;※ GitLab でも push 可能な権限を制限できるはず。MR必須の運用にするならば、指定ブランチへの直pushを制限する等 ( スローガンではなく ) ツールで制約を。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;といった対応をする場合、&lt;&#x2F;p&gt;
+&lt;p&gt;特定ブランチへの merge&#x2F;push は 特定ロール(以上)のみ許可するといった設定を行う必要があります。&lt;br &#x2F;&gt;
+※ プロジェクトの [Settings]＞[Repository]＞[Protected branches] から行える。&lt;&#x2F;p&gt;
+&lt;p&gt;しかし、協力会社メンバー含め、全員が Maintainer 権限といった状態だと、上記設定を行っても適切な制限は行えない事になります。&lt;&#x2F;p&gt;
+&lt;p&gt;適切な機能制限が行えない点を挙げましたが、そもそもセキュリティ上問題であり、&lt;&#x2F;p&gt;
+&lt;p&gt;Maintainer 権限を持つメンバーは社員のみ ( できれば適切な設定が行える一部のメンバー ) 等に制限し、通常の開発者は Developer 権限に設定するのが適切です。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 監査上も不要な権限を意味なく割り当てるのはNG ( なはず )&lt;&#x2F;p&gt;
+&lt;p&gt;Redmine 等にも言える事ですが、&lt;strong&gt;何でこのメンバーにこのロール割り当ててんの？な権限割り当てザル状態は結構企業でも見かけた&lt;&#x2F;strong&gt; 気がします。&lt;br &#x2F;&gt;
+何となく、便利だからといった理由で権限付与するのはNGでしょう。もしやっちゃってる場合には修正しましょう。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;burantizhan-lue&quot;&gt;ブランチ戦略&lt;&#x2F;h2&gt;
+&lt;p&gt;既に稼働中なプロジェクトに関しては、プロジェクト毎のブランチ戦略があると思います。&lt;br &#x2F;&gt;
+既に決まった運用方法があり、上手く行っているのであればそれを使いましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;一例として過去に採用したブランチ戦略を示します。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-gitlab&#x2F;mosaos-gitflow.webp&quot; alt=&quot;gitブランチ&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;※ gitflowに似てるので使った事がある方であれば理解は容易いと思います。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;master&lt;&#x2F;code&gt; ( または &lt;code&gt;main&lt;&#x2F;code&gt; )&lt;br &#x2F;&gt;
+リリース用。運用環境にデプロイされる。&lt;br &#x2F;&gt;
+master は直接編集しない。&lt;br &#x2F;&gt;
+master に マージ した場合は tag を付けます。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;develop&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+開発のメインブランチ。master から作成。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;feature&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+各 issue に対応したブランチ。&lt;br &#x2F;&gt;
+develop の最新から作成。&lt;br &#x2F;&gt;
+ブランチ名は &lt;code&gt;feature&#x2F;issueNNN&lt;&#x2F;code&gt; ( NNNはissue番号 ) とした。&lt;br &#x2F;&gt;
+issue 毎に個別のブランチを作成し、実装完了後は develop にマージされる。&lt;br &#x2F;&gt;
+※ 当初個々人の開発用ブランチを作成する場合に機能単位ではなくメンバー単位で作成という話もあった ( メンバーが以前そういう方法を採っていたとの事 ) が、この場合、( フロントとサーバサイドで開発者が異なる場合等 ) 一つの機能変更が複数ブランチに跨る可能性もありうる事から、この方法は止めた。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;hotfix&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+master で致命的なバグが発生した場合に利用。&lt;br &#x2F;&gt;
+( 致命的なバグが発生した ) master から作成。&lt;br &#x2F;&gt;
+ブランチ名は &lt;code&gt;hotfix&#x2F;issueNNN&lt;&#x2F;code&gt; ( NNNはissue番号 )。
+バグ改修後、master にマージされる。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;マージする際にはMRを作成し、レビュー後にマージする。&lt;&#x2F;p&gt;
+&lt;p&gt;※ プロジェクトのメンバー構成、MRの内容によってはセルフレビューを許可した。&lt;br &#x2F;&gt;
+※ 上記ルールはチケット駆動開発を手法として取り入れている場合 ( 必ず issue を作成しているはずなので ) 機能し易い。チケット駆動でない場合にはどうするか？チケット駆動開発にしてしまえ！( お勧め )。&lt;&#x2F;p&gt;
+&lt;p&gt;※ ちなみに、以前 &lt;code&gt;feature&#x2F;#NNN&lt;&#x2F;code&gt; 形式でブランチ名を採用した事があったが、ブランチ名に # が含まれると GitLab へのリンクで問題が発生する ( Slack 通知からリンクされない ) ためこの形式は廃止になりました。ブランチ名に &lt;code&gt;#&lt;&#x2F;code&gt; を含めるのはやめた方が良い。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;burantizuo-cheng&quot;&gt;ブランチ作成&lt;&#x2F;h2&gt;
+&lt;p&gt;新たに機能を追加したりバグ修正を行う場合には プロジェクトで策定&#x2F;採用した &lt;code&gt;ブランチ戦略&lt;&#x2F;code&gt; に従ってブランチ作成を行います。&lt;&#x2F;p&gt;
+&lt;p&gt;ブランチの作成は GitLab 上でも行えますが、以下の副作用があります。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;GitLab 上で &lt;code&gt;New Branch&lt;&#x2F;code&gt; した場合、作成したブランチが Commit&#x2F;Push されてしまうため CI&#x2F;CD ( Pipeline ) が実行されてしまう。&lt;br &#x2F;&gt;
+gitlab-ci.yml の条件指定で GitLab 上から &lt;code&gt;New Branch&lt;&#x2F;code&gt; されたかどうかを判別する方法があればよいが、現状判別は出来ないっぽいため、&lt;code&gt;New Branch&lt;&#x2F;code&gt; しただけで CI&#x2F;CD が実行されてしまう。&lt;br &#x2F;&gt;
+これは以下の点で都合が悪い
+&lt;ul&gt;
+&lt;li&gt;不要な CI&#x2F;CD が走る。色々 ( 計算機リソース、時間、リモートリポジトリ上のストレージ等 ) 無駄。&lt;&#x2F;li&gt;
+&lt;li&gt;機能追加やバグFIX等が Push された場合のみ CI&#x2F;CD が走る方が、CI&#x2F;CD(Pipeline) で問題が発生した場合に、問題を発見しやすい。ブランチ作成の度 Pipeline が走ると Pipeline の確認がきちんとされなくなる可能性がある。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;上記の点を踏まえ、ブランチ作成に関しては特別な理由がない限り以下の手順で行うのをお勧めします。&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;作成元のブランチからローカルでブランチを作成する。&lt;&#x2F;li&gt;
+&lt;li&gt;作成したローカルブランチを利用して何らかの変更 ( 機能追加やバグ修正 ) を行い、ローカルでビルド、動作確認を行う。&lt;&#x2F;li&gt;
+&lt;li&gt;ローカルで Commit する。&lt;&#x2F;li&gt;
+&lt;li&gt;リモート ( GitLab ) に Push する。&lt;br &#x2F;&gt;
+新規に作成したブランチに関しては、この時点で初めてリモートにブランチ作成され、CI&#x2F;CD が実行される。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;上記手順を採用する利点は以下。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;実際の変更 ( ローカル Commit ) が反映 ( Push ) されるまでは、リモートにブランチが生成されない。&lt;br &#x2F;&gt;
+ブランチ作成したけど、結局は Commit&#x2F;Push されない場合もあり得るが、この場合に GitLab リソースが無駄にならない。&lt;&#x2F;li&gt;
+&lt;li&gt;余計なCI&#x2F;CDが走らない。&lt;br &#x2F;&gt;
+GitLab で &lt;code&gt;New Branch&lt;&#x2F;code&gt; した場合、上述の通り CI&#x2F;CD が走るが、これはブランチ生成元のブランチ( develop 等 ) の最終コミットの状態を再度 CI&#x2F;CD している事になる。既に CI&#x2F;CD 確認済みの Commit&#x2F;Push に対し CI&#x2F;CD を再実行するのは無駄である。&lt;&#x2F;li&gt;
+&lt;li&gt;Pipelineの履歴が汚れない。&lt;br &#x2F;&gt;
+上と関連するが、無駄な Pipeline が走ると Pipeline の履歴に本来不要な実行履歴が残る。CI&#x2F;CD で何らかの問題が発生して、過去履歴を調査する必要が発生した場合に、この手の履歴が多いと調査コストが増える。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;GitLab上から New Branch せずとも、VSCode 等の開発環境でブランチ作成は行える。上記手順でブランチ作成を行うようにしましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 殆どのメンバーは上記手順でブランチ作成していたが、一部メンバーがGitLab上で New Branch した際に Pipeline 実行される状態が発生。なんだ?この Pipeline となったため、上記内容でかつて文書化&#x2F;展開した。&lt;br &#x2F;&gt;
+※ 「うちのプロジェクトでは CI 使ってないからいいや」と言う方もいるかもしれないが、今後 CI を導入する可能性は常にある。一度慣れてしまった方法を直すのは ( メンバーにもよるが ) コストが高い場合がある。 より問題が少ない方法を採用する方がよいと思う。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;komituto&quot;&gt;コミット&lt;&#x2F;h2&gt;
+&lt;p&gt;コミットする場合には コミットコメントを適切に書きましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;GitLab でチケット駆動開発を行っている場合、コミットは先に起票しているチケット ( issue ) に対応する作業なので、コミットコメントには issue id を記載するようにします。&lt;br &#x2F;&gt;
+これによって issue と コミットが自動的に関連付けされます ( 相互リンクが張られる )。&lt;&#x2F;p&gt;
+&lt;p&gt;issue idを記載する場合 &lt;code&gt;#nnn&lt;&#x2F;code&gt; 形式 ( nnn は issue id (10進数値) ) で記載する。&lt;br &#x2F;&gt;
+場所はコミットコメントの最初に書くのが判りやすく、書き忘れにくい。&lt;br &#x2F;&gt;
+※ &lt;code&gt;# nnn&lt;&#x2F;code&gt; と # と nnn の間にスペースを入れてしまってリンクが張られていないのも見た事があるので、間にスペースは入れないように。&lt;&#x2F;p&gt;
+&lt;p&gt;※ チケット自体は Redmine で管理している場合にも、Redmine のリポジトリ機能を利用し、Git リポジトリと連携する事で チケットとの連携を行う事も可能である ( 設定は別途必要 ) 。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;mazirikuesuto&quot;&gt;マージリクエスト&lt;&#x2F;h2&gt;
+&lt;p&gt;マージを行う場合には必ずマージリクエスト ( MR ) を作成する。&lt;br &#x2F;&gt;
+( MR 無しでのマージは行わない )&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;GitLab のメニューから &lt;code&gt;Merge requests&lt;&#x2F;code&gt; をクリックする。&lt;&#x2F;li&gt;
+&lt;li&gt;MR一覧画面が表示されるので &lt;code&gt;New merge request&lt;&#x2F;code&gt; ボタンをクリックする。&lt;&#x2F;li&gt;
+&lt;li&gt;Source &#x2F; Target の二つのブランチ入力欄が表示されるので、それぞれのブランチを設定します。&lt;br &#x2F;&gt;
+通常の機能開発を行っている場合には、以下のようになります。(hotfixの場合やmasterへのマージの場合にはこれとは異なります。不安な場合は識者に相談して下さい)&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;ul&gt;
+&lt;li&gt;Source branch にマージするブランチ (feature&#x2F;issueNNN)&lt;&#x2F;li&gt;
+&lt;li&gt;Target branch にマージ先のブランチ (develop)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;ol start=&quot;4&quot;&gt;
+&lt;li&gt;&lt;code&gt;Compare branches and continue&lt;&#x2F;code&gt; をクリックする。&lt;&#x2F;li&gt;
+&lt;li&gt;New merge request 画面に遷移するので、先ずは変更内容を確認します。&lt;br &#x2F;&gt;
+画面を下にスクロールすると、&lt;code&gt;Commits&lt;&#x2F;code&gt;, &lt;code&gt;Pipelines&lt;&#x2F;code&gt;, &lt;code&gt;Changes&lt;&#x2F;code&gt; タブが表示されているので、以下が正しいかを確認して下さい。もし問題があった場合には一旦MR作成は止め、ブランチ作成手順やファイル編集に問題がないか解決してから再度MRを作成するようにしましょう。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;ul&gt;
+&lt;li&gt;Commits&lt;br &#x2F;&gt;
+MRに含まれるコミット内容。自分が行おうとしているMRと異なる内容のコミットが含まれる場合は何か問題があると思ってください。&lt;&#x2F;li&gt;
+&lt;li&gt;Changes&lt;br &#x2F;&gt;
+MR前後のファイル差分が含まれます。差分(変更)内容が正しいかを確認して下さい。自分が行っていない変更や、誤った変更内容が含まれた場合には何か問題があると思ってください。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;ol start=&quot;6&quot;&gt;
+&lt;li&gt;&lt;code&gt;Commits&lt;&#x2F;code&gt;, &lt;code&gt;Changes&lt;&#x2F;code&gt; に問題が無い場合には、以下MR内容を適宜設定して下さい。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;ul&gt;
+&lt;li&gt;Title&lt;br &#x2F;&gt;
+MR のタイトルを適宜設定して下さい。&lt;&#x2F;li&gt;
+&lt;li&gt;Description&lt;br &#x2F;&gt;
+MR に含まれる変更の概要を書いておくと良いでしょう。&lt;&#x2F;li&gt;
+&lt;li&gt;Reviewer&lt;br &#x2F;&gt;
+誰かにMRをレビューして欲しい場合にはそのメンバーをレビュアーに設定して下さい。GitLabで設定しただけだと相手が気づかない場合もあるため、Slackなどでレビュー願いも通知するのがお勧めです。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;ol start=&quot;7&quot;&gt;
+&lt;li&gt;&lt;code&gt;Create merge request&lt;&#x2F;code&gt; をクリックします。&lt;&#x2F;li&gt;
+&lt;li&gt;レビューを依頼されたメンバーはMRの内容に問題がないか確認し、必要であればMRにコメントして下さい。&lt;&#x2F;li&gt;
+&lt;li&gt;MR作成者はレビュアーのコメントに対して説明やコード修正等を行い問題を解消して下さい。&lt;&#x2F;li&gt;
+&lt;li&gt;6 -&amp;gt; 7 のプロセスを繰り返し問題がなくなったら、レビュワーは MR の &lt;code&gt;Approve&lt;&#x2F;code&gt; ボタンをクリックします。&lt;&#x2F;li&gt;
+&lt;li&gt;MR作成者 ( あるいは、MRをアサインされたメンバー ) は Approved された事を確認して、&lt;code&gt;Merge&lt;&#x2F;code&gt; ボタンをクリックします。&lt;br &#x2F;&gt;
+デフォルトでは &lt;code&gt;Delete source branch&lt;&#x2F;code&gt; にチェックが入っています。マージ後もソースブランチ(feature&#x2F;issueNNN等)を削除したくない ( その後もそのブランチで作業する ) 場合にはチェックを外してから &lt;code&gt;Merge&lt;&#x2F;code&gt; ボタンを押しましょう。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;企業などでも時々発生する&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;一人で作業した。&lt;&#x2F;li&gt;
+&lt;li&gt;チェック体制がなかった。機能していなかった。&lt;&#x2F;li&gt;
+&lt;li&gt;レビューを行っていなかった。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;といった問題を防止するためにも有効です。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;issuezuo-cheng&quot;&gt;issue作成&lt;&#x2F;h2&gt;
+&lt;p&gt;issue を作成する場合、適切な issue を作成する。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;..&#x2F;best-practice-redmine&#x2F;&quot;&gt;ベストプラクティス Redmine&lt;&#x2F;a&gt; にも似たような事を書いたのですが、以下のような点に気をつけるとよいでしょう。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;適切な粒度で作成&lt;&#x2F;li&gt;
+&lt;li&gt;適切なタイトルを付ける&lt;&#x2F;li&gt;
+&lt;li&gt;必要十分な説明 ( 概要 ) もきちんと書く&lt;&#x2F;li&gt;
+&lt;li&gt;複数のタスクを書かない&lt;&#x2F;li&gt;
+&lt;li&gt;終了条件が明確になるようにする&lt;&#x2F;li&gt;
+&lt;li&gt;担当を割り振る&lt;&#x2F;li&gt;
+&lt;li&gt;期間を設定する ( 仮の期間でも良い )&lt;&#x2F;li&gt;
+&lt;li&gt;バグの場合、再現手順、環境(利用ブラウザ等)、バージョン等必要な情報を記載する&lt;br &#x2F;&gt;
+※ 且て某外資系で働いてた時に、BTS(bug tracking system) にこの手の情報書かずに登録して「クソなissue書いてんじゃねー。とっとと書き直せ」って返されてるの見た事あるw。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;ここからはあまり使われていない系&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;raberu&quot;&gt;ラベル&lt;&#x2F;h2&gt;
+&lt;p&gt;issue にはラベルを付ける事ができる。ラベルは Project 単位で設定可能。利用する事で issue の視認性が向上する。&lt;br &#x2F;&gt;
+※ board (カンバン。後述) やissue 一覧表示時に特に有用。&lt;br &#x2F;&gt;
+※ 背景色も個別設定可能なので、適切に設定して運用していれば、ラベル色からどの系統の情報かも判るようになってくる。&lt;&#x2F;p&gt;
+&lt;p&gt;プロジェクトの左メニュー一番上のアイコン[Project information]＞[Labels] から設定できる。&lt;&#x2F;p&gt;
+&lt;p&gt;私は以下のようなラベルを設定している。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;kanbanyong&quot;&gt;カンバン用&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Doing&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+実行中。色は #5CB85C&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;To Do&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+実行予定。色は #F0AD4E&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;close-xi&quot;&gt;Close 系&lt;&#x2F;h3&gt;
+&lt;p&gt;Closed issue の分類に利用。色は #808080&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Close: Fixed&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+修正&#x2F;対応した&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Close: Wontfix&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+対応しない&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Close: Duplicate&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+重複している&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Close: Invalid&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+誤っている&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Close: Postponed&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+延期&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;priority-xi&quot;&gt;Priority 系&lt;&#x2F;h3&gt;
+&lt;p&gt;優先度&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Priority: Critical&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Priority: High&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Priority: Middle&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Priority: Low&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;優先度系は順位付け可能なのでラベル背景色をグラデーションになるように設定している。&lt;br &#x2F;&gt;
+Critical から順に #ff0000, #ff4400, #ff8800, #ffbb00&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;type-xi&quot;&gt;Type 系&lt;&#x2F;h3&gt;
+&lt;p&gt;issue 分類。色は #6699dd&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Type: Bug&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+バグ&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Type: Documentation&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+文書&#x2F;資料作成&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Type: Feature&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+機能追加&#x2F;拡張&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Type: Refactoring&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+リファクタリング&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Type: Review&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+レビュー&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Type: Test&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;issue 一覧や カンバンがカラフルになるだけで、何となく気分が上がる ( ※個人の感想です ) し、視認性が高まるという点においてデメリットは少ないと思われる。&lt;&#x2F;p&gt;
+&lt;p&gt;尚、ラベル設定した際に、issue には必ずラベルを付ける必要があると受け取ったメンバーがいましたが、そうではありません。&lt;&#x2F;p&gt;
+&lt;p&gt;ラベルの種類によっては付与を必須にしてもよいものもあるかとは思いますが、優先度等 issue 作成者が直ぐに設定可能とは言えないでしょう。&lt;br &#x2F;&gt;
+一旦ラベルが付与されてしまう＝既に設定済み・設定したラベルで問題が無いと受け取られる可能性もあるため、確実に設定可能なもの以外については付与せずに打合せの中等で設定する方がよいと思います。&lt;&#x2F;p&gt;
+&lt;p&gt;※ &lt;a href=&quot;https:&#x2F;&#x2F;docs.gitlab.com&#x2F;ee&#x2F;user&#x2F;project&#x2F;labels.html#scoped-labels&quot;&gt;Scoped labels&lt;&#x2F;a&gt; という機能があって、これが利用できればと考えていたが、非PREMIUM版では利用できなかった。&lt;br &#x2F;&gt;
+この機能はラベル名に &lt;code&gt;::&lt;&#x2F;code&gt; を入れる事で key::value 形式のラベルを設定できるとの事。Priority や Severity といったラベル付けをする場合にはこの形式が使えた方が便利。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;reference&quot;&gt;Reference&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.gitlab.com&#x2F;ee&#x2F;user&#x2F;project&#x2F;labels.html&quot;&gt;Labels&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;mairusuton&quot;&gt;マイルストーン&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;code&gt;Issues&lt;&#x2F;code&gt; &amp;gt; &lt;code&gt;Milestones&lt;&#x2F;code&gt; から設定&#x2F;利用できます。&lt;&#x2F;p&gt;
+&lt;p&gt;私は仕事での実プロジェクトでもマイルストーンを利用して、各リリースで行う内容(予定)を記載していますが、私の周りではマイルストーンを設定しているプロジェクトは少ないように思われます。&lt;br &#x2F;&gt;
+請負開発で作ったら終わりといった場合でない限り、現在、あるいは、これから行う(次リリース)までの開発で何を行うか？ ( 主目的や主な追加機能 ) を記しておくとプロジェクトの見通しがよくなります。&lt;br &#x2F;&gt;
+個々の issue までマイルストーンに記載する必要はありませんが、issue 自体にマイルストーンが設定可能なので、&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;その issue がどのマイルストーンで実施されたのか？&lt;&#x2F;li&gt;
+&lt;li&gt;あるリリース ( Milestone ) で対応された issue には何があるのか？&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;といった振り返りに利用する事も可能ですし、&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;issue としては上がっているが、そのタスクは現マイルストーンでは行わない事を示す (要望としては把握、ただし、実装未定扱いにする) 用途にも利用できます。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;reference-1&quot;&gt;Reference&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.gitlab.com&#x2F;ee&#x2F;user&#x2F;project&#x2F;milestones&#x2F;#milestones&quot;&gt;Milestones&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;kanban&quot;&gt;カンバン&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;code&gt;Issues&lt;&#x2F;code&gt; &amp;gt; &lt;code&gt;Boards&lt;&#x2F;code&gt; から利用できます。&lt;&#x2F;p&gt;
+&lt;p&gt;GitLab 上では Boards となっていますが、カンバンの方が馴染みが深い方が多いのではないかと思われます。&lt;br &#x2F;&gt;
+GitLab上ではデフォルトでは以下の状態が用意されています。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Open&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+issue が作成されたときの状態&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Closed&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+作業が完了したら &lt;code&gt;Closed&lt;&#x2F;code&gt; に移動&lt;&#x2F;li&gt;
+&lt;li&gt;上記以外にカンバン上の状態を表すラベルを設定可能。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;個人的には Redmine でガントチャートベースでタスクを回す事が多かったのですが、幾つかのプロジェクトでは取引先のマネージャの希望等からカンバンベースでタスク管理をしたこともあります ( Redmine の場合、Agileプラグインを利用 )。&lt;br &#x2F;&gt;
+カンバン上で関係者でタスクを確認し、それぞれのタスクの状態を変更してゆくという事を定期的に行っていました。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;タスクの大まかな状態を全員で確認できる。&lt;&#x2F;li&gt;
+&lt;li&gt;重要なタスクは順番を入れ替える(上に持ってくる)といったルールで運用する事で、タスクの重要度&#x2F;優先度も可視化できる&lt;&#x2F;li&gt;
+&lt;li&gt;担当者も表示されているので、誰がどの程度のタスクを抱えているかも把握しやすい。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;プロジェクトの形態や規模、参加メンバーの属性等によって向き&#x2F;不向きもあるため、必ず利用すべきといったものではありませんが、利用した事がないのであれば試してみる価値はあるでしょう。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;「小規模でガントチャート作るまでは...」といった場合&lt;&#x2F;li&gt;
+&lt;li&gt;アジャイル的な開発手法を採用している場合&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;に親和性が高いと思います。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;reference-2&quot;&gt;Reference&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.gitlab.com&#x2F;ee&#x2F;user&#x2F;project&#x2F;issue_board.html&quot;&gt;Issue boards&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;can-kao&quot;&gt;参考&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;qiita.com&#x2F;tnir&#x2F;items&#x2F;a488334247f112b083f3&quot;&gt;GitLabイシューボードでkanbanやスクラムを試してみる&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;shi-jian-guan-li&quot;&gt;時間管理&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;code&gt;Time tracking&lt;&#x2F;code&gt; と &lt;code&gt;Due dates&lt;&#x2F;code&gt; を利用する事でタスクの時間管理やスケジュール管理をする事が可能です。&lt;&#x2F;p&gt;
+&lt;p&gt;プロジェクトを進めるうえで各タスク ( issue ) の時間管理は重要です。
+タイムトラッキングするまでもなく、順調に進んでいるプロジェクトの場合にはガチガチな時間管理をする必要はないと個人的には思ってますが、&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;進捗が芳しくない&lt;&#x2F;li&gt;
+&lt;li&gt;タスクにどの程度の工数がかかるか把握できていない&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;といった状況が続いている場合、先ずは見える化する事からはじめるのが良いでしょう。&lt;br &#x2F;&gt;
+可視化されていない問題は放置される&#x2F;改善されない事が殆どなので、可視化するのがファーストステップです。&lt;&#x2F;p&gt;
+&lt;p&gt;GitLab の &lt;code&gt;Time tracking&lt;&#x2F;code&gt; と &lt;code&gt;Due dates&lt;&#x2F;code&gt; を利用する事でタスクの時間管理やスケジュール管理をする事が可能です。&lt;&#x2F;p&gt;
+&lt;p&gt;各 issue について、&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;どの程度かかりそうか&lt;br &#x2F;&gt;
+見積もり &lt;code&gt;&#x2F;estimate&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;実際にかかった工数
+&lt;code&gt;&#x2F;spend&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;いつまでに出来そうか
+&lt;code&gt;Due date&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;を記録する事で見える化が可能です。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;jian-ji-mori&quot;&gt;見積もり&lt;&#x2F;h3&gt;
+&lt;p&gt;issue のコメントで &lt;code&gt;&#x2F;estimate 1w 2d 5h&lt;&#x2F;code&gt; といった風に入力する事で見積もり工数を入力できます。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;コマンドを途中まで入力するとヒントが表示されるので参考にしましょう。&lt;&#x2F;li&gt;
+&lt;li&gt;1w == 7d ではなく 1w = 5d なのでその点は注意しましょう。&lt;&#x2F;li&gt;
+&lt;li&gt;当然 1d = 24h でもありませんが、これに関して間違う方はいないと思われ&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;見積もりを取り消す場合は &lt;code&gt;remove_estimate&lt;&#x2F;code&gt; で。&lt;&#x2F;p&gt;
+&lt;p&gt;変更する場合には &lt;code&gt;&#x2F;estimate xxx&lt;&#x2F;code&gt; を再入力します。以前の値に加算されるのではなく、上書きされるようなのでこちらも注意しましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shi-gong-shu&quot;&gt;実工数&lt;&#x2F;h3&gt;
+&lt;p&gt;issue コメントで &lt;code&gt;&#x2F;spend xxx&lt;&#x2F;code&gt; で入力します。時間のフォーマットは &lt;code&gt;estimate&lt;&#x2F;code&gt; と同じです。&lt;&#x2F;p&gt;
+&lt;p&gt;※ &#x2F;spend に関しては入力した値は加算されます ( &#x2F;estimate とは異なるようです )。&lt;&#x2F;p&gt;
+&lt;p&gt;estimate と spend 両方入力すると、issue 右側の &lt;code&gt;Time tracking&lt;&#x2F;code&gt; 欄に進捗がバー表示されるようになります。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;qi-xian&quot;&gt;期限&lt;&#x2F;h3&gt;
+&lt;p&gt;期限は issue の右側にある Due date 欄で入力します。&lt;&#x2F;p&gt;
+&lt;p&gt;issue コメントで &lt;code&gt;&#x2F;due xxx&lt;&#x2F;code&gt; で設定する事も可能ですが、xxx 部分の書式は &lt;code&gt;in 2 days&lt;&#x2F;code&gt; とか &lt;code&gt;this Friday&lt;&#x2F;code&gt;, &lt;code&gt;December 31st&lt;&#x2F;code&gt; とか例に出てきて日本人的には馴染まない可能性が高いので、Due date 欄でカレンダー設定するのがお勧めです。&lt;&#x2F;p&gt;
+&lt;p&gt;期限を過ぎている issue は表示色が変わって表示されたり、&lt;code&gt;To-Do List&lt;&#x2F;code&gt; (GitLab右上にあるアイコンからアクセスできます) での表記が変わります。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;reference-3&quot;&gt;Reference&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.gitlab.com&#x2F;ee&#x2F;user&#x2F;project&#x2F;time_tracking.html&quot;&gt;Time tracking&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.gitlab.com&#x2F;ee&#x2F;user&#x2F;project&#x2F;issues&#x2F;due_dates.html&quot;&gt;Due dates&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h3 id=&quot;gantotiyato&quot;&gt;ガントチャート&lt;&#x2F;h3&gt;
+&lt;p&gt;Premium、Ultimate ならば &lt;a href=&quot;https:&#x2F;&#x2F;docs.gitlab.com&#x2F;user&#x2F;group&#x2F;roadmap&#x2F;&quot;&gt;Roadmap&lt;&#x2F;a&gt; 機能でできるらしい。
+https:&#x2F;&#x2F;github.com&#x2F;lamact&#x2F;react-issue-ganttchart を利用して Due date を元にしたガントチャート表示は行った事があります。CE などでガントチャートを利用してみたい場合には試してみても良いでしょう。&lt;br &#x2F;&gt;
+※ GitLab 自体の機能ではありません。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;mrnodraftji-neng-jiu-wip&quot;&gt;MRのDraft機能(旧WIP)&lt;&#x2F;h2&gt;
+&lt;p&gt;MRの Title 入力欄の下に &lt;code&gt;Start the title with Draft: to prevent a merge request that is a work in progress from being merged before it&#x27;s ready.&lt;&#x2F;code&gt; という記載があり、&lt;code&gt;Start the title with Draft:&lt;&#x2F;code&gt; リンクをクリックすると、この MR がドラフト状態だと示す事ができます。&lt;br &#x2F;&gt;
+これは且て WIP (Work In Progress) と呼ばれていた機能で、Draft状態で作成された MR はマージボタンが押せない状態で作成されます。&lt;&#x2F;p&gt;
+&lt;p&gt;作業途中でまだ完成していないがレビューやコメントが欲しいといった(ドラフト)状態にある場合に、MR の Draft 機能を利用するとよいでしょう。&lt;&#x2F;p&gt;
+&lt;p&gt;GitLab上でドキュメントの管理をしている場合で、メンバーのコメントやチェックが欲しいといった場合にも活用できると思います。&lt;&#x2F;p&gt;
+&lt;p&gt;Draft 状態で作成した MR もレビュー内容を反映した後に &lt;code&gt;Mark as ready&lt;&#x2F;code&gt; ボタンで非 Draft 状態に変更する事も可能です。( 再度 Draft 状態に戻す事も可能 )&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;reference-4&quot;&gt;Reference&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.gitlab.com&#x2F;ee&#x2F;user&#x2F;project&#x2F;merge_requests&#x2F;drafts.html&quot;&gt;Draft merge requests&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;soredemofa-sheng-sitawen-ti&quot;&gt;それでも発生した問題&lt;&#x2F;h2&gt;
+&lt;p&gt;上記のようなルールを策定しても、問題が発生する事はあります。&lt;br &#x2F;&gt;
+具体的例を示します。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;he-suru-issue&quot;&gt;何する issue ?&lt;&#x2F;h3&gt;
+&lt;p&gt;タイトルだけや、概要説明が不十分な issue が作られ、何するの?状態になった事がありました。&lt;&#x2F;p&gt;
+&lt;p&gt;流れを書くと、以下のような感じ&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;メンバーＢ：「〇〇に関して××の問題があるので、対応すべき」&lt;&#x2F;li&gt;
+&lt;li&gt;メンバーＡ：「対応します」&lt;&#x2F;li&gt;
+&lt;li&gt;メンバーＢ：「issue 書いてください」&lt;&#x2F;li&gt;
+&lt;li&gt;メンバーＡ：「了解」&lt;&#x2F;li&gt;
+&lt;li&gt;メンバーＡ：issue 作成 (タイトルのみ)&lt;br &#x2F;&gt;
+タイトル内容も &lt;code&gt;〇〇を決める&lt;&#x2F;code&gt; 等、何の? となるようなタイトル。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;その後、暫く issue 対応はされずに放置される ( 他に優先するタスクがある等の理由 )。&lt;&#x2F;p&gt;
+&lt;ol start=&quot;6&quot;&gt;
+&lt;li&gt;メンバーＡ：「決める必要のあるものがない」といった理由で issue クローズ。&lt;&#x2F;li&gt;
+&lt;li&gt;メンバーＢ：問題は解決していない旨コメント。&lt;&#x2F;li&gt;
+&lt;li&gt;メンバーＡ：もう覚えていない旨告白。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;issue に必要十分な内容が記載されていれば、避けられる問題です。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 同様の問題は繰り返し引き起こされる場合があります ( 経験的に )。&lt;br &#x2F;&gt;
+※ 繰り返し発生する場合には、メンバー自身に対応策を策定してもらうのがベストですが、無理な場合には &lt;a href=&quot;https:&#x2F;&#x2F;qiita.com&#x2F;e99h2121&#x2F;items&#x2F;2690103fce58cdbdc714&quot;&gt;issueのテンプレートを用意&lt;&#x2F;a&gt; しましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;burantiming-gaming-ming-gui-yue-nicong-tuteinai&quot;&gt;ブランチ名が命名規約に従っていない&lt;&#x2F;h3&gt;
+&lt;p&gt;命名ルールに従いましょう。&lt;br &#x2F;&gt;
+新規ブランチを GitLab に push する際には、&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;ブランチ名が適切か？&lt;&#x2F;li&gt;
+&lt;li&gt;既存のブランチがどうなっているのか？&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;といった点を確認するのをお勧めします。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;burantinozuo-cheng-shou-shun-niwen-ti-duo-fen&quot;&gt;ブランチの作成手順に問題 ( 多分 )&lt;&#x2F;h3&gt;
+&lt;p&gt;かつて、MR に既にマージ済みの変更が含まれていた問題がありました。&lt;br &#x2F;&gt;
+feature ブランチ作成時に最新の develop からではなく、( おそらく ) ローカルの develop を最新状態にせずにブランチを作成したのではないかと思われます。&lt;br &#x2F;&gt;
+仮に誤ってそのまま MR に進んだとしても、MR 作成前に差分を確認していれば ( GitLab 上で確認できる )、自分が当該の feature ブランチで行っていない変更が含まれるために気づくはずです。&lt;br &#x2F;&gt;
+この問題が発生した理由としては以下の二つが含まれます。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;ブランチ作成ルールがダメ&lt;&#x2F;li&gt;
+&lt;li&gt;MR時にレビューしていない&lt;br &#x2F;&gt;
+レビュアーがいない場合でも自分でMRに含まれる差分が適切かどうかの確認は必要です。セルフレビューの場合、自分自身できちんとチェックしましょう。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;matome&quot;&gt;まとめ&lt;&#x2F;h2&gt;
+&lt;p&gt;権限まわりザルな設定するのはホント止めた方がよいと思う。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>Oracle ユーザ管理ベストプラクティス</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/best-practice-oracle-usermgmt/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/best-practice-oracle-usermgmt/</id>
+        
+        <content type="html">&lt;h1 id=&quot;oracle-yuzaguan-li-besutopurakuteisu&quot;&gt;Oracle ユーザ管理ベストプラクティス&lt;&#x2F;h1&gt;
+&lt;p&gt;俺的ベストプラクティスシリーズw&lt;&#x2F;p&gt;
+&lt;p&gt;開発環境等、個人で利用するものに関してはここでは触れません。&lt;br &#x2F;&gt;
+特にプロダクション環境 ( 及び、複数人で利用するステージング環境 ) におけるベストプラクティス。&lt;&#x2F;p&gt;
+&lt;p&gt;※ Oracle マスターではないので、誤った情報を含んでいる可能性があるかも。ご了承下さい。&lt;br &#x2F;&gt;
+※ プロダクション環境の DB にアクセスユーザをどのように管理すればよいかに関して、ベストプラクティス的なものを書きなぐってます。&lt;br &#x2F;&gt;
+※ DB に限らず、アプリケーションや OS の権限管理にも通じるものもあると思う。&lt;br &#x2F;&gt;
+※ 誰かがやらかしたときに勢いで書いたネタ...&lt;&#x2F;p&gt;
+&lt;p&gt;※ かつての記事のリライトのため、現状の Oracle の仕様・UI とはズレがある可能性があります。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;yong-yu&quot;&gt;用語&lt;&#x2F;h2&gt;
+&lt;p&gt;用語をいくつか定義しておきます。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;DBA&lt;br &#x2F;&gt;
+Database Administrator の略。データベース管理者。データベースに対してなんでもできる(すべての権限を有する)人&#x2F;アカウント&lt;&#x2F;li&gt;
+&lt;li&gt;デフォルトユーザ&lt;br &#x2F;&gt;
+&lt;a href=&quot;https:&#x2F;&#x2F;blogs.oracle.com&#x2F;sec&#x2F;post&#x2F;021_users_by_default&quot;&gt;[第21回] デフォルトで最初から作成されているユーザー&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;プロダクション環境&lt;br &#x2F;&gt;
+本番&#x2F;運用環境のこと&lt;&#x2F;li&gt;
+&lt;li&gt;ステージング環境&lt;br &#x2F;&gt;
+検証等を行うための環境。本番適用前の事前検証やテストに利用される。個々の開発者の開発環境とは異なり複数人で利用される。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;besutopurakuteisu&quot;&gt;ベストプラクティス&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;yuzadehanakuroruniquan-xian-wofu-yu-suru&quot;&gt;ユーザではなくロールに権限を付与する&lt;&#x2F;h3&gt;
+&lt;p&gt;オラクルには ロール(ROLE) を扱う仕組みがあるので、
+個別ユーザに権限を与えるのではなく ROLE に権限を割当て、個々のユーザはロールに属するよう設定を行います。&lt;&#x2F;p&gt;
+&lt;p&gt;参考 : &lt;a href=&quot;https:&#x2F;&#x2F;atmarkit.itmedia.co.jp&#x2F;fdb&#x2F;ref&#x2F;ref_oracle&#x2F;role.html&quot;&gt;ロールの確認／作成／付与／変更／取り消し／削除&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yuzanihabi-yao-zui-xiao-xian-noakusesuquan-woyu-eru&quot;&gt;ユーザには必要最小限のアクセス権を与える。&lt;&#x2F;h3&gt;
+&lt;p&gt;管理を緩めにしたい場合、ユーザに多くの権限を割り振りたくなりますが、これによってセキュリティリスクをもたらす可能性があります。&lt;br &#x2F;&gt;
+重要なシステムの場合には、そのユーザが作業を行う上で必要最小限の権限のみ与えるようにしましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;jian-cha-woxing-u&quot;&gt;監査を行う&lt;&#x2F;h3&gt;
+&lt;p&gt;オラクルにはログインの試行や作業内容を監査するための仕組みが存在します。&lt;br &#x2F;&gt;
+監査が無効な場合には、必要十分な監査が行えるように監査を有効にしましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;dehuorutoyuzahake-neng-dearebarotukusuru&quot;&gt;デフォルトユーザは可能であればロックする。&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;blogs.oracle.com&#x2F;sec&#x2F;post&#x2F;021_users_by_default&quot;&gt;[第21回] デフォルトで最初から作成されているユーザー&lt;&#x2F;a&gt; は攻撃者にとっては最も狙いやすいアカウントであるため、
+可能であればロックするのが望ましいです。
+ロックできないアカウントに関しては、十分な強度のパスワードを設定しましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;dehuorutoyuzawodbanisinai&quot;&gt;デフォルトユーザをDBAにしない&lt;&#x2F;h3&gt;
+&lt;p&gt;SYS&#x2F;SYSTEM等のデフォルトユーザをDBAユーザにする事は簡単ですが、DBA操作を行う個人に対してDBAユーザを作成しましょう。これは以下の理由からです。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;監査&lt;br &#x2F;&gt;
+共有の特権アカウントを利用している場合、どの利用者がDBA作業を行ったのか監査追跡を行うのは面倒です。個別のユーザを用意しておけば監査はより簡単に行えます。&lt;&#x2F;li&gt;
+&lt;li&gt;パスワード管理&lt;br &#x2F;&gt;
+DBAユーザでも自分以外のパスワードは知らない状態にすることで、離職時のパスワード管理が簡単になります。セキュリティや監査の面でも有効です。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;dbarorutokai-fa-zhe-roruwofen-keru&quot;&gt;DBAロールと開発者ロールを分ける&lt;&#x2F;h3&gt;
+&lt;p&gt;アプリケーションの開発中、特に開発環境においてはDBAと開発者は同一である事が多いですが、&lt;br &#x2F;&gt;
+プロダクション環境ではDBAと開発者は別の事が殆どです。&lt;br &#x2F;&gt;
+これら二つの役割(ジョブ)に対しては異なるロールを作成し、別々に権限を割り当てるようにしましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;apurikesiyon-dbayong-noyuzahani-ming-xing-wopai-chu-suru&quot;&gt;アプリケーション&#x2F;DBA用のユーザは匿名性を排除する&lt;&#x2F;h3&gt;
+&lt;p&gt;アプリケーションが利用するユーザは、どうしても代表ユーザになってしまうことがあります。&lt;br &#x2F;&gt;
+アプリケーション用の代表ユーザは強力な権限を持っており、アカウント情報が流出してしまった場合でもパスワードを変更することは難しい事も多いです。&lt;br &#x2F;&gt;
+しかし、運用担当者が離職した後でも、昔使っていたパスワードでシステムにアクセスできてしまうかもしれません。&lt;br &#x2F;&gt;
+データベースに直接アクセスするアプリケーションおよびデータベースの管理運用担当者用には、匿名性を排除して厳密なアクセス制御を行うために、個別のアカウントを作成するのが望ましいです。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;roruworu-rezi-nisuru&quot;&gt;ロールを入れ子にする&lt;&#x2F;h3&gt;
+&lt;p&gt;Oracle のロールはネストする事が可能です。&lt;br &#x2F;&gt;
+個人的に設定した事はないのですが、以下のような設定を行っているのを見たことがあります。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;開発者用の &lt;code&gt;DEVELOPER&lt;&#x2F;code&gt; ロール&lt;&#x2F;li&gt;
+&lt;li&gt;DBメンテナンス者用の &lt;code&gt;MAINTAINER&lt;&#x2F;code&gt; ロール&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;DEVELOPER&lt;&#x2F;code&gt; と &lt;code&gt;MAINTAINER&lt;&#x2F;code&gt; の両方の権限を有する &lt;code&gt;MANAGER&lt;&#x2F;code&gt; ロール&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;DEVELOPER の権限が更新されると、MANAGERのロールも更新されます。
+複数のタスクを行うジョブ(利用者)が存在する場合には、ロールをネストする事で管理を柔軟にし、管理コストを減らせる可能性があります。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;connect-resource-roruhali-yong-sinai&quot;&gt;CONNECT&#x2F;RESOURCE ロールは利用しない。&lt;&#x2F;h3&gt;
+&lt;p&gt;CONNECTロール等の一部ロールは Oracle に組み込まれていますが、これらロールは利用しないようにしましょう。&lt;br &#x2F;&gt;
+10g R2 から「最低限の権限」原則により CONNECT および RESOURCE ロールは非推奨 になっています。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;nkurilog.blogspot.com&#x2F;2018&#x2F;02&#x2F;oracle-connectresource.html&quot;&gt;Oracle CONNECTおよびRESOURCEロールのまとめ&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;※ バージョンによって権限内容などが異なるようであるため、理解せずに利用するのは危険。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;public-nizhu-yi-suru&quot;&gt;PUBLIC に注意する&lt;&#x2F;h3&gt;
+&lt;p&gt;PUBLIC に権限を付与すると、誰でもその権限を使用できるようになります。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;blogs.oracle.com&#x2F;sec&#x2F;post&#x2F;022_public_role&quot;&gt;[第22回] PUBLICに注意&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yusukesuwoyuan-niroruwojue-meru&quot;&gt;ユースケースを元にロールを決める&lt;&#x2F;h3&gt;
+&lt;p&gt;運用を踏まえて以下を検討しましょう。&lt;br &#x2F;&gt;
+可能な範囲でよいので、アクセスマトリクスを作成する等して、権限をまとめ、可視化しましょう。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;利用者&lt;br &#x2F;&gt;
+DBを利用するユーザは誰か。どんな利用者がいるか。&lt;&#x2F;li&gt;
+&lt;li&gt;権限&lt;br &#x2F;&gt;
+利用者の種類(アクター)毎にどんな権限が必要か。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;matome&quot;&gt;まとめ&lt;&#x2F;h2&gt;
+&lt;p&gt;開発段階にある場合など全て決めるのが難しい場合もあると思いますが、できる範囲でユーザ&#x2F;ロールを策定しましょう。&lt;br &#x2F;&gt;
+新たなアプリケーションの追加や新機能の追加といったタイミング等、適当なインターバルで見直しを行いましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;問題発生時も見直すためのよい機会です。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;can-kao&quot;&gt;参考&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;blogs.oracle.com&#x2F;sec&#x2F;post&#x2F;021_users_by_default&quot;&gt;[第21回] デフォルトで最初から作成されているユーザー&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;blogs.oracle.com&#x2F;sec&#x2F;post&#x2F;022_public_role&quot;&gt;[第22回] PUBLICに注意&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;nkurilog.blogspot.com&#x2F;2018&#x2F;02&#x2F;oracle-connectresource.html&quot;&gt;Oracle CONNECTおよびRESOURCEロールのまとめ&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;atmarkit.itmedia.co.jp&#x2F;fdb&#x2F;ref&#x2F;ref_oracle&#x2F;role.html&quot;&gt;ロールの確認／作成／付与／変更／取り消し／削除&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;atmarkit.itmedia.co.jp&#x2F;ait&#x2F;articles&#x2F;1803&#x2F;13&#x2F;news008.html&quot;&gt;安全なデータベース運用のキモ、ユーザーのアクセス制御をどう設定すべきか&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>ベストプラクティス Redmine</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/best-practice-redmine/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/best-practice-redmine/</id>
+        
+        <content type="html">&lt;h2 id=&quot;hazimeni&quot;&gt;はじめに&lt;&#x2F;h2&gt;
+&lt;p&gt;ここではRedmineマニュアル的な使い方の話ではなく、&lt;br &#x2F;&gt;
+Redmine ( やそれに類するプロジェクト管理ツール ) を利用する上で、&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;気を付けるとよい点&lt;&#x2F;li&gt;
+&lt;li&gt;こういう使い方は止めた方がよい点 (バッドノウハウ)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;に関して書いてみます。&lt;&#x2F;p&gt;
+&lt;p&gt;※ Redmine Japan で聞いた事とかもまとめています。&lt;br &#x2F;&gt;
+※ Redmine 以外のプロジェクト管理ツールを利用する場合にも有効 ( だと思う )。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;redminetoha&quot;&gt;Redmineとは&lt;&#x2F;h2&gt;
+&lt;p&gt;もともとはIT開発者向けとして開始されましたが、現在では様々な分野や仕事で利用されている &lt;strong&gt;プロジェクト管理ツール&lt;&#x2F;strong&gt; です。&lt;&#x2F;p&gt;
+&lt;p&gt;プロジェクト管理ツールって何？と聞かれた場合には、&lt;br &#x2F;&gt;
+&lt;strong&gt;「やるべき事を付箋に書いて、できたらはがす」&lt;&#x2F;strong&gt; 事を&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;ITの力を借りて、&lt;&#x2F;li&gt;
+&lt;li&gt;よりシステマチックに&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;行うものと説明しています ( 私は )。&lt;&#x2F;p&gt;
+&lt;p&gt;付箋＝Redmineのチケットなので、&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;やる事をチケットに書いて、&lt;&#x2F;li&gt;
+&lt;li&gt;出来たら消す。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;という事になります。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;tiketutowoxiao-su&quot;&gt;チケットを消す&lt;&#x2F;h3&gt;
+&lt;p&gt;という事でRedmineを使う目的を1つ上げるとすると&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;「チケットを ( 書いて ) 消すこと」&lt;&#x2F;strong&gt; になります。&lt;&#x2F;p&gt;
+&lt;p&gt;※ ゲーミフィケーション的に「チケットを消すのが快感」になるようできると定着しやすい。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;自分のチケットを消す&lt;&#x2F;li&gt;
+&lt;li&gt;他メンバーのチケットも消す&lt;&#x2F;li&gt;
+&lt;li&gt;記録を残す&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;併せて、チケット消化のために行ったアクションをきちんと記録する。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;xiao-sutameni&quot;&gt;消すために&lt;&#x2F;h4&gt;
+&lt;p&gt;消せないチケットが増えると、モチベーションも上がりませんし、ツールの利用も促進されません。&lt;br &#x2F;&gt;
+消しやすいチケットにするために、以下のような事に気を付けましょう。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;消しやすい粒度でチケットを切る&lt;br &#x2F;&gt;
+あまりに範囲が広い ( 粒度が大きい ) チケットは消せない。&lt;br &#x2F;&gt;
+→ 子チケットに分割する ( 数時間～数日単位を目安に消化できる粒度で作る )。&lt;&#x2F;li&gt;
+&lt;li&gt;複数のタスクを書かない&lt;br &#x2F;&gt;
+記録 ( コメント ) を残す場合でも、どのタスクに対する作業か判りづらくなる。&lt;br &#x2F;&gt;
+→ 上と同様ですが、適切な粒度の子チケットに分割する&lt;&#x2F;li&gt;
+&lt;li&gt;終了条件が明確になるようなチケットを切る&lt;br &#x2F;&gt;
+「運用改善」のようなチケットだと、何が行われたら終了できるか判らない。&lt;br &#x2F;&gt;
+→「〇〇を××する」といった実際に行う必要があるアクション、及び、終了条件が判るようなチケットにする。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;jian-eruhua&quot;&gt;見える化&lt;&#x2F;h3&gt;
+&lt;p&gt;記録を残す事で、見える化が可能になります。可視化は重要。&lt;br &#x2F;&gt;
+何を可視化したいのか&#x2F;すべきかはしっかり意識しましょう？ここがぶれると余計な情報が増えたり、可視化したいものが欠落したりします。&lt;&#x2F;p&gt;
+&lt;p&gt;ここはプロジェクト次第で、「これ！」というものを提示するのは難しいので、例を示します。&lt;&#x2F;p&gt;
+&lt;p&gt;以下、開発プロジェクトの場合の例&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;やる ( べき ) 事
+&lt;ul&gt;
+&lt;li&gt;チケットに書く ( 粒度に気を付ける )&lt;&#x2F;li&gt;
+&lt;li&gt;担当を割り振る ( 未決ならばプロジェクト管理者等割り当てを実施する人に )&lt;&#x2F;li&gt;
+&lt;li&gt;期間を設定する ( 仮の期間でも良い )&lt;&#x2F;li&gt;
+&lt;li&gt;適切なタイトルを付ける&lt;&#x2F;li&gt;
+&lt;li&gt;必要十分な説明 ( 概要 ) もきちんと書く&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;スケジュール&lt;br &#x2F;&gt;
+チケットに期間、進捗率を記録する事でガントチャート化&lt;&#x2F;li&gt;
+&lt;li&gt;タスクの状況
+&lt;ul&gt;
+&lt;li&gt;対応内容はきちんとコメントに書く。ステータスや担当者も適宜変更する。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;yun-yong-surushang-deqi-wofu-kerushi&quot;&gt;運用する上で気を付ける事&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;設定はあまり細かく分けない&lt;br &#x2F;&gt;
+Redmineを運用する上では、各種設定を細分化したくなります。&lt;br &#x2F;&gt;
+しかし、細分化するほど設定・運用・メンテナンスのコストは増えます。
+可能な限り細分化しない事をお勧めします。&lt;&#x2F;li&gt;
+&lt;li&gt;組織構造をそのまま反映するのは基本止める&lt;br &#x2F;&gt;
+実際の部署や役職を元に最初にデータを構造化するのは結構ありがちかと思われますが、これをやると大抵失敗するか、管理が辛くなります。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;プロジェクト管理ツールはプロジェクト内の組織構造や役職の構造を管理するためのツールではありません。あくまでタスクを捌くためのものです。&lt;br &#x2F;&gt;
+目的のために必要最小限で効率のよいトラッカー、ステータス、ロール、プロジェクトを定義する事をお勧めします。&lt;br &#x2F;&gt;
+最初はミニマムで始め、必要に応じて変更&#x2F;改善しましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;以下具体的なバッドノウハウ ( 例 ) を記載していきます。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;toratukawofen-kesuginai&quot;&gt;トラッカーを分けすぎない&lt;&#x2F;h3&gt;
+&lt;p&gt;トラッカーってチケットの区分だから、業務種別毎にトラッカーを分けて作ろう。&lt;br &#x2F;&gt;
+→ &lt;strong&gt;「業務&#x2F;部署ごとに分けて作ろう！」&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;ってのはありがち。&lt;&#x2F;p&gt;
+&lt;p&gt;※ &lt;strong&gt;Redmineのトラッカー ＝ 帳票&lt;&#x2F;strong&gt; の意味合い。( 入力項目があって、承認フローがある )。&lt;&#x2F;p&gt;
+&lt;p&gt;でも、&lt;&#x2F;p&gt;
+&lt;p&gt;トラッカーをたくさん作ったけど、実はワークフローが一緒って事が多い。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;入力項目もワークフローも同じならトラッカーは同じものが使える可能性が高い。&lt;&#x2F;li&gt;
+&lt;li&gt;設定が多いほど、管理コストやメンテナンスコストが上がる。&lt;&#x2F;li&gt;
+&lt;li&gt;後で整理しようとしたときに辛くなる。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;ru-li-xiang-mu-duo-sugi&quot;&gt;入力項目多すぎ&lt;&#x2F;h3&gt;
+&lt;p&gt;トラッカー = 帳票と言いましたが、&lt;br &#x2F;&gt;
+カスタムフィールド追加しまくって何入力すればいいか判らない。&lt;br &#x2F;&gt;
+って事にもなりがち。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;結局入力してないフィールドがある&lt;&#x2F;li&gt;
+&lt;li&gt;形骸化していて、利活用されていないフィールドがある&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;後々、分析や集計に利用するのでなければ、普通にチケットの説明欄に記載するので十分な事が多い。&lt;&#x2F;p&gt;
+&lt;p&gt;入力はしてほしい項目がある ( 分析まではしない ) のであれば、Issue Templates プラグイン使いましょう。&lt;br &#x2F;&gt;
+→ トラッカーの乱立も防止できます。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 実際に入力項目100個とかあるらしい... 地獄&lt;br &#x2F;&gt;
+※ 担当者以外に、対応者とかあるトラッカーあるけど、違いって何？&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;sutetasuhabi-yao-zui-xiao-xian-ni&quot;&gt;ステータスは必要最小限に&lt;&#x2F;h3&gt;
+&lt;p&gt;必要以上に細かくすると判り難い。&lt;br &#x2F;&gt;
+→ どのステータスを選べばよいか、プロジェクト参加したばかりの人が把握できるのがよい状態。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;業務フロー整理できていますか？&lt;br &#x2F;&gt;
+実際の業務では存在するステータスでもシステム上では不要な場合もあります。&lt;br &#x2F;&gt;
+必要かどうか微妙なステータスを作成するのは止めましょう。&lt;br &#x2F;&gt;
+どうしても必要になった時点で追加すれば済むことです。&lt;&#x2F;li&gt;
+&lt;li&gt;担当者が割り振れないステータス本当に必要ですか？&lt;br &#x2F;&gt;
+→ チケットが消化されなくなる可能性が高くなります。&lt;&#x2F;li&gt;
+&lt;li&gt;同じワークフローに位置するステータスが複数ある ( 部署が違う場合に別で作られている等 ) なら纏めましょう。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;※ 実際にステータスが30個とか...あるらしい ワークフロー把握&#x2F;理解できるのか？&lt;br &#x2F;&gt;
+※ Redmineでもプラグイン追加によってカンバン利用できますが、ステータス30個のカンバンとかカオス...&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;rorumoxi-fen-hua-surunohazhi-meyou&quot;&gt;ロールも細分化するのは止めよう&lt;&#x2F;h3&gt;
+&lt;p&gt;いろんな人が見れるのは良くない。ロールで詳細に権限を分けよう。&lt;br &#x2F;&gt;
+→ 役職毎とかにロール作ってるとこ見たことある。。。&lt;&#x2F;p&gt;
+&lt;p&gt;PMとかPMOとかPLとかRedmineで何ができるロールだっけ？
+→ 承認者、レビュワー、オブザーバー 等役割が明確なロールの方が良い。&lt;&#x2F;p&gt;
+&lt;p&gt;※ PM だからこの権限、PL だからこの権限、と役職に合わせてロールを作る必要はありません。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;wakuhuroha&quot;&gt;ワークフローは？&lt;&#x2F;h3&gt;
+&lt;p&gt;ワークフローはロール×トラッカーの数だけある。&lt;&#x2F;p&gt;
+&lt;p&gt;多くなると管理が大変。&lt;&#x2F;p&gt;
+&lt;p&gt;ワークフローが同じものは、できるだけ同じトラッカーで扱えるようにする。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;( 承認不要 ) タスク&lt;&#x2F;li&gt;
+&lt;li&gt;顧客承認タスク&lt;&#x2F;li&gt;
+&lt;li&gt;上長承認タスク&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;等のようにワークフローが同じトラッカーはまとめてしまって、部署を跨いだ場合でも同じトラッカーが使えるようにする方が判りやすい。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;puroziekutomobu-yong-yi-nixi-fen-hua-sinai&quot;&gt;プロジェクトも不用意に細分化しない&lt;&#x2F;h3&gt;
+&lt;p&gt;「案件単位でプロジェクト」とかありがちだけど。。。&lt;&#x2F;p&gt;
+&lt;p&gt;「バージョン」利用で足りるのであれば、バージョンを活用しましょう。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Redmineではソースコードとの連携も行いやすくなっています。&lt;br &#x2F;&gt;
+→ 適切なプラグインを併用する事で Redmineサーバ上で Subversion&#x2F;Git リポジトリサーバ構成も可能です。&lt;br &#x2F;&gt;
+→ 製品&#x2F;サービスとプロジェクトを一対一で紐づけるのがお勧め。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;「〇〇サービス××改善」のようなプロジェクトがある場合には、「〇〇サービス」プロジェクトで、「××改善」バージョンを作成する事で、任意の製品&#x2F;サービスのロードマップ毎に分割可能になります。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;GitLabでのMilestoneも同様です。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;zu-zhi-jie-ceng-degou-zao-hua-surunohae-shou&quot;&gt;組織階層で構造化するのは悪手&lt;&#x2F;h3&gt;
+&lt;p&gt;ありがちです。&lt;&#x2F;p&gt;
+&lt;p&gt;が、複数の部署が連携して行わなければいけないプロジェクトの場合は？&lt;&#x2F;p&gt;
+&lt;p&gt;→ おすすめは案件単位&lt;br &#x2F;&gt;
+但し、フェーズが分かれる場合には不用意にプロジェクト分割せずに、バージョン利用解決できないか検討しましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;baziyonnoshi-ifang-tositedouyo&quot;&gt;バージョンの使い方としてどうよ？&lt;&#x2F;h3&gt;
+&lt;p&gt;基本、バージョンは期間を区切るものとして使うようにしています。&lt;&#x2F;p&gt;
+&lt;p&gt;プロジェクトを期間以外の軸で分割するのに使っている場合もあるようですが、&lt;&#x2F;p&gt;
+&lt;p&gt;期間で分割したくなった場合に、適切に分割できなくなるので、その手の要件が絶対に発生しないプロジェクト以外で採用するのは止めましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;menbazhui-jia-sisugi&quot;&gt;メンバー追加しすぎ&lt;&#x2F;h3&gt;
+&lt;p&gt;考えるの面倒だったの？ メンバー多すぎだろ？&lt;&#x2F;p&gt;
+&lt;p&gt;基本的には、当該プロジェクトに実際に関わる方のみメンバー追加するようにしましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;閲覧だけさせたい？
+→ 公開プロジェクトでよいのであれば、それで足りる。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;zhong-warini&quot;&gt;終わりに&lt;&#x2F;h2&gt;
+&lt;p&gt;特に運用開始時、トラッカーのステータス、ロールの追加を行う際に、&lt;br &#x2F;&gt;
+「項目追加したぞ！うちの会社に併せて構造化されている＆ワークフローも反映されてて完璧。スゲー！」&lt;br &#x2F;&gt;
+とか思ってしまう場合もあるかもしれませんが、&lt;&#x2F;p&gt;
+&lt;p&gt;単に業務分析や抽象化が出来ていないだけかもしれません。&lt;br &#x2F;&gt;
+より少ない設定でうまく回せるような方法を考えましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;設定が細かいことと、業務を適切に抽象化できていることは別です。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>コーディングルール (Java)</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/java-coding-rule/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/java-coding-rule/</id>
+        
+        <content type="html">&lt;p&gt;Java 開発する中で個人的にまとめたコーディングルール。&lt;br &#x2F;&gt;
+※ 企業でのプロダクト開発などでの経験も踏まえてはいる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;hazimeni&quot;&gt;はじめに&lt;&#x2F;h2&gt;
+&lt;p&gt;良いコードかどうかの一つの指標として「他人が読んでもわかりやすいかどうか？」というものがある。&lt;br &#x2F;&gt;
+コードがわかりやすいかどうかは、ロジックの判り易さはもちろん、フォーマットやAPIの常識的な利用方法など、様々な要素から決定される。&lt;br &#x2F;&gt;
+複数人から構成されるプロジェクトでコーディングを行うにあたっては、他人が見た場合にも判りやすいかどうかという点は意識しなければならない。&lt;&#x2F;p&gt;
+&lt;p&gt;見やすさを重視する事は、忘れた頃にメンテナンスする ( 可能性がある ) 自分のためにもなる。&lt;&#x2F;p&gt;
+&lt;p&gt;ここではjavaを開発言語にしたアプリケーション開発プロジェクトにおける、コーディングルール、推奨を記す。&lt;&#x2F;p&gt;
+&lt;p&gt;単純に「ここに記載されている事だけ気を付ければよい」という事ではなく、判りやすいコードを書くという視点を忘れずに柔軟にコーディングを行って頂きたい。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 叩き台として作成したものなので、あくまで参考用。プロジェクトや利用者毎に適宜変更推奨。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;huairu&quot;&gt;ファイル&lt;&#x2F;h2&gt;
+&lt;p&gt;publicクラスはそのクラス名の1ファイルにする。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;複数のpublicクラスを1つのファイルに書いてはいけない。&lt;&#x2F;li&gt;
+&lt;li&gt;非publicのクラスで、他クラスから利用されないものに関してはそのクラスが利用されるpublicクラスのファイルに含めてもよい(インナークラス)。ただし、インナークラスは原則利用しない事。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;ファイルエンコードはUTF-8とする。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;huairunojie-ceng-gou-zao&quot;&gt;ファイルの階層構造&lt;&#x2F;h2&gt;
+&lt;p&gt;Mavenの標準ディレクトリレイアウトに従う。&lt;&#x2F;p&gt;
+&lt;p&gt;MavenはJavaのビルドツールのデファクトスタンダートとして長期間利用されており、Mavenの標準ディレクトリレイアウトを利用する事で、多くのJava開発者にとって見通しのよいレイアウトになる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ming-ming-gui-ze&quot;&gt;命名規則&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;da-wen-zi-xiao-wen-zi&quot;&gt;大文字小文字&lt;&#x2F;h3&gt;
+&lt;p&gt;Javaでは大文字と小文字を区別するが、大文字&#x2F;小文字の違いによって区別をするコードを書いてはいけない。&lt;&#x2F;p&gt;
+&lt;p&gt;悪い例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private int&lt;&#x2F;span&gt;&lt;span&gt; num;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Num&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;良い例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private int&lt;&#x2F;span&gt;&lt;span&gt; cartNumber;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private int&lt;&#x2F;span&gt;&lt;span&gt; productNumber;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;patukeziming&quot;&gt;パッケージ名&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;quot;.&amp;quot; で区切られた文字列(英子文字)とし、アプリケーション&#x2F;プロジェクトを表す名前を含める。&lt;&#x2F;li&gt;
+&lt;li&gt;外部公開予定であれば基本的にはドメイン名を含める。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;例) &lt;code&gt;com.mosaos.projectname&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;kurasuming&quot;&gt;クラス名&lt;&#x2F;h3&gt;
+&lt;p&gt;アッパーキャメルケースを用いる。&lt;&#x2F;p&gt;
+&lt;p&gt;例) &lt;code&gt;UpperCamelCase&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;li-wai-kurasuming&quot;&gt;例外クラス名&lt;&#x2F;h3&gt;
+&lt;p&gt;最後をExceptionとしたクラス名とする。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;intahuesuming&quot;&gt;インターフェース名&lt;&#x2F;h3&gt;
+&lt;p&gt;クラス名と同じ。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shi-zhuang-kurasuming&quot;&gt;実装クラス名&lt;&#x2F;h3&gt;
+&lt;p&gt;特にインターフェースと区別する必要があるのであれば、最後に Impl を付与する。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;chou-xiang-kurasuming&quot;&gt;抽象クラス名&lt;&#x2F;h3&gt;
+&lt;p&gt;適当な名前が無い場合、Abstractからはじまりサブクラスを連想させる名前を付ける。&lt;&#x2F;p&gt;
+&lt;p&gt;尚、むやみに抽象クラスを作成する事はおすすめしない。Templateパターン等明らかな目的がある場合を除き、本当に抽象クラスが必要なのか考える事。&lt;&#x2F;p&gt;
+&lt;p&gt;以下のような理由での抽象クラス作成(継承の利用)は控える事。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;メソッド共有のための継承
+&lt;ul&gt;
+&lt;li&gt;共通メソッドの変更&#x2F;機能追加が難しくなる。&lt;&#x2F;li&gt;
+&lt;li&gt;基底クラスに共通メソッドが追加されまくり、ネ申クラスが誕生する。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;メンバ変数の共有のための継承
+&lt;ul&gt;
+&lt;li&gt;派生クラスへの影響があるため、メンバ変数を変更しにくくなる。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;ding-shu-static-final&quot;&gt;定数(static final)&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;大文字スネークケースを用いる。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;例) &lt;code&gt;UPPER_SNAKE_CASE&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;mesotudoming&quot;&gt;メソッド名&lt;&#x2F;h3&gt;
+&lt;p&gt;ローワーキャメルケースを用いる&lt;&#x2F;p&gt;
+&lt;p&gt;例) &lt;code&gt;lowerCamelCase&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;操作を行うメソッドに関しては 動詞 + 対象 となるような名称にする事。対象 + 動詞ではない。&lt;&#x2F;p&gt;
+&lt;p&gt;悪い例) &lt;code&gt;couponGet&lt;&#x2F;code&gt;&lt;br &#x2F;&gt;
+良い例) &lt;code&gt;getCoupon&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;shu-xing-qu-de&quot;&gt;属性取得&lt;&#x2F;h4&gt;
+&lt;p&gt;属性取得のメソッドには &lt;code&gt;getXxx&lt;&#x2F;code&gt;, &lt;code&gt;isXxx&lt;&#x2F;code&gt; ( xxx は属性名 ) 形式のメソッド名を用いる。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;shu-xing-she-ding&quot;&gt;属性設定&lt;&#x2F;h4&gt;
+&lt;p&gt;属性設定のメソッドには &lt;code&gt;setXxx&lt;&#x2F;code&gt; ( xxx は属性名 ) 形式のメソッド名を用いる。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ying-yu-tori-ben-yu&quot;&gt;英語と日本語&lt;&#x2F;h3&gt;
+&lt;p&gt;すべての識別子の名前は英語を基本とする。例外的に英語化が困難な対象に関してはローマ字表記も認めるが、可能な限り対応用語辞書を作成 &#x2F; メンテナンスし、同一の用語に対して異なる命名をしないようにすること。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ming-qian-nodui-cheng-xing&quot;&gt;名前の対称性&lt;&#x2F;h3&gt;
+&lt;p&gt;命名する場合に、以下のような英語の対象性に気を付けること。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;add &#x2F; remove&lt;&#x2F;li&gt;
+&lt;li&gt;insert &#x2F; delete&lt;&#x2F;li&gt;
+&lt;li&gt;get &#x2F; set&lt;&#x2F;li&gt;
+&lt;li&gt;start &#x2F; stop&lt;&#x2F;li&gt;
+&lt;li&gt;begin &#x2F; end&lt;&#x2F;li&gt;
+&lt;li&gt;send &#x2F; receive&lt;&#x2F;li&gt;
+&lt;li&gt;first &#x2F; last&lt;&#x2F;li&gt;
+&lt;li&gt;get &#x2F; release&lt;&#x2F;li&gt;
+&lt;li&gt;put &#x2F; get&lt;&#x2F;li&gt;
+&lt;li&gt;up &#x2F; down&lt;&#x2F;li&gt;
+&lt;li&gt;show &#x2F; hide&lt;&#x2F;li&gt;
+&lt;li&gt;source &#x2F; target&lt;&#x2F;li&gt;
+&lt;li&gt;open &#x2F; close&lt;&#x2F;li&gt;
+&lt;li&gt;source &#x2F; destination&lt;&#x2F;li&gt;
+&lt;li&gt;increment &#x2F; decrement&lt;&#x2F;li&gt;
+&lt;li&gt;lock &#x2F; unlock&lt;&#x2F;li&gt;
+&lt;li&gt;old &#x2F; new&lt;&#x2F;li&gt;
+&lt;li&gt;next &#x2F; previous&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;rupukaunta&quot;&gt;ループカウンタ&lt;&#x2F;h3&gt;
+&lt;p&gt;スコープが狭いループカウンタには、&lt;code&gt;i&lt;&#x2F;code&gt;, &lt;code&gt;j&lt;&#x2F;code&gt;, &lt;code&gt;k&lt;&#x2F;code&gt; を用いる&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;sukopugaxia-ibian-shu&quot;&gt;スコープが狭い変数&lt;&#x2F;h3&gt;
+&lt;p&gt;スコープが狭い変数名には省略形を用いても構わない。ただし省略形ばかりで可読性が低くなってはならない。&lt;&#x2F;p&gt;
+&lt;p&gt;例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;InputStream&lt;&#x2F;span&gt;&lt;span&gt; in = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;BufferedInputStream&lt;&#x2F;span&gt;&lt;span&gt;(...);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;yi-wei-gapan-ruming-qian&quot;&gt;意味が判る名前&lt;&#x2F;h3&gt;
+&lt;p&gt;原則として名前から意味が判るような名前にする事。&lt;&#x2F;p&gt;
+&lt;p&gt;悪い例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;copy&lt;&#x2F;span&gt;&lt;span&gt;(s1, s2);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;良い例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;copy&lt;&#x2F;span&gt;&lt;span&gt;(source, destination);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;sutairu&quot;&gt;スタイル&lt;&#x2F;h2&gt;
+&lt;p&gt;コーディングスタイルは JDKソースのスタイルに準ずる。&lt;&#x2F;p&gt;
+&lt;p&gt;K&amp;amp;RのC言語のスタイルと同様だが、クラス&#x2F;メソッド定義開始の&amp;quot;{&amp;quot;は改行せずに記述する。&lt;&#x2F;p&gt;
+&lt;p&gt;スタイルのチェックは &lt;a href=&quot;https:&#x2F;&#x2F;checkstyle.sourceforge.io&#x2F;&quot;&gt;checkstyle&lt;&#x2F;a&gt; を利用して、可能な限り自動化する事。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;komento&quot;&gt;コメント&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;publicなクラス&#x2F;メソッドには原則Javadocコメントを記載する事。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;コメントは必要なものを簡潔に記載する。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;コメントには、なぜそうなのかを書く。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;コードを書く前に先にコメントを記述する。&lt;br &#x2F;&gt;
+やってみると判るが良いコメントを書くための最上の方法の一つは、コードを書く前に処理内容を端的にコメントとして記載する事。&lt;br &#x2F;&gt;
+複数のステップから構成される処理であれば、ステップ毎に行を分けてコメント記載し、それからコーディングに取り掛かる。&lt;br &#x2F;&gt;
+こうすれば必ずコメントが書かれるし、コメントに記載した通りの処理が実装される事につながります。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;TODO&lt;&#x2F;code&gt; コメントを活用する事。&lt;br &#x2F;&gt;
+Eclipse等のIDEで &lt;code&gt;TODO&lt;&#x2F;code&gt; はまとめて参照可能なので、(他者の実装待ちや仕様確定待ち等の理由で)残タスクとして残っている部分には &lt;code&gt;TODO&lt;&#x2F;code&gt; コメントとして後から行うべき事を書いておきましょう。&lt;br &#x2F;&gt;
+※ Eclipseで一覧表示する場合には&lt;code&gt;タスクビュー&lt;&#x2F;code&gt;を利用してください。&lt;br &#x2F;&gt;
+※ TODO 以外にも以下のようなコメントで利用可能なタスクタグがある。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;FIXME&lt;&#x2F;code&gt; : 修正が必要&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;XXX&lt;&#x2F;code&gt; : 危険！動くけどなぜうごくかわからない。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;※ FIXME,XXX以外もあるが、Eclipseで利用する場合、&lt;br &#x2F;&gt;
+[&lt;code&gt;設定&lt;&#x2F;code&gt;]＞[&lt;code&gt;Java&lt;&#x2F;code&gt;]＞[&lt;code&gt;コンパイラー&lt;&#x2F;code&gt;]＞[&lt;code&gt;タスク・タグ&lt;&#x2F;code&gt;]で利用するコメントを追加する必要がある。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;import&quot;&gt;import&lt;&#x2F;h3&gt;
+&lt;p&gt;import文で &lt;code&gt;*&lt;&#x2F;code&gt; は原則使わない。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;sukopu&quot;&gt;スコープ&lt;&#x2F;h3&gt;
+&lt;p&gt;メソッド、フィールドには適切なスコープを設定する事。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;insutansubian-shu&quot;&gt;インスタンス変数&lt;&#x2F;h3&gt;
+&lt;p&gt;原則 &lt;code&gt;private&lt;&#x2F;code&gt; スコープとし setter&#x2F;getter を必要に応じて記述する。&lt;br &#x2F;&gt;
+単純に値を設定&#x2F;取得するだけの setter&#x2F;getter については適宜 &lt;a href=&quot;https:&#x2F;&#x2F;projectlombok.org&#x2F;&quot;&gt;Lombok&lt;&#x2F;a&gt; を利用してコードの可読性や開発効率を高める事。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;rokarubian-shu-noli-yong&quot;&gt;ローカル変数の利用&lt;&#x2F;h3&gt;
+&lt;p&gt;エンティティクラスや Bean クラス等を除き、インスタンス変数の利用は可能な限り避ける事。&lt;br &#x2F;&gt;
+特に Spring Framework 等の DI コンテナを利用する場合、ある種のクラスはシングルトンとしてインスタンス化される事がデフォルト設定の場合もあるため、インスタンス変数を不用意に利用した場合スレッドアンセーフな実装となる。&lt;br &#x2F;&gt;
+この結果、単体や結合試験ではバグを発見できず、実運用で初めて不具合が発生する可能性がある。&lt;br &#x2F;&gt;
+場合によっては個人情報の漏洩等の重篤な問題を引き起こす可能性もあるため、利用する際は注意して実装を行う事。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;finalnoshi-yong&quot;&gt;finalの使用&lt;&#x2F;h3&gt;
+&lt;p&gt;必要に応じて final を適切に利用する。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;継承され(たくない)ないクラス&lt;&#x2F;li&gt;
+&lt;li&gt;オーバーライドされ(たくない)メソッド&lt;&#x2F;li&gt;
+&lt;li&gt;値の変わらない(変わってはまずい)変数&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;bi-jiao&quot;&gt;比較&lt;&#x2F;h3&gt;
+&lt;p&gt;オブジェクトの比較には &lt;code&gt;equals&lt;&#x2F;code&gt; メソッドを利用する。&lt;br &#x2F;&gt;
+インスタンスが同一かどうかを比較したい場合に &lt;code&gt;==&lt;&#x2F;code&gt; 比較を行うのは構わない。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;booleannobi-jiao&quot;&gt;booleanの比較&lt;&#x2F;h3&gt;
+&lt;p&gt;条件式でbooleanの変数を比較しない&lt;&#x2F;p&gt;
+&lt;p&gt;悪い例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(isEmpty == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;良い例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(isEmpty)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;rupu&quot;&gt;ループ&lt;&#x2F;h3&gt;
+&lt;p&gt;拡張forループが利用可能である場合には拡張forループを使う事。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;intahuesudenocan-zhao&quot;&gt;インターフェースでの参照&lt;&#x2F;h3&gt;
+&lt;p&gt;原則としてオブジェクトの参照にはインターフェースを利用する。特にJava APIの利用等において以下のようなコーディングをたまに見かけるが、良くない実装なので止める事。&lt;&#x2F;p&gt;
+&lt;p&gt;悪い例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;ArrayList&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Entry&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; list = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;ArrayList&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Entry&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;();
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;良い例)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;List&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Entry&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; list = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;ArrayList&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Entry&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;();
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;shu-zhi&quot;&gt;数値&lt;&#x2F;h3&gt;
+&lt;p&gt;必要に応じて &lt;code&gt;BigDecimal&lt;&#x2F;code&gt; クラスを適切に利用する事。&lt;br &#x2F;&gt;
+プリミティブ型や BigDecimal 以外の型における算術演算では厳密には誤差が発生する場合がある。&lt;br &#x2F;&gt;
+金融系や科学技術系等の処理で正確な演算が必要な場合には BigDecimal の利用が適している。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;try-with-resources&quot;&gt;try with resources&lt;&#x2F;h3&gt;
+&lt;p&gt;ストリーム等リソース解放を必要とするクラスを利用する場合、可能であれば try with resources を利用する事。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;wen-zi-lie-lian-jie&quot;&gt;文字列連結&lt;&#x2F;h3&gt;
+&lt;p&gt;特にループ処理等で文字列連結を行う等、文字列連結処理でのパフォーマンスが懸念される場合には &lt;code&gt;StringBuilder&lt;&#x2F;code&gt; (あるいはStringBuffer)を利用する事。&lt;br &#x2F;&gt;
+※スレッドセーフでない箇所で利用する場合にはStringBufferを利用する&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;system-out-print-noli-yong&quot;&gt;System.out.print の利用&lt;&#x2F;h3&gt;
+&lt;p&gt;ログ出力API等に置き換える。&lt;br &#x2F;&gt;
+標準出力がどうしても必要である場合や、自身の一時的なデバッグ目的で利用する場合を除いて、プロダクトレベルのアプリケーションでの &lt;code&gt;System.out.print&lt;&#x2F;code&gt;, &lt;code&gt;System.err.print&lt;&#x2F;code&gt; 系の利用は行わないこと。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;出力元の特定が困難&lt;&#x2F;li&gt;
+&lt;li&gt;ログ出力APIであればログフォーマットの設定によって出力箇所の特定は容易であるし、出力先やレベルの変更等一括して行える。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;ramuda&quot;&gt;ラムダ&lt;&#x2F;h3&gt;
+&lt;p&gt;ラムダ式が利用できる箇所はラムダ式を利用してよい。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;stream-api&quot;&gt;Stream API&lt;&#x2F;h3&gt;
+&lt;p&gt;利用してよい。&lt;br &#x2F;&gt;
+ただし、Stream APIは中間処理のたびにインスタンスが生成されるため、拡張forを利用する場合に比べてパフォーマンスが劣化する可能性がある。&lt;br &#x2F;&gt;
+パフォーマンス重視の処理を実装する場合には各方式でパフォーマンス計測する等してから実装方式を決める事をおすすめする。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;var-local-variable-type-inference&quot;&gt;var (Local-Variable Type Inference)&lt;&#x2F;h3&gt;
+&lt;p&gt;var は原則利用しない。&lt;br &#x2F;&gt;
+TypeScript などの普及でも判るが、現代のチーム開発では&lt;code&gt;型安全性&lt;&#x2F;code&gt;の確保が強く求められている。型推論による省力化よりも、コードの堅牢性を優先すべき。&lt;br &#x2F;&gt;
+ただし、スコープの都合などで var を使わないデメリットが非常に大きい例外的なケースに限り、利用を認める。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>KVM ゲストでコンソールログイン可能にする</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/kvm-console/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/kvm-console/</id>
+        
+        <content type="html">&lt;p&gt;KVM にはゲストにコンソールログインするための機能が備わっていますが、ゲスト自体がコンソールログイン可能に設定されていない場合、接続を行っても何も操作が行えません。&lt;&#x2F;p&gt;
+&lt;p&gt;特にゲスト OS のネットワーク設定が行えていない場合には、コンソールログイン可能であると作業が捗ります ( SSH 接続して設定を行う事もできないので )。&lt;&#x2F;p&gt;
+&lt;p&gt;以下では KVM ゲストの設定方法を記します。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;huan-jing&quot;&gt;環境&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;KVMホスト OS : Rocky Linux 9 (CentOS 8からアップグレード)&lt;&#x2F;li&gt;
+&lt;li&gt;ブートローダー : grub2&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;利用している KVM 環境は Rocky 9 上に構築してあるのですが (KVMサーバがRocky9: CentOS からアップグレード)、ゲストも主に RHEL系 を利用します。&lt;br &#x2F;&gt;
+また、毎回 OS を新規利用するのではなく、ベースとなるイメージを作成しておき、新規に KVM ゲストを作成する場合には、このベースイメージをクローンする方式を採ります。&lt;br &#x2F;&gt;
+こうする事でベースイメージにコンソールログイン可能な設定を行っておけば、クローンしたゲストでもコンソールログイン可能になります。&lt;&#x2F;p&gt;
+&lt;p&gt;※ RHEL7系 ( CentOS7 等 ) 以降で使える手順です。それ以前は grub2 ではなく grub なので別手順になります。&lt;br &#x2F;&gt;
+※ 本記事は CentOS 8 時代に執筆・検証した内容をベースにしています。そのため、以降の出力ログやカーネル、glibc などのバージョン表記は当時のままとなっていますが、RHEL 8&#x2F;9 系および Rocky Linux 9 でも同様の手順で設定可能です。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;she-ding&quot;&gt;設定&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;etc-default-grub-nobian-ji&quot;&gt;&#x2F;etc&#x2F;default&#x2F;grub の編集&lt;&#x2F;h3&gt;
+&lt;p&gt;Grub の設定を変更します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;vi&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;etc&#x2F;default&#x2F;grub
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;以下部分を&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GRUB_CMDLINE_LINUX&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;crashkernel=auto resume=&#x2F;dev&#x2F;mapper&#x2F;cl-swap rd.lvm.lv=cl&#x2F;root rd.lvm.lv=cl&#x2F;swap&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;以下のように変更します。&lt;br &#x2F;&gt;
+( 既存の設定に &lt;code&gt; console=tty0 console=ttyS0,115200n8r&lt;&#x2F;code&gt; を追記 )&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;GRUB_CMDLINE_LINUX&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;crashkernel=auto resume=&#x2F;dev&#x2F;mapper&#x2F;cl-swap rd.lvm.lv=cl&#x2F;root rd.lvm.lv=cl&#x2F;swap console=tty0 console=ttyS0,115200n8r&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;編集後定義生成コマンドを実行します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;grub2-mkconfig -o&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;boot&#x2F;grub2&#x2F;grub.cfg
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;zai-qi-dong&quot;&gt;再起動&lt;&#x2F;h3&gt;
+&lt;p&gt;Grub の設定変更後再起動します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;reboot
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;que-ren&quot;&gt;確認&lt;&#x2F;h2&gt;
+&lt;p&gt;再起動したら、KVMホストから接続できるか確認しておきましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;実行中のゲストを確認&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;virsh&lt;&#x2F;span&gt;&lt;span&gt; list&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --all
+&lt;&#x2F;span&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Id&lt;&#x2F;span&gt;&lt;span&gt;    名前                         状態
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;----------------------------------------------------
+&lt;&#x2F;span&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;     mosaos-centos8               実行中
+&lt;&#x2F;span&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;     centos8-base                 実行中
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;コンソールログインします&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;virsh&lt;&#x2F;span&gt;&lt;span&gt; console centos8-base
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ドメイン&lt;&#x2F;span&gt;&lt;span&gt; centos8-base に接続しました
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;エスケープ文字は&lt;&#x2F;span&gt;&lt;span&gt; ^] です
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;CentOS&lt;&#x2F;span&gt;&lt;span&gt; Linux 8 (Core)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Kernel&lt;&#x2F;span&gt;&lt;span&gt; 4.18.0-193.el8.x86_64 on an x86_64
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Activate&lt;&#x2F;span&gt;&lt;span&gt; the web console with: systemctl enable&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --now&lt;&#x2F;span&gt;&lt;span&gt; cockpit.socket
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;localhost&lt;&#x2F;span&gt;&lt;span&gt; login:
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;ここから後はローカルでのログインと同様に作業を行えます。&lt;br &#x2F;&gt;
+login プロンプトが表示されない場合は、一度リターンキーを叩きましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;抜ける場合は最初に書いているように &lt;code&gt;^]&lt;&#x2F;code&gt; ( &lt;code&gt;Ctrl&lt;&#x2F;code&gt; + &lt;code&gt;]&lt;&#x2F;code&gt; ) で可能です。&lt;&#x2F;p&gt;
+&lt;p&gt;※ &lt;a href=&quot;https:&#x2F;&#x2F;cockpit-project.org&#x2F;&quot;&gt;Cockpit&lt;&#x2F;a&gt; も導入しているが、Cockpit からもコンソールログイン可能です。&lt;br &#x2F;&gt;
+AWSコンソールからログインできる感じに似てるかも。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>KVM ゲストのディスクサイズ変更</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/kvm-disk-resize/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/kvm-disk-resize/</id>
+        
+        <content type="html">&lt;p&gt;KVMゲストの用途によっては最初に作成したディスクでは容量が足りなくなる事が時々あります。
+CPUやメモリリソースに関しては、一旦再起動が必要ですが比較的簡単に変更可能です ( KVMホスト のリソースで制約は受ける )。&lt;&#x2F;p&gt;
+&lt;p&gt;ディスクに関してもNFS等で外部のディスクをマウントしている場合は柔軟に設定変更が可能ですが、イメージ自体のディスク容量を変更する場合にはそれなりの作業が必要になり、どこかに書いておかないと忘れる系なので、手順を書いておきます。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;huan-jing&quot;&gt;環境&lt;&#x2F;h2&gt;
+&lt;p&gt;環境は以下になります。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;KVMホストOS : Rocky9&lt;&#x2F;li&gt;
+&lt;li&gt;KVMゲストOS : Linux系 ( LVM 利用 )&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;私はイメージファイルのフォーマットは qcow2 形式となっているので qcow2 での手順になります。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;shou-shun&quot;&gt;手順&lt;&#x2F;h2&gt;
+&lt;p&gt;※ 作業をはじめる前に、ディスク容量を変更するKVMゲストはシャットダウンし、必要に応じて イメージのバックアップ を取りましょう。&lt;br &#x2F;&gt;
+※ コマンド操作を失敗した場合最悪起動不能になるため、バックアップする事をお勧めします。&lt;&#x2F;p&gt;
+&lt;p&gt;先ずは KVMホスト上で作業します。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;kvmimezinotietuku&quot;&gt;KVMイメージのチェック&lt;&#x2F;h3&gt;
+&lt;p&gt;KVMイメージのフォーマットとサイズをチェックします。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;qemu-img&lt;&#x2F;span&gt;&lt;span&gt; info &#x2F;var&#x2F;lib&#x2F;libvirt&#x2F;images&#x2F;&amp;lt;イメージファイル名&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;huairurong-liang-nokuo-zhang&quot;&gt;ファイル容量の拡張&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;qemu-img&lt;&#x2F;span&gt;&lt;span&gt; resize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -f&lt;&#x2F;span&gt;&lt;span&gt; qcow2 &amp;lt;イメージファイル名&amp;gt; +10G
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;※ &lt;code&gt;+10G&lt;&#x2F;code&gt; の部分はリサイズする量に合わせて適宜変更して下さい。&lt;&#x2F;p&gt;
+&lt;p&gt;実行後は &lt;code&gt;qemu-img info&lt;&#x2F;code&gt; を再実行し、サイズが正しく変更されている事を確認しましょう。&lt;&#x2F;p&gt;
+&lt;p&gt;これ以降は、KVMゲストでの操作になります。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;fdisk-niyorucao-zuo&quot;&gt;fdisk による操作&lt;&#x2F;h3&gt;
+&lt;p&gt;容量を増やしたイメージでKVMゲストを起動します。&lt;br &#x2F;&gt;
+fdisk を実行して、ディスクを切り直します。&lt;&#x2F;p&gt;
+&lt;p&gt;※ デバイス名は環境に併せて適宜変更して下さい。&lt;br &#x2F;&gt;
+※ 途中で説明入ってますが、&lt;code&gt;q&lt;&#x2F;code&gt; 入力までは fdisk コマンドでの操作になります。&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;fdisk &#x2F;dev&#x2F;vda
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;状態を確認します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;コマンド&lt;&#x2F;span&gt;&lt;span&gt; (m でヘルプ)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; p
+&lt;&#x2F;span&gt;&lt;span&gt;( &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;中略 &lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;デバイス&lt;&#x2F;span&gt;&lt;span&gt;   起動 開始位置 終了位置   セクタ サイズ Id タイプ
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;&#x2F;dev&#x2F;vda1  &lt;&#x2F;span&gt;&lt;span&gt;*        2048  2099199  2097152     1G 83 Linux
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;&#x2F;dev&#x2F;vda2&lt;&#x2F;span&gt;&lt;span&gt;        2099200 41943039 39843840    19G 8e Linux LVM
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&#x2F;dev&#x2F;vda2 の LVMをリサイズします。&lt;&#x2F;p&gt;
+&lt;p&gt;一旦削除して、&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;コマンド&lt;&#x2F;span&gt;&lt;span&gt; (m でヘルプ)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; d
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;パーティション番号&lt;&#x2F;span&gt;&lt;span&gt; (1,2, 規定値 2)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; 2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;作成しなおし。&lt;br &#x2F;&gt;
+基本パーティションの2 を削除しているので基本パーティションの2を作成しなおします。&lt;br &#x2F;&gt;
+セクタ数を入力する部分は既定値(リターンのみ)でOKです。&lt;br &#x2F;&gt;
+( 空き容量をすべて使う形で作成される )&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;コマンド&lt;&#x2F;span&gt;&lt;span&gt; (m でヘルプ)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; n
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;パーティションタイプ
+&lt;&#x2F;span&gt;&lt;span&gt;   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;p&lt;&#x2F;span&gt;&lt;span&gt;   基本パーティション (1-4)
+&lt;&#x2F;span&gt;&lt;span&gt;   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&lt;&#x2F;span&gt;&lt;span&gt;   拡張領域
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;選択&lt;&#x2F;span&gt;&lt;span&gt; (既定値 p)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; p
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;パーティション番号&lt;&#x2F;span&gt;&lt;span&gt; (2-4, 既定値 2)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; 2
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;最初のセクタ&lt;&#x2F;span&gt;&lt;span&gt; (2099200-41943039, 既定値 2099200)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;最終セクタ,&lt;&#x2F;span&gt;&lt;span&gt; +セクタ番号 または +サイズ{K,M,G,T,P} (2099200-41943039, 既定値 41943039)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;新しいパーティション&lt;&#x2F;span&gt;&lt;span&gt; 2 をタイプ Linux、サイズ 19 GiB で作成しました。
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;パーティション &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;#2 には LVM2_member 署名が書き込まれています。
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;署名を削除しますか？ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;Y&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;es&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;N&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;o: N
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;linux-lvm-nitaipubian-geng&quot;&gt;Linux LVM にタイプ変更&lt;&#x2F;h3&gt;
+&lt;p&gt;作り直したパーティションタイプは &lt;code&gt;Linux&lt;&#x2F;code&gt; なので &lt;code&gt;Linux LVM&lt;&#x2F;code&gt; に変更します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;コマンド&lt;&#x2F;span&gt;&lt;span&gt; (m でヘルプ)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; t
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;パーティション番号&lt;&#x2F;span&gt;&lt;span&gt; (1,2, 既定値 2)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; 2
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;16&lt;&#x2F;span&gt;&lt;span&gt; 進数コード (L で利用可能なコードを一覧表示します)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; 8e
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;パーティションのタイプを &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Linux&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; から &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Linux LVM&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; に変更しました。
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;変更後の状態を確認し、&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;コマンド (m でヘルプ): p
+&lt;&#x2F;span&gt;&lt;span&gt;(中略)
+&lt;&#x2F;span&gt;&lt;span&gt;デバイス   起動 開始位置 終了位置   セクタ サイズ Id タイプ
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;dev&#x2F;vda1  *        2048  2099199  2097152     1G 83 Linux
+&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;dev&#x2F;vda2        2099200 41943039 39843840    19G 8e Linux LVM
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;想定している状態 ( サイズ, パーティションタイプ ) に変更されていたら、書き込み、fdisk を終了します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;コマンド&lt;&#x2F;span&gt;&lt;span&gt; (m でヘルプ)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; w
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;コマンド&lt;&#x2F;span&gt;&lt;span&gt; (m でヘルプ)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt; q
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;現行のOS ( Redhat7以降 ) ならば &lt;code&gt;partprobe&lt;&#x2F;code&gt; で再起動不要かと思います。&lt;br &#x2F;&gt;
+※ OSによっては再起動が必要かもしれません。&lt;br &#x2F;&gt;
+※ &lt;code&gt;partprobe&lt;&#x2F;code&gt; すら不要かも。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;partprobe
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;wu-li-boriyumunosaizubian-geng&quot;&gt;物理ボリュームのサイズ変更&lt;&#x2F;h3&gt;
+&lt;p&gt;LVMを利用している場合、PV(物理ボリューム), LV(論理ボリューム) を変更する必要があります。&lt;&#x2F;p&gt;
+&lt;p&gt;先ず PV ( PhysicalVolume ) をリサイズします&lt;&#x2F;p&gt;
+&lt;p&gt;現在の状態を確認し、&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pvdisplay
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;リサイズします。&lt;br &#x2F;&gt;
+fdiskで変更したサイズ全てを利用するように変更が行われます。&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;pvresize &#x2F;dev&#x2F;vda2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;サイズ変更後は pvdisplay 再実行して変更確認しておきましょう。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;lun-li-boriyumunosaizubian-geng&quot;&gt;論理ボリュームのサイズ変更&lt;&#x2F;h3&gt;
+&lt;p&gt;論理ボリュームをリサイズします。&lt;&#x2F;p&gt;
+&lt;p&gt;現在の状態を確認し、&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lvs
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lvdisplay
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;リサイズします。&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;lvextend -l +100%FREE &#x2F;dev&#x2F;cl&#x2F;root
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;最後にファイルシステムを拡張。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;xfs_growfs&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;dev&#x2F;cl&#x2F;root
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;※ Ubuntu の場合 &lt;code&gt;resize2fs &#x2F;dev&#x2F;ubuntu-vg&#x2F;ubuntu-lv&lt;&#x2F;code&gt; とかに変える必要があるかもしれません。&lt;&#x2F;p&gt;
+&lt;p&gt;サイズ確認&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;df
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;evtmpfs&lt;&#x2F;span&gt;&lt;span&gt;                                     912992         0     912992    0% &#x2F;dev
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;tmpfs&lt;&#x2F;span&gt;&lt;span&gt;                                        930236         0     930236    0% &#x2F;dev&#x2F;shm
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;tmpfs&lt;&#x2F;span&gt;&lt;span&gt;                                        930236      8796     921440    1% &#x2F;run
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;tmpfs&lt;&#x2F;span&gt;&lt;span&gt;                                        930236         0     930236    0% &#x2F;sys&#x2F;fs&#x2F;cgroup
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;&#x2F;dev&#x2F;mapper&#x2F;cl-root&lt;&#x2F;span&gt;&lt;span&gt;                        17811456   8021136    9790320   46% &#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;&#x2F;dev&#x2F;vda1&lt;&#x2F;span&gt;&lt;span&gt;                                    999320    262420     668088   29% &#x2F;boot
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;tmpfs&lt;&#x2F;span&gt;&lt;span&gt;                                        186044         0     186044    0% &#x2F;run&#x2F;user&#x2F;1000
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;容量が拡張されていれば成功です。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>Nexus Repository Manager による Dockerリポジトリ構築</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/blog/nxrm/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/blog/nxrm/</id>
+        
+        <content type="html">&lt;h2 id=&quot;hazimeni&quot;&gt;はじめに&lt;&#x2F;h2&gt;
+&lt;p&gt;※ &lt;strong&gt;この記事は過去記事のリライトで、情報が古くなっている可能性があります。ただし、この手順で構築した NXRM は現在 ( 2026&#x2F;9 ) も稼働しています。&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Docker 利用が増えているようですが、Docker イメージの共有ができておらず、利用する場合には Dockerfile から個々の開発者がビルドする必要があるなど、利便性の点で難がありました。&lt;&#x2F;p&gt;
+&lt;p&gt;この問題を解決するためのDockerリポジトリを構築したので、構築&#x2F;利用手順を以下に示します。&lt;&#x2F;p&gt;
+&lt;p&gt;リポジトリ構築には &lt;a href=&quot;https:&#x2F;&#x2F;www.sonatype.com&#x2F;nexus&#x2F;repository-oss&quot;&gt;Nexus Repository OSS&lt;&#x2F;a&gt; ( &lt;code&gt;NXRM&lt;&#x2F;code&gt; ) を利用しました。&lt;&#x2F;p&gt;
+&lt;p&gt;NXRM は Docker リポジトリ以外にも、maven 等の各種ライブラリ&#x2F;イメージのリポジトリとして利用可能な OSS です。&lt;br &#x2F;&gt;
+Docker-hub のプロキシとして動作する事も可能、且つ、グループリポジトリ機能で独自(hosted)リポジトリとマージする事で、内部と外部(キャッシュ)リポジトリを透過的に扱う事も可能です。&lt;&#x2F;p&gt;
+&lt;p&gt;ECR ( Elastic Container Registry) 等を利用することもできますが、コスト面などで採用しにくいチームなどでも採用しやすい。&lt;&#x2F;p&gt;
+&lt;p&gt;※ 社内 LAN 等では Docker Imageや各種ライブラリをキャッシュしてトラフィックを削減する事も可能になる。&lt;br &#x2F;&gt;
+※ gitlab ci 等でイメージビルド後 NXRM に登録 ( push ) といった運用も可能。gitlab も self hosted 可能。&lt;&#x2F;p&gt;
+&lt;p&gt;利用する事で、リポジトリ問題を解決する事が可能かもしれません。上記のような問題がある場合、試してみるとよいでしょう。&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;huan-jing&quot;&gt;環境&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;OS : &lt;code&gt;CentOS8&lt;&#x2F;code&gt; ( KVM ゲスト で構築)&lt;br &#x2F;&gt;
+現在は &lt;code&gt;Rocky9&lt;&#x2F;code&gt; にアップグレードしてある&lt;&#x2F;li&gt;
+&lt;li&gt;リポジトリディレクトリは ホストのディレクトリをマウントする。&lt;br &#x2F;&gt;
+キャッシュはリポジトリのサイズは肥大化しがちなので、KVMゲスト上で管理するよりホストディレクトリをマウントする方が管理がしやすい。&lt;&#x2F;li&gt;
+&lt;li&gt;最初 9p_virtio を使おうとしたが、うまくいかなかったので NFS を使う。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;help.sonatype.com&#x2F;repomanager3&#x2F;high-availability&#x2F;configuring-blob-stores&quot;&gt;Configuring Blob Stores&lt;&#x2F;a&gt; に NFS は v4 使えとあったので NFSv4 を利用。&lt;&#x2F;li&gt;
+&lt;li&gt;事前にKVMホスト側でNFSサーバを設定しておく。&lt;&#x2F;li&gt;
+&lt;li&gt;ホストのディレクトリは &#x2F;var&#x2F;opt&#x2F;nexus&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;qian-ti&quot;&gt;前提&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;内部アクセスのみの閉じた環境で運用するためTLS(HTTPS)化は行っていません。&lt;br &#x2F;&gt;
+※NXRMをTLS化する場合、複数の方法があります。公式ドキュメント等を参考にしてください。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;nexus_hostname&lt;&#x2F;code&gt; が Nexsus Repository Managerをインストールしたホスト名です。&lt;br &#x2F;&gt;
+ホスト名アクセスが不可の場合IPアドレスでも構いません。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;insutorushou-shun-saba&quot;&gt;インストール手順(サーバ)&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;dnf-update&quot;&gt;dnf update&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;dnf&lt;&#x2F;span&gt;&lt;span&gt; update
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;nfskuraiantoshe-ding&quot;&gt;nfsクライアント設定&lt;&#x2F;h3&gt;
+&lt;p&gt;KVMホストのディレクトリをNFSマウントします。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;patukeziinsutoru&quot;&gt;パッケージインストール&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;dnf -y&lt;&#x2F;span&gt;&lt;span&gt; install nfs-utils
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;she-ding-huairunobian-ji&quot;&gt;設定ファイルの編集&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;vi&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;etc&#x2F;idmapd.conf
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;以下部分を編集&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;Domain = mosaos.local
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;maunto&quot;&gt;マウント&lt;&#x2F;h4&gt;
+&lt;p&gt;マウントできるか確認し、&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mount -t&lt;&#x2F;span&gt;&lt;span&gt; nfs kvmhost:&#x2F;var&#x2F;opt&#x2F;nexus &#x2F;mnt
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;OKなら umount&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;umount&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;mnt
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&#x2F;etc&#x2F;fstab に設定を記載し、automount されるようにする。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;vi&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;etc&#x2F;fstab
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;以下を追記&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;kvmhost:&#x2F;var&#x2F;opt&#x2F;nexus &#x2F;opt&#x2F;sonatype-work nfs4 rw,sync,tcp,hard,intr,rsize=32768,wsize=32768 0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;マウント。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mount -a
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;nxrminsutoru&quot;&gt;NXRMインストール&lt;&#x2F;h3&gt;
+&lt;p&gt;ansible-playbook を利用してインストールする。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;mosaos&#x2F;sonatype-nexus3-ansible&quot;&gt;mosaos&#x2F;sonatype-nexus3-ansible&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;プロジェクトをclone&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span&gt; clone https:&#x2F;&#x2F;github.com&#x2F;mosaos&#x2F;sonatype-nexus3-ansible
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;ansible-playbook&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span&gt; sonatype_nexus3_ansible
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ansible-playbook -i&lt;&#x2F;span&gt;&lt;span&gt; hosts site.yml
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;nxrmshe-ding&quot;&gt;NXRM設定&lt;&#x2F;h3&gt;
+&lt;p&gt;ほぼ以下の通り&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;blog.sonatype.com&#x2F;using-nexus-3-as-your-repository-part-3-docker-images&quot;&gt;Using Nexus 3 as Your Repository - Part 3: Docker Images&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;以下リポジトリを作成&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;名前&lt;&#x2F;th&gt;&lt;th&gt;種類&lt;&#x2F;th&gt;&lt;th&gt;ポート(HTTP)&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;docker-private&lt;&#x2F;td&gt;&lt;td&gt;docker(hosted)&lt;&#x2F;td&gt;&lt;td&gt;5001&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;docker-hub&lt;&#x2F;td&gt;&lt;td&gt;docker(proxy)&lt;&#x2F;td&gt;&lt;td&gt;-&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;docker-group&lt;&#x2F;td&gt;&lt;td&gt;docker(group)&lt;&#x2F;td&gt;&lt;td&gt;5000&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;それぞれの作成時の設定内容は以下&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;docker-private&quot;&gt;docker-private&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;docker(hosted)で作成&lt;&#x2F;li&gt;
+&lt;li&gt;HTTPをチェックしポート番号を指定 (5001)&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Enable Docker V1 API:&lt;&#x2F;code&gt; をチェック&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;docker-hub&quot;&gt;docker-hub&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;docker(proxy)で作成&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Remote storage:&lt;&#x2F;code&gt; に &lt;code&gt;https:&#x2F;&#x2F;registry-1.docker.io&lt;&#x2F;code&gt; を指定&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Docker Index:&lt;&#x2F;code&gt; は &lt;code&gt;User Docker Hub&lt;&#x2F;code&gt; を選択&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Enable Docker V1 API:&lt;&#x2F;code&gt; をチェック&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;docker-group&quot;&gt;docker-group&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;docker(group)で作成&lt;&#x2F;li&gt;
+&lt;li&gt;HTTPをチェックしポート番号を指定 (5000)&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Member repositories:&lt;&#x2F;code&gt; に先に作成した二つのリポジトリを追加&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;Enable Docker V1 API:&lt;&#x2F;code&gt; をチェック&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;※ 私の環境では &lt;code&gt;Enable Docker V1 API:&lt;&#x2F;code&gt; をチェックしてないと push できませんでした。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;firewallshe-ding-zhui-jia&quot;&gt;firewall設定(追加)&lt;&#x2F;h3&gt;
+&lt;p&gt;リポジトリ作成後は NXRMをインストールしたホストで 5000&#x2F;tcp, 5001&#x2F;tcp を許可する。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;firewall-cmd --add-port&lt;&#x2F;span&gt;&lt;span&gt;=5000&#x2F;tcp&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --permanent --zone&lt;&#x2F;span&gt;&lt;span&gt;=public
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;firewall-cmd --add-port&lt;&#x2F;span&gt;&lt;span&gt;=5001&#x2F;tcp&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --permanent --zone&lt;&#x2F;span&gt;&lt;span&gt;=public
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;firewall-cmd --reload
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;hr &#x2F;&gt;
+&lt;h2 id=&quot;insutorushou-shun-kuraianto&quot;&gt;インストール手順(クライアント)&lt;&#x2F;h2&gt;
+&lt;p&gt;docker 環境を構築してください。&lt;&#x2F;p&gt;
+&lt;p&gt;非TLSのリポジトリに接続させるためには設定が必要です。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;huan-jing-1&quot;&gt;環境&lt;&#x2F;h3&gt;
+&lt;p&gt;以下環境で確認しています。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;OS : CentOS8&lt;&#x2F;li&gt;
+&lt;li&gt;Docker : 19.03.8&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;shu-tong-que-ren&quot;&gt;疎通確認&lt;&#x2F;h3&gt;
+&lt;p&gt;curlでNXRMにリクエストを投げた際に、Dockerリクエストではない旨レスポンスが返ってくればOK。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;curl&lt;&#x2F;span&gt;&lt;span&gt; http:&#x2F;&#x2F;nexus_hostname:5000&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;html&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;head&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;meta &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;http-equiv&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Content-Type&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;content&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;text&#x2F;html;charset=utf-8&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;title&amp;gt;Error &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;400&lt;&#x2F;span&gt;&lt;span&gt; Not a Docker request&amp;lt;&#x2F;title&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;head&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;body&amp;gt;&amp;lt;h2&amp;gt;HTTP &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ERROR&lt;&#x2F;span&gt;&lt;span&gt; 400 Not a Docker request&amp;lt;&#x2F;h2&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;table&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;URI:&amp;lt;&#x2F;th&amp;gt;&amp;lt;td&amp;gt;&#x2F;&amp;lt;&#x2F;td&amp;gt;&amp;lt;&#x2F;tr&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;STATUS:&amp;lt;&#x2F;th&amp;gt;&amp;lt;td&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;400&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;td&amp;gt;&amp;lt;&#x2F;tr&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;MESSAGE:&amp;lt;&#x2F;th&amp;gt;&amp;lt;td&amp;gt;Not &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt; Docker request&amp;lt;&#x2F;td&amp;gt;&amp;lt;&#x2F;tr&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;SERVLET:&amp;lt;&#x2F;th&amp;gt;&amp;lt;td&amp;gt;-&amp;lt;&#x2F;td&amp;gt;&amp;lt;&#x2F;tr&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;table&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;hr&amp;gt;&amp;lt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;href&lt;&#x2F;span&gt;&lt;span&gt;=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;http:&#x2F;&#x2F;eclipse.org&#x2F;jetty&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&amp;gt;Powered &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;by&lt;&#x2F;span&gt;&lt;span&gt; Jetty:&#x2F;&#x2F; 9.4.30.v&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;20200611&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;a&amp;gt;&amp;lt;                                                                                                                                         hr&#x2F;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;body&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&#x2F;html&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;daemon-json-noshe-ding&quot;&gt;daemon.json の設定&lt;&#x2F;h3&gt;
+&lt;p&gt;daemon.jsonを作成し、Dockerの設定を記述します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;vi&lt;&#x2F;span&gt;&lt;span&gt; &#x2F;etc&#x2F;docker&#x2F;daemon.json
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;TLS化していないリポジトリを利用する場合 insecure-registriesで指定する必要があります。&lt;br &#x2F;&gt;
+※毎回コマンドラインで指定する事も可能ですが、面倒なのでdockerのdeamon設定がお勧め。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;insecure-registries&lt;&#x2F;code&gt; で、NXRMで追加したレジストリを追加してください。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;json&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-json &quot;&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;debug&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;insecure-registries&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;: [&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;nexus_hostname:5000&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;nexus_hostname:5001&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;]
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;※ミラー設定も行った場合の設定は下で記載しています。&lt;&#x2F;p&gt;
+&lt;p&gt;daemon.json作成後はDockerデーモンを再起動。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;systemctl&lt;&#x2F;span&gt;&lt;span&gt; restart docker
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;dockerimezinodeng-lu-push&quot;&gt;Dockerイメージの登録(push)&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;nxrmniroguin&quot;&gt;NXRMにログイン&lt;&#x2F;h3&gt;
+&lt;p&gt;ユーザ &#x2F; パスワードは NXRMのユーザを指定します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; login nexus_hostname:5000
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; login nexus_hostname:5001
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;実行すると Username, password 入力を求められるので、自身のアカウントでログインして下さい。&lt;&#x2F;p&gt;
+&lt;p&gt;実施時に WARNING 出力されますが、&lt;code&gt;Login Succeeded&lt;&#x2F;code&gt; になれば login 成功です。&lt;br &#x2F;&gt;
+※コマンド実行後は &lt;code&gt;~&#x2F;.docker&#x2F;config.json&lt;&#x2F;code&gt; に認証情報が記録されます。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;push&quot;&gt;push&lt;&#x2F;h3&gt;
+&lt;p&gt;hosted リポジトリに pushします。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; tag イメージ名:バージョン nexus_hostname:5001&#x2F;イメージ名:バージョン
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; push nexus_hostname:5001&#x2F;library&#x2F;イメージ名:バージョン
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;何故か、&lt;code&gt;library&lt;&#x2F;code&gt;付けないとpull時点で 404(NOT FOUND)になった。&lt;&#x2F;p&gt;
+&lt;p&gt;※おそらく docker-hub と同じように &lt;code&gt;accountname&#x2F;imagename:version&lt;&#x2F;code&gt; のようなタグ付けをしないと駄目な気がする。&lt;br &#x2F;&gt;
+公式イメージの場合には accountname部分がないが、こういうタグ付けの場合には library 以下になっている風。実際に公式mariadbを落としてきてproxyリポジトリに格納されているのを見ると name = &lt;code&gt;library&#x2F;mariadb&lt;&#x2F;code&gt; となっている。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;pull&quot;&gt;pull&lt;&#x2F;h3&gt;
+&lt;p&gt;push したイメージが取得できるか確認&lt;br &#x2F;&gt;
+取得先は登録したhostedではなくhostedとproxyをまとめているgroupリポジトリを指定しています。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; pull nexus_hostname:5000&#x2F;イメージ名:バージョン
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;mirashe-ding&quot;&gt;ミラー設定&lt;&#x2F;h2&gt;
+&lt;p&gt;ここまでの設定で、独自に作成したDockerイメージをリポジトリサーバに登録(push)、及び、取得(pull)できる事が確認できましたが、
+この状態では独自イメージと外部(docker-hubでホストされている)イメージを透過的に扱う事ができません。&lt;&#x2F;p&gt;
+&lt;p&gt;これを透過的に扱えるように設定を変更します。&lt;&#x2F;p&gt;
+&lt;p&gt;具体的には、自分でホストしているイメージ取得の場合でも以下のように、リポジトリサーバ:ポート を指定しないで取得できるようにします。&lt;&#x2F;p&gt;
+&lt;p&gt;※push時には リポジトリサーバ:ポートを指定しなければいけません。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; pull イメージ名:バージョン
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;docker では、registry-mirrors を利用する事で、docker-hubのミラーとして設定できるので、
+作成したgroupリポジトリを設定する事で対応可能なはずですが、&lt;&#x2F;p&gt;
+&lt;p&gt;ミラーサイトに対して正しく認証情報が渡されない問題があるため、仕掛けが必要になります。&lt;&#x2F;p&gt;
+&lt;p&gt;参考 : &lt;a href=&quot;https:&#x2F;&#x2F;qiita.com&#x2F;fukasawah&#x2F;items&#x2F;48330564736d3368b632#registry-mirrors%E3%81%8C%E6%A9%9F%E8%83%BD%E3%81%97%E3%81%AA%E3%81%84&quot;&gt;registry-mirrorsが機能しない&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;対応方法としては、 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;moby&#x2F;moby&#x2F;issues&#x2F;30880&quot;&gt;Docker is not passing auth informations when pulling from a mirror registry #30880&lt;&#x2F;a&gt;
+にある認証情報をNginx(proxy)側で上書きしてNexusにアクセスさせる方法を採ります。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;nginxshe-ding-nobian-ji&quot;&gt;nginx設定の編集&lt;&#x2F;h3&gt;
+&lt;p&gt;最終的に以下のような設定にしました。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;events &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    worker_connections  1024;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;http &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  proxy_send_timeout 120;
+&lt;&#x2F;span&gt;&lt;span&gt;  proxy_read_timeout 300;
+&lt;&#x2F;span&gt;&lt;span&gt;  proxy_buffering    off;
+&lt;&#x2F;span&gt;&lt;span&gt;  keepalive_timeout  5 5;
+&lt;&#x2F;span&gt;&lt;span&gt;  tcp_nodelay        on;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  log_format upstreamlog &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;time_local&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;] &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;remote_addr&lt;&#x2F;span&gt;&lt;span&gt; -  $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;host&lt;&#x2F;span&gt;&lt;span&gt; - $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;upstream_addr&lt;&#x2F;span&gt;&lt;span&gt; - $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;request&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;  access_log &#x2F;var&#x2F;log&#x2F;nginx&#x2F;upstream.log upstreamlog;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  server {
+&lt;&#x2F;span&gt;&lt;span&gt;    listen   *:80;
+&lt;&#x2F;span&gt;&lt;span&gt;    server_name  www.example.com;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# allow large uploads of files
+&lt;&#x2F;span&gt;&lt;span&gt;    client_max_body_size 1G;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# optimize downloading files larger than 1G
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;#proxy_max_temp_file_size 2G;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    location &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;~&lt;&#x2F;span&gt;&lt;span&gt; ^&#x2F;(v1|v2)&#x2F; {
+&lt;&#x2F;span&gt;&lt;span&gt;      if ($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;authorization&lt;&#x2F;span&gt;&lt;span&gt; = &amp;#39;&amp;#39;) {
+&lt;&#x2F;span&gt;&lt;span&gt;        set $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;authorization &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Basic XyzAbCdefg1234567890Mzk2Zi00NWYxLWJiNjYtN2ExOWRkM2EyOTVk&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;;
+&lt;&#x2F;span&gt;&lt;span&gt;      }
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_pass http:&#x2F;&#x2F;127.0.0.1:5000;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header   Authorization $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;authorization&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header   Host $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;host&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header   X-Real-IP $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;remote_addr&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header   X-Forwarded-For $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proxy_add_x_forwarded_for&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header   X-Forwarded-Proto $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;scheme&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header   X-Forwarded-Port $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;server_port&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    location &#x2F; {
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# Use IPv4 upstream address instead of DNS name to avoid attempts by nginx to use IPv6 DNS lookup
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_pass http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header Host $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;host&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header X-Real-IP $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;remote_addr&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;      proxy_set_header X-Forwarded-For $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proxy_add_x_forwarded_for&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;リポジトリアクセスする場合 &#x2F;v1 or &#x2F;v2 で始まるURLにアクセスされるので、この場合にgroupリポジトリに転送します。&lt;br &#x2F;&gt;
+この際、&lt;code&gt;proxy_set_header Authorization ...&lt;&#x2F;code&gt; で認証情報を設定しています。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;$authorization&lt;&#x2F;code&gt; に設定する基本認証の値は以下のようにして生成可能です。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;echo &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;-n &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;username:password&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; | &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;base64
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;また、上記設定では実際の転送先を確認するため&lt;code&gt;upstreamlog&lt;&#x2F;code&gt;を出力するように設定しています。&lt;&#x2F;p&gt;
+&lt;p&gt;上述した、&lt;code&gt;library&lt;&#x2F;code&gt;を付けてpushしないと pull できなかった問題はこのログの確認で気づきました。&lt;br &#x2F;&gt;
+pushは出来たがpullできない場合で、404が発生している場合、dockerクライアントがmanifestsを取得するURLがpushした先と異なっている可能性があります。&lt;br &#x2F;&gt;
+この場合にはuplstreamlogの確認で解決するかもしれません。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;nginxzai-qi-dong&quot;&gt;nginx再起動&lt;&#x2F;h3&gt;
+&lt;p&gt;設定に問題ないか確認し、&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;nginx -t
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;問題なければ再起動します。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;systemctl&lt;&#x2F;span&gt;&lt;span&gt; restart nginx
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;kuraiantoce-she-ding&quot;&gt;クライアント側設定&lt;&#x2F;h3&gt;
+&lt;p&gt;&#x2F;etc&#x2F;docker&#x2F;daemon.json を以下に書き換えます。&lt;br &#x2F;&gt;
+&lt;code&gt;registry-mirrors&lt;&#x2F;code&gt;、及び、&lt;code&gt;insecure-registries&lt;&#x2F;code&gt; で nexusのホストを指定しています。&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;debug&amp;quot;: true,
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;insecure-registries&amp;quot;: [
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;nexus_hostname&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;nexus_hostname:5000&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;nexus_hostname:5001&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  ],
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;registry-mirrors&amp;quot;: [
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;quot;http:&#x2F;&#x2F;nexus_hostname&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  ]
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;toraburusiyuto&quot;&gt;トラブルシュート&lt;&#x2F;h2&gt;
+&lt;p&gt;ミラー設定が一番ハマりました。&lt;&#x2F;p&gt;
+&lt;p&gt;問題発生時には以下内容の確認をお勧めします。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;docker(クライアント側)ログ&lt;br &#x2F;&gt;
+私の構築した環境ではsyslog(&#x2F;var&#x2F;log&#x2F;message&#x2F;)に出力&lt;&#x2F;li&gt;
+&lt;li&gt;nexus repository managerのログ&lt;br &#x2F;&gt;
+&lt;code&gt;&#x2F;opt&#x2F;sonatype-work&#x2F;nexus3&#x2F;log&lt;&#x2F;code&gt; が出力先です。&lt;&#x2F;li&gt;
+&lt;li&gt;nginxのログ&lt;br &#x2F;&gt;
+proxyしている場合、上述のupstreamlogも利用しましょう。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;rikuesutoxian-gazheng-sikunai&quot;&gt;リクエスト先が正しくない&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;library&lt;&#x2F;code&gt;付けずにpushした場合、hostedリポジトリに以下のような構造でpushされました&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;&#x2F;v2
+&lt;&#x2F;span&gt;&lt;span&gt;  |- blobs
+&lt;&#x2F;span&gt;&lt;span&gt;  |  |- sha256:.....
+&lt;&#x2F;span&gt;&lt;span&gt;  |  |- sha256:.....
+&lt;&#x2F;span&gt;&lt;span&gt;  |  |- sha256:.....
+&lt;&#x2F;span&gt;&lt;span&gt;  |  |- sha256:.....
+&lt;&#x2F;span&gt;&lt;span&gt;  |- image_name
+&lt;&#x2F;span&gt;&lt;span&gt;    |- manifests
+&lt;&#x2F;span&gt;&lt;span&gt;    |  |- sha256:...
+&lt;&#x2F;span&gt;&lt;span&gt;    |- tags
+&lt;&#x2F;span&gt;&lt;span&gt;       |- latest
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;この状態でミラー設定を行い &lt;code&gt;docker pull image_name&lt;&#x2F;code&gt; するとdockerログには以下のエラーが出力&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;Oct 13 02:36:40 localhost dockerd[17647]: time=&amp;quot;2020-10-13T02:36:40.054981034-04:00&amp;quot; level=info msg=&amp;quot;Attempting next endpoint for pull after error: Get https:&#x2F;&#x2F;nexus_hostname:5000&#x2F;v2&#x2F;library&#x2F;image_name&#x2F;manifests&#x2F;latest: unauthorized: access to the requested resource is not authorized&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;&#x2F;v2&#x2F;library&#x2F;image_name&#x2F;...&lt;&#x2F;code&gt; にアクセスしている(らしい)事が判りました。&lt;br &#x2F;&gt;
+(実際はこの前にupstreamlogで気づく)&lt;&#x2F;p&gt;
+&lt;p&gt;以下でpushし直した後、pullできる事を確認しました。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; push nexus_hostname:5001&#x2F;library&#x2F;image_name:latest
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; pull image_name
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;can-kao&quot;&gt;参考&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;blog.sonatype.com&#x2F;using-nexus-3-as-your-repository-part-3-docker-images&quot;&gt;Using Nexus 3 as Your Repository - Part 3: Docker Images&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;help.sonatype.com&#x2F;repomanager3&#x2F;installation&quot;&gt;Installation&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;help.sonatype.com&#x2F;repomanager3&#x2F;high-availability&#x2F;configuring-blob-stores&quot;&gt;Configuring Blob Stores&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;gist.github.com&#x2F;koudaiii&#x2F;e0e75072cc54e87e06a1&quot;&gt;NFS v4の設定内容まとめ&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;qiita.com&#x2F;fukasawah&#x2F;items&#x2F;48330564736d3368b632#registry-mirrors%E3%81%8C%E6%A9%9F%E8%83%BD%E3%81%97%E3%81%AA%E3%81%84&quot;&gt;registry-mirrorsが機能しない&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;moby&#x2F;moby&#x2F;issues&#x2F;30880&quot;&gt;Docker is not passing auth informations when pulling from a mirror registry #30880&lt;&#x2F;a&gt;&amp;quot;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>陶器のウミウシたち</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/works/nudibranch-pottery/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/works/nudibranch-pottery/</id>
+        
+        <content type="html">&lt;h2 id=&quot;dong-ji&quot;&gt;動機&lt;&#x2F;h2&gt;
+&lt;p&gt;亡き妻 ( NYC SVA 卒。肺腺癌で夭折 ) がポタリーペインティングを行っていたのだが、私の方ではポタリー粘土で形を作って、いくつかの陶器フィギュアを作っていたことがあった。&lt;&#x2F;p&gt;
+&lt;p&gt;ウミウシ。&lt;&#x2F;p&gt;
+&lt;p&gt;ウミウシの写真集を見て、美しさに感動した頃の作。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;works&#x2F;nudibranch-pottery&#x2F;nudibranch-01.jpg&quot; alt=&quot;ウミウシ01&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;works&#x2F;nudibranch-pottery&#x2F;nudibranch-02.jpg&quot; alt=&quot;ウミウシ02&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;sonohou&quot;&gt;その後&lt;&#x2F;h2&gt;
+&lt;p&gt;妻のポタリーの個展などに出品していたのだが、いつのまにか全部いなくなってたのだ。買ってくれた人の下に今もいるかもなのだ。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>ウェディングドレス</title>
+        <published>2026-09-22T00:00:00+00:00</published>
+        <updated>2026-09-22T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/works/wedding-dress/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/works/wedding-dress/</id>
+        
+        <content type="html">&lt;h2 id=&quot;nazezuo-tuta&quot;&gt;なぜ作った？&lt;&#x2F;h2&gt;
+&lt;p&gt;亡き妻 ( NYC SVA 卒。肺腺癌で夭折 ) は結婚式で自分がイメージしたドレスが来たかったらしく、そのイメージに近いドレスを作製したのだｗ
+イメージは妖精。普通のウェディングドレスとは異なる、胸から一枚の布がふわっと広がる感じ。前部分は膝上でくるっと内に巻いている感じで、後ろは普通のウェディングドレスと同様にドレープが自然に流れる感じ。&lt;&#x2F;p&gt;
+&lt;p&gt;ドレス選びの時に見たのだが、イメージに合うようなドレスは無し。という事で作ることに(私が..)&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;cai-liao-diao-da&quot;&gt;材料調達&lt;&#x2F;h2&gt;
+&lt;p&gt;日暮里繊維街に布を探しに行き、トマトで布をゲット。
+パニエがないと綺麗なラインにはならないのでパニエも作成(こっちの方が時間がかかった記憶がある)。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;works&#x2F;wedding-dress&#x2F;wedding-dress-01.webp&quot; alt=&quot;Dress&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;works&#x2F;wedding-dress&#x2F;wedding-dress-02.webp&quot; alt=&quot;Dress&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;このドレス、妻の友人が「着たい！」とかで妻は太っ腹にあげてしまったのだ。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>ボディバッグ</title>
+        <published>2026-09-21T00:00:00+00:00</published>
+        <updated>2026-09-21T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://mosaos.github.io/ja/works/leather-bodybag/" type="text/html"/>
+        <id>https://mosaos.github.io/ja/works/leather-bodybag/</id>
+        
+        <content type="html">&lt;p&gt;亡き嫁にもらったボディバッグがボロボロになったので作った自作ボディバッグ。&lt;br &#x2F;&gt;
+本体部分はボロボロになったのだが、ベルト部分は全然問題なかったので、ベルト部分は再利用している。&lt;br &#x2F;&gt;
+革はハンズでたまたま良さげなの売ってたのでそれで作成。&lt;&#x2F;p&gt;
+&lt;p&gt;底部分は切り替えて黒の革を利用。&lt;br &#x2F;&gt;
+革部分は手縫い。&lt;br &#x2F;&gt;
+内袋はミシンで。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;works&#x2F;leather-bodybag&#x2F;.&#x2F;leather-bodybag-06.jpg&quot; alt=&quot;bag&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

@@ -1,0 +1,1088 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    Zola daisyUI blog | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="Zola daisyUI blog | mosaos">
+<meta property="og:description" content="How to use Zola daisyUI blog">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;zola-daisyui-blog.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zola daisyUI blog | mosaos">
+<meta name="twitter:description" content="How to use Zola daisyUI blog">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;zola-daisyui-blog.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Zola daisyUI blog",
+    "description": "How to use Zola daisyUI blog",
+    "url": "https://mosaos.github.io/blog/zola-daisyui-blog/",
+    
+    "datePublished": "2026-09-25",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;"
+            class="">
+            JA
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;zola-daisyui-blog&#x2F;"
+            class="active font-bold">
+            EN
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/" class="hover:text-primary transition-colors">
+        Home
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/blog/" class="hover:text-primary transition-colors">
+        Blog
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      Zola daisyUI blog
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      Zola daisyUI blog
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-25
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/tags/zola/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Zola
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/daisyui/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #daisyUI
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/blog/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Blog
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/git/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Git
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/github/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #GitHub
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">Table of contents</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#introduction" class="hover:underline py-1">Introduction</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#why-did-i-create-it" class="hover:underline py-1">Why did I create it?</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#features" class="hover:underline py-1">Features</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#development-environment" class="hover:underline py-1">Development Environment</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#setup" class="hover:underline py-1">Setup</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#creating-the-repositories" class="text-xs opacity-80 hover:underline py-0.5">
+                Creating the Repositories</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#check-the-site-locally-first" class="text-xs opacity-80 hover:underline py-0.5">
+                Check the Site Locally First</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#adjust-gitignore" class="text-xs opacity-80 hover:underline py-0.5">
+                Adjust .gitignore</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#prepare-a-pat-github-personal-access-token" class="text-xs opacity-80 hover:underline py-0.5">
+                Prepare a PAT (GitHub Personal Access Token)</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#register-the-token-in-github-secrets" class="text-xs opacity-80 hover:underline py-0.5">
+                Register the Token in GitHub Secrets</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#create-the-github-actions-workflow" class="text-xs opacity-80 hover:underline py-0.5">
+                Create the GitHub Actions Workflow</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#github-pages-settings-on-the-deployment-destination-username-github-io" class="text-xs opacity-80 hover:underline py-0.5">
+                GitHub Pages Settings on the Deployment Destination (username.github.io)</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#triggering-a-build-when-content-is-updated" class="hover:underline py-1">Triggering a Build When content Is Updated</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#application-side-my-portfolio" class="text-xs opacity-80 hover:underline py-0.5">
+                Application Side (my-portfolio)</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#content-side-my-portfolio-content" class="text-xs opacity-80 hover:underline py-0.5">
+                Content Side (my-portfolio-content)</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#github-workflows-deploy-yml-2" class="text-xs opacity-80 hover:underline py-0.5">
+                .github&#x2F;workflows&#x2F;deploy.yml</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#keeping-up-with-updates-to-zola-daisyui-blog" class="hover:underline py-1">Keeping Up with Updates to zola-daisyui-blog</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#register-the-upstream-repository" class="text-xs opacity-80 hover:underline py-0.5">
+                Register the Upstream Repository</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/zola-daisyui-blog/#apply-changes-from-the-original-template" class="text-xs opacity-80 hover:underline py-0.5">
+                Apply Changes from the Original Template</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <h2 id="introduction">Introduction</h2>
+<p>I created a blog template using Zola + daisyUI, so I am writing this article as a reminder for myself as well.</p>
+<p>This article describes why I created it, the setup procedure, and so on.</p>
+<hr />
+<h2 id="why-did-i-create-it">Why did I create it?</h2>
+<p>I had been thinking about sharing personal information through GitHub Pages for some time, but I finally got around to building the application.</p>
+<p><a href="https://github.com/mosaos/zola-daisyui-blog">mosaos/zola-daisyui-blog</a></p>
+<p>* An actual example can be found here.</p>
+<p>At first, I tried implementing a simple version with React/TypeScript (I had already made it possible to display Markdown), and I also tried using Astro based on AI advice. In the end, I settled on the following technology stack.</p>
+<ul>
+<li><strong>Zola</strong><br />
+An SSG (Static Site Generator) written in Rust</li>
+<li><strong>daisyUI</strong><br />
+A component library for Tailwind CSS</li>
+<li><strong>GitHub Pages</strong><br />
+A requirement from the beginning</li>
+</ul>
+<p>The reason I stopped using Node.js was simply that I did not want to end up in a maintenance hell.</p>
+<p>I work on React projects in my professional work as well, but Node.js-based projects tend to have:</p>
+<ul>
+<li>Many related packages</li>
+<li>A lot of security (vulnerability) fixes</li>
+<li>Many breaking changes</li>
+</ul>
+<p>The fact that I am particularly bothered by breaking changes may also be because Java (such as Spring Boot) is my strongest language. Having to perform maintenance even though the actual application itself has not changed is one thing when doing it for work, but it is a hassle for a personal information-sharing site.</p>
+<p>For these reasons, I ended up with the configuration above.</p>
+<p>Some people may say that daisyUI also requires Node.js, but if you use something like the <code>full.css</code> published via CDN, you can use Tailwind / daisyUI without a Tailwind/daisyUI build process. (It includes everything, though.)</p>
+<p>There may also be arguments about optimization, but avoiding maintenance hell is the most important requirement for me, so using resources from a CDN is perfectly fine.</p>
+<hr />
+<h2 id="features">Features</h2>
+<p>This is the template I created. See <code>README.md</code> for details, but it has the following features.<br />
+<em>Most of these are essentially characteristics of Zola/daisyUI and so on.</em></p>
+<ul>
+<li><strong>Responsive Design</strong><br />
+A simple and easy-to-use layout that also supports mobile devices, powered by daisyUI and Tailwind CSS.</li>
+<li><strong>Markdown-based</strong><br />
+Blog posts and portfolio works can be easily created using Markdown. Articles can also display a Table of Contents (TOC).</li>
+<li><strong>Multilingual Support</strong><br />
+A multilingual switcher is included by default. It can be extended to any number of languages as needed.</li>
+<li><strong>Static Site Generation (SSG)</strong><br />
+Fast and secure, with no need for server-side runtimes such as Node.js.</li>
+<li><strong>Dev Containers Support</strong><br />
+The development environment can be set up quickly, reducing the effort required for environment setup.</li>
+<li><strong>Tag Support</strong><br />
+Content can be organized and categorized using tags.</li>
+<li><strong>Image Carousel / Slideshow</strong><br />
+A carousel is included for displaying multiple photos or images, such as portfolio works.</li>
+</ul>
+<hr />
+<h2 id="development-environment">Development Environment</h2>
+<p>I have tested it with the following environment.</p>
+<ul>
+<li>Windows 11</li>
+<li>WSL2 (Ubuntu)</li>
+<li>docker-ce<br />
+Used when using Dev Containers. This is not Docker Desktop, so it can also be used in companies that do not have a Docker Desktop license.</li>
+<li>VS Code</li>
+</ul>
+<hr />
+<h2 id="setup">Setup</h2>
+<p>The application part is registered on GitHub as a template project. The recommended procedure is as follows.</p>
+<p>Since symbolic links are used to check the site locally, WSL2 is recommended (when using Windows).<br />
+<em>I don't know about Mac.</em></p>
+<h3 id="creating-the-repositories">Creating the Repositories</h3>
+<ol>
+<li>Access <a href="https://github.com/mosaos/zola-daisyui-blog">mosaos/zola-daisyui-blog</a>.</li>
+<li>Click <code>Use this template</code> &gt; <code>Create a new repository</code> and create it as your own repository (such as <code>my-portfolio</code>). <code>Private</code> is also fine.</li>
+<li>Create a separate repository for the content, such as <code>my-portfolio-content</code>. <code>Private</code> is fine.<br />
+This separates the application and content so that the application part can be updated more easily if it is updated in the future. If you do not want the extra hassle, you can also keep everything in <code>my-portfolio</code> from step 2 without separating the content.</li>
+<li>Create a repository for GitHub Pages (<code>Public</code>). If you want to publish the site directly under the domain, use <code>username.github.io</code> as the repository name.</li>
+</ol>
+<h3 id="check-the-site-locally-first">Check the Site Locally First</h3>
+<blockquote>
+<p><em>If you did not separate the content repository, you do not need to replace it with a symbolic link.</em></p>
+</blockquote>
+<h4 id="without-dev-containers">Without Dev Containers</h4>
+<p>Create a symbolic link from the application-side <code>content</code> directory to the content repository.</p>
+<p>Delete the <code>content</code> directory on the application side (<code>my-portfolio</code>):</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span> /path/to/my-portfolio
+</span><span style="color:#bf616a;">rm -rf</span><span> content
+</span></code></pre>
+<p>Create a symbolic link to the content repository (<code>my-portfolio-content</code>).<br />
+<em>The following assumes that <code>my-portfolio</code> and <code>my-portfolio-content</code> are in the same directory.</em></p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">ln -s</span><span> ../my-portfolio-content content
+</span></code></pre>
+<h4 id="with-dev-containers">With Dev Containers</h4>
+<p>Symbolic links do not work here, so mount the directory instead.</p>
+<p>Do not delete the <code>content</code> directory in <code>my-portfolio</code>; just remove its contents.</p>
+<p>Add the following <code>mounts</code> definition to <code>devcontainer.json</code> in <code>my-portfolio</code>.</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>    &quot;</span><span style="color:#a3be8c;">forwardPorts</span><span>&quot;: [
+</span><span>        </span><span style="color:#d08770;">1111
+</span><span>    ],
+</span><span>    </span><span style="color:#65737e;">// Bind-mount the content repository on the host to the Zola content directory in the container
+</span><span>    &quot;</span><span style="color:#a3be8c;">mounts</span><span>&quot;: [
+</span><span>        {
+</span><span>            &quot;</span><span style="color:#a3be8c;">source</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">${localWorkspaceFolder}/../my-portfolio-content</span><span>&quot;,
+</span><span>            &quot;</span><span style="color:#a3be8c;">target</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">${containerWorkspaceFolder}/content</span><span>&quot;,
+</span><span>            &quot;</span><span style="color:#a3be8c;">type</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">bind</span><span>&quot;
+</span><span>        }
+</span><span>    ]
+</span><span>    </span><span style="color:#65737e;">// &quot;remoteUser&quot;: &quot;root&quot;
+</span></code></pre>
+<p>After configuring this, run <code>Rebuild Container</code>. If the contents of <code>content</code> are visible (linked) from the Dev Container, the setup was successful.</p>
+<h4 id="check-the-site">Check the Site</h4>
+<p>Check the site locally.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span> /path/to/my-portfolio
+</span></code></pre>
+<p>If you are using a Dev Container, open VS Code and check from the Dev Container terminal.</p>
+<p>Otherwise, you can check it using Zola installed on WSL2 (Ubuntu).</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">code</span><span> .
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">zola</span><span> serve</span><span style="color:#bf616a;"> --interface</span><span> 0.0.0.0</span><span style="color:#bf616a;"> --port</span><span> 1111</span><span style="color:#bf616a;"> --base-url</span><span> /
+</span></code></pre>
+<p>In VS Code, a dialog saying <code>Your application running on port 1111 is available. See all forwarded ports</code> will appear. Click <code>Open in Browser</code>, and if the site is displayed, everything is OK.</p>
+<p>If you are not using VS Code, open http://localhost:1111/ and check that the site is displayed.</p>
+<h3 id="adjust-gitignore">Adjust <code>.gitignore</code></h3>
+<p>Once you have confirmed that it works, exclude the contents of the <code>content</code> directory on the <code>my-portfolio</code> side so that the files in <code>my-portfolio-content</code> are not managed in multiple places. Add the following:</p>
+<pre data-lang=".gitignore" style="background-color:#2b303b;color:#c0c5ce;" class="language-.gitignore "><code class="language-.gitignore" data-lang=".gitignore"><span style="color:#bf616a;">content</span><span style="color:#65737e;">/**
+</span></code></pre>
+<p>You may also want to run the following in <code>my-portfolio</code>:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> rm</span><span style="color:#bf616a;"> --cached -r</span><span> content
+</span></code></pre>
+<p>At this point, the local development/checking environment is ready.</p>
+<p>You can now add content or customize the application part as needed.</p>
+<h3 id="prepare-a-pat-github-personal-access-token">Prepare a PAT (GitHub Personal Access Token)</h3>
+<p>From here, the setup is for publishing the site to GitHub Pages using GitHub Actions.</p>
+<p><em>This is not necessary if you plan to generate the SSG site manually using Zola locally/in a Dev Container and publish the generated pages yourself.</em></p>
+<p><code>my-portfolio</code> needs access to the separate private repository (<code>my-portfolio-content</code>) and the public repository (<code>username.github.io</code>). Prepare a PAT using the following procedure.</p>
+<ol>
+<li>
+<p>Open <code>Tokens (classic)</code> from <code>Settings</code> &gt; <code>Developer settings</code> &gt; <code>Personal access tokens</code>, using your account icon on the upper right.</p>
+</li>
+<li>
+<p>Click <code>Generate new token (classic)</code>.</p>
+</li>
+<li>
+<p>Enter a description in <code>Note</code> (such as <code>portfolio deploy token</code>) and set the expiration date.</p>
+<ul>
+<li><strong>Recommended:</strong><br />
+From a security perspective, <strong><code>30 days</code> or <code>60 days</code></strong> (regular renewal is required)</li>
+<li><strong>Compromise for personal use:</strong><br />
+If you want to reduce the effort of renewing it, <strong><code>90 days</code></strong> (a reminder email will be sent shortly before expiration)</li>
+</ul>
+<p><em><code>No expiration</code> is not recommended because the risk is high if the token is leaked.</em></p>
+</li>
+<li>
+<p>Under <code>Select scopes</code>, check:</p>
+<ul>
+<li>repo</li>
+</ul>
+</li>
+<li>
+<p>Click <code>Generate token</code> at the bottom of the page and keep the generated token somewhere safe. (<em>It cannot be displayed again once you close the page.</em>)</p>
+</li>
+</ol>
+<h3 id="register-the-token-in-github-secrets">Register the Token in GitHub Secrets</h3>
+<p>Register the issued token as a secret in the application-side repository (<code>my-portfolio</code>).</p>
+<ol>
+<li>
+<p>Open your <code>my-portfolio</code> repository page.</p>
+</li>
+<li>
+<p>Go to <code>Settings</code> &gt; <code>Secrets and variables</code> &gt; <code>Actions</code>.</p>
+</li>
+<li>
+<p>Click <code>New repository secret</code>.</p>
+<ul>
+<li>Name: <code>GH_PAT</code> (or another easy-to-understand name)</li>
+<li>Secret: Paste the PAT string you copied earlier.</li>
+</ul>
+</li>
+<li>
+<p>Click <code>Add secret</code> to save it.</p>
+</li>
+</ol>
+<h3 id="create-the-github-actions-workflow">Create the GitHub Actions Workflow</h3>
+<p>Create a GitHub Actions configuration file in the root of the application-side repository (<code>my-portfolio</code>).</p>
+<p><em>This configuration is based on the author's setup, so change it as appropriate.</em></p>
+<h4 id="github-workflows-deploy-yml">.github/workflows/deploy.yml</h4>
+<pre data-lang="yaml" style="background-color:#2b303b;color:#c0c5ce;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Build and Deploy Zola Site
+</span><span>
+</span><span style="color:#d08770;">on</span><span>:
+</span><span>  </span><span style="color:#bf616a;">push</span><span>:
+</span><span>    </span><span style="color:#bf616a;">branches</span><span>:
+</span><span>      - </span><span style="color:#a3be8c;">main </span><span style="color:#65737e;"># use master instead if your repository uses master
+</span><span>
+</span><span style="color:#bf616a;">jobs</span><span>:
+</span><span>  </span><span style="color:#bf616a;">build-and-deploy</span><span>:
+</span><span>    </span><span style="color:#bf616a;">runs-on</span><span>: </span><span style="color:#a3be8c;">ubuntu-latest
+</span><span>    </span><span style="color:#bf616a;">steps</span><span>:
+</span><span>      </span><span style="color:#65737e;"># 1. Check out the application repository
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Checkout my-portfolio
+</span><span>        </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">actions/checkout@v4
+</span><span>
+</span><span>      </span><span style="color:#65737e;"># 2. Check out the content repository (Private) directly into the content/ directory
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Checkout my-portfolio-content
+</span><span>        </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">actions/checkout@v4
+</span><span>        </span><span style="color:#bf616a;">with</span><span>:
+</span><span>          </span><span style="color:#bf616a;">repository</span><span>: </span><span style="color:#a3be8c;">mosaos/my-portfolio-content </span><span style="color:#65737e;"># username/content repository name
+</span><span>          </span><span style="color:#bf616a;">token</span><span>: </span><span style="color:#a3be8c;">${{ secrets.GH_PAT }}
+</span><span>          </span><span style="color:#bf616a;">path</span><span>: </span><span style="color:#a3be8c;">content
+</span><span>
+</span><span>      </span><span style="color:#65737e;"># 3. Install Zola
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Setup Zola
+</span><span>        </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">taiki-e/install-action@v2
+</span><span>        </span><span style="color:#bf616a;">with</span><span>:
+</span><span>          </span><span style="color:#bf616a;">tool</span><span>: </span><span style="color:#a3be8c;">zola@0.17.2 </span><span style="color:#65737e;"># Match the version used in the development environment
+</span><span>
+</span><span>      </span><span style="color:#65737e;"># 4. Build the site with Zola
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Build Zola site
+</span><span>        </span><span style="color:#bf616a;">run</span><span>: </span><span style="color:#a3be8c;">zola build
+</span><span>
+</span><span>      </span><span style="color:#65737e;"># 5. Push the build output (public/) to the mosaos.github.io repository
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Push to mosaos.github.io
+</span><span>        </span><span style="color:#bf616a;">env</span><span>:
+</span><span>          </span><span style="color:#bf616a;">GH_TOKEN</span><span>: </span><span style="color:#a3be8c;">${{ secrets.GH_PAT }}
+</span><span>        </span><span style="color:#bf616a;">run</span><span>: </span><span style="color:#b48ead;">|
+</span><span style="color:#a3be8c;">          git config --global user.name &quot;GitHub Actions Bot&quot;
+</span><span style="color:#a3be8c;">          git config --global user.email &quot;actions@github.com&quot;
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">          # Move to the public directory containing the build output
+</span><span style="color:#a3be8c;">          cd public
+</span><span style="color:#a3be8c;">
+</span><span style="color:#a3be8c;">          # Initialize it as a Git repository and push
+</span><span style="color:#a3be8c;">          git init
+</span><span style="color:#a3be8c;">          git checkout -b main
+</span><span style="color:#a3be8c;">          git remote add origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/mosaos/mosaos.github.io.git
+</span><span style="color:#a3be8c;">          git add -A
+</span><span style="color:#a3be8c;">          git commit -m &quot;Deploy from my-portfolio CI/CD at $(date)&quot;
+</span><span style="color:#a3be8c;">          git push -f origin main
+</span></code></pre>
+<p>After creating the configuration file, commit and push it.</p>
+<p><em>Before committing/pushing, change <code>base_url</code> in <code>config.yml</code> to the URL of your own GitHub Pages site.</em></p>
+<p><em>If the Action runs successfully, everything is OK. At this point, if <code>content</code> has not been registered yet, the Action will fail, but after registering <code>content</code>, rerun it and make sure it completes successfully.</em></p>
+<h3 id="github-pages-settings-on-the-deployment-destination-username-github-io">GitHub Pages Settings on the Deployment Destination (<code>username.github.io</code>)</h3>
+<ol>
+<li>Open <code>Settings</code> &gt; <code>Pages</code> in the <code>username.github.io</code> repository.</li>
+<li>Configure <code>Build and deployment</code>:
+<ul>
+<li><code>Source</code>: Select <code>Deploy from a branch</code>.</li>
+<li><code>Branch</code>: Select <code>main</code> (or <code>master</code>) and <code>/</code> (root) as the folder, then click <code>Save</code>.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="triggering-a-build-when-content-is-updated">Triggering a Build When <code>content</code> Is Updated</h2>
+<p>With the configuration above, an update to <code>my-portfolio</code> (a push to <code>main</code>) triggers Actions.</p>
+<p>Normally, it is more convenient for the site to be updated when <code>content</code> is updated.</p>
+<p>In this case, add the following configuration to both the application-side (<code>my-portfolio</code>) and content-side (<code>my-portfolio-content</code>) repositories.</p>
+<h3 id="application-side-my-portfolio">Application Side (<code>my-portfolio</code>)</h3>
+<p>Modify the <code>on:</code> section of <code>.github/workflows/deploy.yml</code> on the application side so that it can wait for a signal (<code>repository_dispatch</code>) from the content side.</p>
+<h4 id="github-workflows-deploy-yml-1">.github/workflows/deploy.yml</h4>
+<p>Add the following near the beginning.</p>
+<p>Register the <code>GH_PAT</code> secret in the same way as you did for the application-side repository.</p>
+<pre data-lang="yaml" style="background-color:#2b303b;color:#c0c5ce;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Build and Deploy Zola Site
+</span><span>
+</span><span style="color:#d08770;">on</span><span>:
+</span><span>  </span><span style="color:#bf616a;">push</span><span>:
+</span><span>    </span><span style="color:#bf616a;">branches</span><span>:
+</span><span>      - </span><span style="color:#a3be8c;">main </span><span style="color:#65737e;"># or master
+</span><span>  </span><span style="color:#65737e;"># Add a setting to receive events from an external repository (the content repository)
+</span><span>  </span><span style="color:#bf616a;">repository_dispatch</span><span>:
+</span><span>    </span><span style="color:#bf616a;">types</span><span>: [</span><span style="color:#a3be8c;">content_updated</span><span>]
+</span><span>
+</span><span style="color:#bf616a;">jobs</span><span>:
+</span><span>  </span><span style="color:#bf616a;">build-and-deploy</span><span>:
+</span><span>    </span><span style="color:#bf616a;">runs-on</span><span>: </span><span style="color:#a3be8c;">ubuntu-latest
+</span><span>    </span><span style="color:#65737e;">#  ( the rest is omitted )
+</span></code></pre>
+<h3 id="content-side-my-portfolio-content">Content Side (<code>my-portfolio-content</code>)</h3>
+<h3 id="github-workflows-deploy-yml-2">.github/workflows/deploy.yml</h3>
+<p>Create a new configuration file.</p>
+<pre data-lang="yaml" style="background-color:#2b303b;color:#c0c5ce;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Trigger App Build on Content Push
+</span><span>
+</span><span style="color:#d08770;">on</span><span>:
+</span><span>  </span><span style="color:#bf616a;">push</span><span>:
+</span><span>    </span><span style="color:#bf616a;">branches</span><span>:
+</span><span>      - </span><span style="color:#a3be8c;">main </span><span style="color:#65737e;"># Match the main branch used to manage articles (Markdown)
+</span><span>
+</span><span style="color:#bf616a;">jobs</span><span>:
+</span><span>  </span><span style="color:#bf616a;">trigger_dispatch</span><span>:
+</span><span>    </span><span style="color:#bf616a;">runs-on</span><span>: </span><span style="color:#a3be8c;">ubuntu-latest
+</span><span>    </span><span style="color:#bf616a;">steps</span><span>:
+</span><span>      - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Repository Dispatch
+</span><span>        </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">peter-evans/repository-dispatch@v3
+</span><span>        </span><span style="color:#bf616a;">with</span><span>:
+</span><span>          </span><span style="color:#bf616a;">token</span><span>: </span><span style="color:#a3be8c;">${{ secrets.GH_PAT }} </span><span style="color:#65737e;"># Register the same GH_PAT as a Secret on the content side
+</span><span>          </span><span style="color:#bf616a;">repository</span><span>: </span><span style="color:#a3be8c;">mosaos/my-portfolio </span><span style="color:#65737e;"># Target application-side repository
+</span><span>          </span><span style="color:#bf616a;">event-type</span><span>: </span><span style="color:#a3be8c;">content_updated </span><span style="color:#65737e;"># Must exactly match the name configured in types on the application side (be careful with hyphens)
+</span></code></pre>
+<hr />
+<h2 id="keeping-up-with-updates-to-zola-daisyui-blog">Keeping Up with Updates to zola-daisyui-blog</h2>
+<h3 id="register-the-upstream-repository">Register the Upstream Repository</h3>
+<p>A repository created with <code>Use this template</code> is completely independent of the original repository, unlike a Fork.</p>
+<p>If you want to keep your repository up to date with changes to the original template repository, set this up first.</p>
+<p>Move to the root of the project you created:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span> my-portfolio
+</span></code></pre>
+<p>Add the upstream repository:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> remote add upstream https://github.com/mosaos/zola-daisyui-blog
+</span></code></pre>
+<p>You can check whether it was registered correctly with:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> remote</span><span style="color:#bf616a;"> -v
+</span></code></pre>
+<h3 id="apply-changes-from-the-original-template">Apply Changes from the Original Template</h3>
+<p>First, fetch the changes:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> fetch upstream
+</span></code></pre>
+<p>With a normal merge, Git may consider the histories unrelated, so merge with <code>--allow-unrelated-histories</code>.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> merge upstream/main</span><span style="color:#bf616a;"> --allow-unrelated-histories
+</span></code></pre>
+<p>The changes from the original template will be merged. If there are conflicts between the parts you modified and the template updates, resolve them.</p>
+<p>Once the conflicts have been resolved, commit the changes.</p>
+<p>Finally, push them to your own repository and you are done.</p>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (EN)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/">
+            <i class="fa-solid fa-home w-5"></i><span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>Works</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/tags">
+            <i class="fa-solid fa-tags w-5"></i><span>Tags</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/tags/art/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Art</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/best-practices/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Best Practices</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/blog/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Blog</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ceramics/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Ceramics</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#GitHub</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/leathercraft/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Leathercraft</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/pottery/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Pottery</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/project/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Project</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/sewing/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Sewing</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/wedding/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Wedding</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

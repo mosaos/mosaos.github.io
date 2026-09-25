@@ -1,0 +1,1246 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    ベストプラクティス GitLab | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="ベストプラクティス GitLab | mosaos">
+<meta property="og:description" content="GitLab の使い方まとめ。システムとしての使い方ではなくて、どういった点に気を付けて運用するか？">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-gitlab&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-gitlab&#x2F;git-logo.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ベストプラクティス GitLab | mosaos">
+<meta name="twitter:description" content="GitLab の使い方まとめ。システムとしての使い方ではなくて、どういった点に気を付けて運用するか？">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-gitlab&#x2F;git-logo.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ベストプラクティス GitLab",
+    "description": "GitLab の使い方まとめ。システムとしての使い方ではなくて、どういった点に気を付けて運用するか？",
+    "url": "https://mosaos.github.io/ja/blog/best-practice-gitlab/",
+    
+    "datePublished": "2026-09-22",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/ja/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-gitlab&#x2F;"
+            class="">
+            EN
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-gitlab&#x2F;"
+            class="active font-bold">
+            JA
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/ja/" class="hover:text-primary transition-colors">
+        ホーム
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/ja/blog/" class="hover:text-primary transition-colors">
+        ブログ
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      ベストプラクティス GitLab
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      ベストプラクティス GitLab
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-22
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/ja/tags/git/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Git
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/puroziekuto/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #プロジェクト
+        </a>
+        
+        <a href="https://mosaos.github.io/ja/tags/besutopurakuteisu/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #ベストプラクティス
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">目次</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#hazimeni" class="hover:underline py-1">はじめに</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#git" class="hover:underline py-1">Git</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#quan-xian-guan-li" class="hover:underline py-1">権限管理</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#burantizhan-lue" class="hover:underline py-1">ブランチ戦略</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#burantizuo-cheng" class="hover:underline py-1">ブランチ作成</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#komituto" class="hover:underline py-1">コミット</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#mazirikuesuto" class="hover:underline py-1">マージリクエスト</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#issuezuo-cheng" class="hover:underline py-1">issue作成</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#raberu" class="hover:underline py-1">ラベル</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#kanbanyong" class="text-xs opacity-80 hover:underline py-0.5">
+                カンバン用</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#close-xi" class="text-xs opacity-80 hover:underline py-0.5">
+                Close 系</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#priority-xi" class="text-xs opacity-80 hover:underline py-0.5">
+                Priority 系</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#type-xi" class="text-xs opacity-80 hover:underline py-0.5">
+                Type 系</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#reference" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#mairusuton" class="hover:underline py-1">マイルストーン</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#reference-1" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#kanban" class="hover:underline py-1">カンバン</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#reference-2" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#can-kao" class="text-xs opacity-80 hover:underline py-0.5">
+                参考</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#shi-jian-guan-li" class="hover:underline py-1">時間管理</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#jian-ji-mori" class="text-xs opacity-80 hover:underline py-0.5">
+                見積もり</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#shi-gong-shu" class="text-xs opacity-80 hover:underline py-0.5">
+                実工数</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#qi-xian" class="text-xs opacity-80 hover:underline py-0.5">
+                期限</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#reference-3" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#gantotiyato" class="text-xs opacity-80 hover:underline py-0.5">
+                ガントチャート</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#mrnodraftji-neng-jiu-wip" class="hover:underline py-1">MRのDraft機能(旧WIP)</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#reference-4" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#soredemofa-sheng-sitawen-ti" class="hover:underline py-1">それでも発生した問題</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#he-suru-issue" class="text-xs opacity-80 hover:underline py-0.5">
+                何する issue ?</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#burantiming-gaming-ming-gui-yue-nicong-tuteinai" class="text-xs opacity-80 hover:underline py-0.5">
+                ブランチ名が命名規約に従っていない</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#burantinozuo-cheng-shou-shun-niwen-ti-duo-fen" class="text-xs opacity-80 hover:underline py-0.5">
+                ブランチの作成手順に問題 ( 多分 )</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/best-practice-gitlab/#matome" class="hover:underline py-1">まとめ</a>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <p>ベストプラクティス シリーズ。</p>
+<p>俺の GitLab 的な?</p>
+<p>※ かつての記事のリライトのため、現状の GitLab の UI とはズレがある可能性があります。</p>
+<h2 id="hazimeni">はじめに</h2>
+<p>個人で GitHub 使ってたり、業務で GitLab 使っている中で、</p>
+<p>うまくいった事・うまくいかなかった事 いずれもあるわけですが、これら経験を踏まえて、</p>
+<ul>
+<li>こうすると上手くいく ( かもよ )</li>
+<li>こうすると失敗する ( かもよ )</li>
+<li>この機能使うと便利 ( かもよ )</li>
+</ul>
+<p>的な Tips をまとめてみます。</p>
+<p>※ 俺の 〇〇 的な Tips なので、適当なカスタマイズやプロジェクト毎の最適化推奨。<br />
+※ 職場等では殆ど利用されていないと思われる系機能に関しても記す。活用する事でプロジェクトの質を上げる事が可能 ( かもよ )。</p>
+<hr />
+<h2 id="git">Git</h2>
+<p><strong>基本操作は自分で覚えましょう。</strong></p>
+<p>GitLab を利用する場合、Git は利用するはず。<br />
+※ Issue管理は使わない場合はありそう ( タスク管理は Redmine だけど、ソース管理は GitLab という管理ツールミックス状態 )</p>
+<p>Git の使い方が怪しい場合は、以下のような方法を利用して基本操作はマスターしましょう。</p>
+<ul>
+<li>自分で学ぶ / 調べる ( 書籍 / ネット )</li>
+<li>個人で github 等を使って慣れる</li>
+<li>詳しい人に聞く<br />
+企業によっては、全くわかってない状況の方に一から教えてくれる人は少ないかもしれない。</li>
+</ul>
+<p>操作に自信がない場合に、実運用しているブランチを適当に触って壊すとか、企業/プロジェクトによっては追放されるかもな事象です。テスト用のリポジトリ用意して練習しましょう。<br />
+練習もせず本番環境壊したとかなると、無能扱いされても仕方ありません。</p>
+<p>GitLab + GitLab Runner 込みで docker-compose で環境構築する事も可能なので、色々弄ってみたい向きには docker で環境構築するのをお勧めします。</p>
+<p>※ 昔 Git も SVN も使い方怪しいって人見た事あるけど、本当に開発者だったのか? ( 経歴詐称じゃないよね? ) と冗談交じりで疑われていた。</p>
+<hr />
+<h2 id="quan-xian-guan-li">権限管理</h2>
+<p>プロジェクトにメンバーを追加する場合には適切なロールを割り当てるようにしましょう。</p>
+<p><a href="../best-practice-cron/">ベストプラクティス cron</a> に書いた</p>
+<blockquote>
+<p>※ GitLab でも push 可能な権限を制限できるはず。MR必須の運用にするならば、指定ブランチへの直pushを制限する等 ( スローガンではなく ) ツールで制約を。</p>
+</blockquote>
+<p>といった対応をする場合、</p>
+<p>特定ブランチへの merge/push は 特定ロール(以上)のみ許可するといった設定を行う必要があります。<br />
+※ プロジェクトの [Settings]＞[Repository]＞[Protected branches] から行える。</p>
+<p>しかし、協力会社メンバー含め、全員が Maintainer 権限といった状態だと、上記設定を行っても適切な制限は行えない事になります。</p>
+<p>適切な機能制限が行えない点を挙げましたが、そもそもセキュリティ上問題であり、</p>
+<p>Maintainer 権限を持つメンバーは社員のみ ( できれば適切な設定が行える一部のメンバー ) 等に制限し、通常の開発者は Developer 権限に設定するのが適切です。</p>
+<p>※ 監査上も不要な権限を意味なく割り当てるのはNG ( なはず )</p>
+<p>Redmine 等にも言える事ですが、<strong>何でこのメンバーにこのロール割り当ててんの？な権限割り当てザル状態は結構企業でも見かけた</strong> 気がします。<br />
+何となく、便利だからといった理由で権限付与するのはNGでしょう。もしやっちゃってる場合には修正しましょう。</p>
+<hr />
+<h2 id="burantizhan-lue">ブランチ戦略</h2>
+<p>既に稼働中なプロジェクトに関しては、プロジェクト毎のブランチ戦略があると思います。<br />
+既に決まった運用方法があり、上手く行っているのであればそれを使いましょう。</p>
+<p>一例として過去に採用したブランチ戦略を示します。</p>
+<p><img src="https://mosaos.github.io/ja/blog/best-practice-gitlab/mosaos-gitflow.webp" alt="gitブランチ" /></p>
+<p>※ gitflowに似てるので使った事がある方であれば理解は容易いと思います。</p>
+<ul>
+<li><code>master</code> ( または <code>main</code> )<br />
+リリース用。運用環境にデプロイされる。<br />
+master は直接編集しない。<br />
+master に マージ した場合は tag を付けます。</li>
+<li><code>develop</code><br />
+開発のメインブランチ。master から作成。</li>
+<li><code>feature</code><br />
+各 issue に対応したブランチ。<br />
+develop の最新から作成。<br />
+ブランチ名は <code>feature/issueNNN</code> ( NNNはissue番号 ) とした。<br />
+issue 毎に個別のブランチを作成し、実装完了後は develop にマージされる。<br />
+※ 当初個々人の開発用ブランチを作成する場合に機能単位ではなくメンバー単位で作成という話もあった ( メンバーが以前そういう方法を採っていたとの事 ) が、この場合、( フロントとサーバサイドで開発者が異なる場合等 ) 一つの機能変更が複数ブランチに跨る可能性もありうる事から、この方法は止めた。</li>
+<li><code>hotfix</code><br />
+master で致命的なバグが発生した場合に利用。<br />
+( 致命的なバグが発生した ) master から作成。<br />
+ブランチ名は <code>hotfix/issueNNN</code> ( NNNはissue番号 )。
+バグ改修後、master にマージされる。</li>
+</ul>
+<p>マージする際にはMRを作成し、レビュー後にマージする。</p>
+<p>※ プロジェクトのメンバー構成、MRの内容によってはセルフレビューを許可した。<br />
+※ 上記ルールはチケット駆動開発を手法として取り入れている場合 ( 必ず issue を作成しているはずなので ) 機能し易い。チケット駆動でない場合にはどうするか？チケット駆動開発にしてしまえ！( お勧め )。</p>
+<p>※ ちなみに、以前 <code>feature/#NNN</code> 形式でブランチ名を採用した事があったが、ブランチ名に # が含まれると GitLab へのリンクで問題が発生する ( Slack 通知からリンクされない ) ためこの形式は廃止になりました。ブランチ名に <code>#</code> を含めるのはやめた方が良い。</p>
+<hr />
+<h2 id="burantizuo-cheng">ブランチ作成</h2>
+<p>新たに機能を追加したりバグ修正を行う場合には プロジェクトで策定/採用した <code>ブランチ戦略</code> に従ってブランチ作成を行います。</p>
+<p>ブランチの作成は GitLab 上でも行えますが、以下の副作用があります。</p>
+<ul>
+<li>GitLab 上で <code>New Branch</code> した場合、作成したブランチが Commit/Push されてしまうため CI/CD ( Pipeline ) が実行されてしまう。<br />
+gitlab-ci.yml の条件指定で GitLab 上から <code>New Branch</code> されたかどうかを判別する方法があればよいが、現状判別は出来ないっぽいため、<code>New Branch</code> しただけで CI/CD が実行されてしまう。<br />
+これは以下の点で都合が悪い
+<ul>
+<li>不要な CI/CD が走る。色々 ( 計算機リソース、時間、リモートリポジトリ上のストレージ等 ) 無駄。</li>
+<li>機能追加やバグFIX等が Push された場合のみ CI/CD が走る方が、CI/CD(Pipeline) で問題が発生した場合に、問題を発見しやすい。ブランチ作成の度 Pipeline が走ると Pipeline の確認がきちんとされなくなる可能性がある。</li>
+</ul>
+</li>
+</ul>
+<p>上記の点を踏まえ、ブランチ作成に関しては特別な理由がない限り以下の手順で行うのをお勧めします。</p>
+<ol>
+<li>作成元のブランチからローカルでブランチを作成する。</li>
+<li>作成したローカルブランチを利用して何らかの変更 ( 機能追加やバグ修正 ) を行い、ローカルでビルド、動作確認を行う。</li>
+<li>ローカルで Commit する。</li>
+<li>リモート ( GitLab ) に Push する。<br />
+新規に作成したブランチに関しては、この時点で初めてリモートにブランチ作成され、CI/CD が実行される。</li>
+</ol>
+<p>上記手順を採用する利点は以下。</p>
+<ul>
+<li>実際の変更 ( ローカル Commit ) が反映 ( Push ) されるまでは、リモートにブランチが生成されない。<br />
+ブランチ作成したけど、結局は Commit/Push されない場合もあり得るが、この場合に GitLab リソースが無駄にならない。</li>
+<li>余計なCI/CDが走らない。<br />
+GitLab で <code>New Branch</code> した場合、上述の通り CI/CD が走るが、これはブランチ生成元のブランチ( develop 等 ) の最終コミットの状態を再度 CI/CD している事になる。既に CI/CD 確認済みの Commit/Push に対し CI/CD を再実行するのは無駄である。</li>
+<li>Pipelineの履歴が汚れない。<br />
+上と関連するが、無駄な Pipeline が走ると Pipeline の履歴に本来不要な実行履歴が残る。CI/CD で何らかの問題が発生して、過去履歴を調査する必要が発生した場合に、この手の履歴が多いと調査コストが増える。</li>
+</ul>
+<p>GitLab上から New Branch せずとも、VSCode 等の開発環境でブランチ作成は行える。上記手順でブランチ作成を行うようにしましょう。</p>
+<p>※ 殆どのメンバーは上記手順でブランチ作成していたが、一部メンバーがGitLab上で New Branch した際に Pipeline 実行される状態が発生。なんだ?この Pipeline となったため、上記内容でかつて文書化/展開した。<br />
+※ 「うちのプロジェクトでは CI 使ってないからいいや」と言う方もいるかもしれないが、今後 CI を導入する可能性は常にある。一度慣れてしまった方法を直すのは ( メンバーにもよるが ) コストが高い場合がある。 より問題が少ない方法を採用する方がよいと思う。</p>
+<hr />
+<h2 id="komituto">コミット</h2>
+<p>コミットする場合には コミットコメントを適切に書きましょう。</p>
+<p>GitLab でチケット駆動開発を行っている場合、コミットは先に起票しているチケット ( issue ) に対応する作業なので、コミットコメントには issue id を記載するようにします。<br />
+これによって issue と コミットが自動的に関連付けされます ( 相互リンクが張られる )。</p>
+<p>issue idを記載する場合 <code>#nnn</code> 形式 ( nnn は issue id (10進数値) ) で記載する。<br />
+場所はコミットコメントの最初に書くのが判りやすく、書き忘れにくい。<br />
+※ <code># nnn</code> と # と nnn の間にスペースを入れてしまってリンクが張られていないのも見た事があるので、間にスペースは入れないように。</p>
+<p>※ チケット自体は Redmine で管理している場合にも、Redmine のリポジトリ機能を利用し、Git リポジトリと連携する事で チケットとの連携を行う事も可能である ( 設定は別途必要 ) 。</p>
+<hr />
+<h2 id="mazirikuesuto">マージリクエスト</h2>
+<p>マージを行う場合には必ずマージリクエスト ( MR ) を作成する。<br />
+( MR 無しでのマージは行わない )</p>
+<ol>
+<li>GitLab のメニューから <code>Merge requests</code> をクリックする。</li>
+<li>MR一覧画面が表示されるので <code>New merge request</code> ボタンをクリックする。</li>
+<li>Source / Target の二つのブランチ入力欄が表示されるので、それぞれのブランチを設定します。<br />
+通常の機能開発を行っている場合には、以下のようになります。(hotfixの場合やmasterへのマージの場合にはこれとは異なります。不安な場合は識者に相談して下さい)</li>
+</ol>
+<ul>
+<li>Source branch にマージするブランチ (feature/issueNNN)</li>
+<li>Target branch にマージ先のブランチ (develop)</li>
+</ul>
+<ol start="4">
+<li><code>Compare branches and continue</code> をクリックする。</li>
+<li>New merge request 画面に遷移するので、先ずは変更内容を確認します。<br />
+画面を下にスクロールすると、<code>Commits</code>, <code>Pipelines</code>, <code>Changes</code> タブが表示されているので、以下が正しいかを確認して下さい。もし問題があった場合には一旦MR作成は止め、ブランチ作成手順やファイル編集に問題がないか解決してから再度MRを作成するようにしましょう。</li>
+</ol>
+<ul>
+<li>Commits<br />
+MRに含まれるコミット内容。自分が行おうとしているMRと異なる内容のコミットが含まれる場合は何か問題があると思ってください。</li>
+<li>Changes<br />
+MR前後のファイル差分が含まれます。差分(変更)内容が正しいかを確認して下さい。自分が行っていない変更や、誤った変更内容が含まれた場合には何か問題があると思ってください。</li>
+</ul>
+<ol start="6">
+<li><code>Commits</code>, <code>Changes</code> に問題が無い場合には、以下MR内容を適宜設定して下さい。</li>
+</ol>
+<ul>
+<li>Title<br />
+MR のタイトルを適宜設定して下さい。</li>
+<li>Description<br />
+MR に含まれる変更の概要を書いておくと良いでしょう。</li>
+<li>Reviewer<br />
+誰かにMRをレビューして欲しい場合にはそのメンバーをレビュアーに設定して下さい。GitLabで設定しただけだと相手が気づかない場合もあるため、Slackなどでレビュー願いも通知するのがお勧めです。</li>
+</ul>
+<ol start="7">
+<li><code>Create merge request</code> をクリックします。</li>
+<li>レビューを依頼されたメンバーはMRの内容に問題がないか確認し、必要であればMRにコメントして下さい。</li>
+<li>MR作成者はレビュアーのコメントに対して説明やコード修正等を行い問題を解消して下さい。</li>
+<li>6 -&gt; 7 のプロセスを繰り返し問題がなくなったら、レビュワーは MR の <code>Approve</code> ボタンをクリックします。</li>
+<li>MR作成者 ( あるいは、MRをアサインされたメンバー ) は Approved された事を確認して、<code>Merge</code> ボタンをクリックします。<br />
+デフォルトでは <code>Delete source branch</code> にチェックが入っています。マージ後もソースブランチ(feature/issueNNN等)を削除したくない ( その後もそのブランチで作業する ) 場合にはチェックを外してから <code>Merge</code> ボタンを押しましょう。</li>
+</ol>
+<p>企業などでも時々発生する</p>
+<ul>
+<li>一人で作業した。</li>
+<li>チェック体制がなかった。機能していなかった。</li>
+<li>レビューを行っていなかった。</li>
+</ul>
+<p>といった問題を防止するためにも有効です。</p>
+<hr />
+<h2 id="issuezuo-cheng">issue作成</h2>
+<p>issue を作成する場合、適切な issue を作成する。</p>
+<p><a href="../best-practice-redmine/">ベストプラクティス Redmine</a> にも似たような事を書いたのですが、以下のような点に気をつけるとよいでしょう。</p>
+<ul>
+<li>適切な粒度で作成</li>
+<li>適切なタイトルを付ける</li>
+<li>必要十分な説明 ( 概要 ) もきちんと書く</li>
+<li>複数のタスクを書かない</li>
+<li>終了条件が明確になるようにする</li>
+<li>担当を割り振る</li>
+<li>期間を設定する ( 仮の期間でも良い )</li>
+<li>バグの場合、再現手順、環境(利用ブラウザ等)、バージョン等必要な情報を記載する<br />
+※ 且て某外資系で働いてた時に、BTS(bug tracking system) にこの手の情報書かずに登録して「クソなissue書いてんじゃねー。とっとと書き直せ」って返されてるの見た事あるw。</li>
+</ul>
+<hr />
+<p>ここからはあまり使われていない系</p>
+<h2 id="raberu">ラベル</h2>
+<p>issue にはラベルを付ける事ができる。ラベルは Project 単位で設定可能。利用する事で issue の視認性が向上する。<br />
+※ board (カンバン。後述) やissue 一覧表示時に特に有用。<br />
+※ 背景色も個別設定可能なので、適切に設定して運用していれば、ラベル色からどの系統の情報かも判るようになってくる。</p>
+<p>プロジェクトの左メニュー一番上のアイコン[Project information]＞[Labels] から設定できる。</p>
+<p>私は以下のようなラベルを設定している。</p>
+<h3 id="kanbanyong">カンバン用</h3>
+<ul>
+<li><code>Doing</code><br />
+実行中。色は #5CB85C</li>
+<li><code>To Do</code><br />
+実行予定。色は #F0AD4E</li>
+</ul>
+<h3 id="close-xi">Close 系</h3>
+<p>Closed issue の分類に利用。色は #808080</p>
+<ul>
+<li><code>Close: Fixed</code><br />
+修正/対応した</li>
+<li><code>Close: Wontfix</code><br />
+対応しない</li>
+<li><code>Close: Duplicate</code><br />
+重複している</li>
+<li><code>Close: Invalid</code><br />
+誤っている</li>
+<li><code>Close: Postponed</code><br />
+延期</li>
+</ul>
+<h3 id="priority-xi">Priority 系</h3>
+<p>優先度</p>
+<ul>
+<li><code>Priority: Critical</code></li>
+<li><code>Priority: High</code></li>
+<li><code>Priority: Middle</code></li>
+<li><code>Priority: Low</code></li>
+</ul>
+<p>優先度系は順位付け可能なのでラベル背景色をグラデーションになるように設定している。<br />
+Critical から順に #ff0000, #ff4400, #ff8800, #ffbb00</p>
+<h3 id="type-xi">Type 系</h3>
+<p>issue 分類。色は #6699dd</p>
+<ul>
+<li><code>Type: Bug</code><br />
+バグ</li>
+<li><code>Type: Documentation</code><br />
+文書/資料作成</li>
+<li><code>Type: Feature</code><br />
+機能追加/拡張</li>
+<li><code>Type: Refactoring</code><br />
+リファクタリング</li>
+<li><code>Type: Review</code><br />
+レビュー</li>
+<li><code>Type: Test</code></li>
+</ul>
+<p>issue 一覧や カンバンがカラフルになるだけで、何となく気分が上がる ( ※個人の感想です ) し、視認性が高まるという点においてデメリットは少ないと思われる。</p>
+<p>尚、ラベル設定した際に、issue には必ずラベルを付ける必要があると受け取ったメンバーがいましたが、そうではありません。</p>
+<p>ラベルの種類によっては付与を必須にしてもよいものもあるかとは思いますが、優先度等 issue 作成者が直ぐに設定可能とは言えないでしょう。<br />
+一旦ラベルが付与されてしまう＝既に設定済み・設定したラベルで問題が無いと受け取られる可能性もあるため、確実に設定可能なもの以外については付与せずに打合せの中等で設定する方がよいと思います。</p>
+<p>※ <a href="https://docs.gitlab.com/ee/user/project/labels.html#scoped-labels">Scoped labels</a> という機能があって、これが利用できればと考えていたが、非PREMIUM版では利用できなかった。<br />
+この機能はラベル名に <code>::</code> を入れる事で key::value 形式のラベルを設定できるとの事。Priority や Severity といったラベル付けをする場合にはこの形式が使えた方が便利。</p>
+<h3 id="reference">Reference</h3>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/labels.html">Labels</a></li>
+</ul>
+<hr />
+<h2 id="mairusuton">マイルストーン</h2>
+<p><code>Issues</code> &gt; <code>Milestones</code> から設定/利用できます。</p>
+<p>私は仕事での実プロジェクトでもマイルストーンを利用して、各リリースで行う内容(予定)を記載していますが、私の周りではマイルストーンを設定しているプロジェクトは少ないように思われます。<br />
+請負開発で作ったら終わりといった場合でない限り、現在、あるいは、これから行う(次リリース)までの開発で何を行うか？ ( 主目的や主な追加機能 ) を記しておくとプロジェクトの見通しがよくなります。<br />
+個々の issue までマイルストーンに記載する必要はありませんが、issue 自体にマイルストーンが設定可能なので、</p>
+<ul>
+<li>その issue がどのマイルストーンで実施されたのか？</li>
+<li>あるリリース ( Milestone ) で対応された issue には何があるのか？</li>
+</ul>
+<p>といった振り返りに利用する事も可能ですし、</p>
+<ul>
+<li>issue としては上がっているが、そのタスクは現マイルストーンでは行わない事を示す (要望としては把握、ただし、実装未定扱いにする) 用途にも利用できます。</li>
+</ul>
+<h3 id="reference-1">Reference</h3>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/milestones/#milestones">Milestones</a></li>
+</ul>
+<hr />
+<h2 id="kanban">カンバン</h2>
+<p><code>Issues</code> &gt; <code>Boards</code> から利用できます。</p>
+<p>GitLab 上では Boards となっていますが、カンバンの方が馴染みが深い方が多いのではないかと思われます。<br />
+GitLab上ではデフォルトでは以下の状態が用意されています。</p>
+<ul>
+<li><code>Open</code><br />
+issue が作成されたときの状態</li>
+<li><code>Closed</code><br />
+作業が完了したら <code>Closed</code> に移動</li>
+<li>上記以外にカンバン上の状態を表すラベルを設定可能。</li>
+</ul>
+<p>個人的には Redmine でガントチャートベースでタスクを回す事が多かったのですが、幾つかのプロジェクトでは取引先のマネージャの希望等からカンバンベースでタスク管理をしたこともあります ( Redmine の場合、Agileプラグインを利用 )。<br />
+カンバン上で関係者でタスクを確認し、それぞれのタスクの状態を変更してゆくという事を定期的に行っていました。</p>
+<ul>
+<li>タスクの大まかな状態を全員で確認できる。</li>
+<li>重要なタスクは順番を入れ替える(上に持ってくる)といったルールで運用する事で、タスクの重要度/優先度も可視化できる</li>
+<li>担当者も表示されているので、誰がどの程度のタスクを抱えているかも把握しやすい。</li>
+</ul>
+<p>プロジェクトの形態や規模、参加メンバーの属性等によって向き/不向きもあるため、必ず利用すべきといったものではありませんが、利用した事がないのであれば試してみる価値はあるでしょう。</p>
+<ul>
+<li>「小規模でガントチャート作るまでは...」といった場合</li>
+<li>アジャイル的な開発手法を採用している場合</li>
+</ul>
+<p>に親和性が高いと思います。</p>
+<h3 id="reference-2">Reference</h3>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/issue_board.html">Issue boards</a></li>
+</ul>
+<h3 id="can-kao">参考</h3>
+<ul>
+<li><a href="https://qiita.com/tnir/items/a488334247f112b083f3">GitLabイシューボードでkanbanやスクラムを試してみる</a></li>
+</ul>
+<hr />
+<h2 id="shi-jian-guan-li">時間管理</h2>
+<p><code>Time tracking</code> と <code>Due dates</code> を利用する事でタスクの時間管理やスケジュール管理をする事が可能です。</p>
+<p>プロジェクトを進めるうえで各タスク ( issue ) の時間管理は重要です。
+タイムトラッキングするまでもなく、順調に進んでいるプロジェクトの場合にはガチガチな時間管理をする必要はないと個人的には思ってますが、</p>
+<ul>
+<li>進捗が芳しくない</li>
+<li>タスクにどの程度の工数がかかるか把握できていない</li>
+</ul>
+<p>といった状況が続いている場合、先ずは見える化する事からはじめるのが良いでしょう。<br />
+可視化されていない問題は放置される/改善されない事が殆どなので、可視化するのがファーストステップです。</p>
+<p>GitLab の <code>Time tracking</code> と <code>Due dates</code> を利用する事でタスクの時間管理やスケジュール管理をする事が可能です。</p>
+<p>各 issue について、</p>
+<ul>
+<li>どの程度かかりそうか<br />
+見積もり <code>/estimate</code></li>
+<li>実際にかかった工数
+<code>/spend</code></li>
+<li>いつまでに出来そうか
+<code>Due date</code></li>
+</ul>
+<p>を記録する事で見える化が可能です。</p>
+<h3 id="jian-ji-mori">見積もり</h3>
+<p>issue のコメントで <code>/estimate 1w 2d 5h</code> といった風に入力する事で見積もり工数を入力できます。</p>
+<ul>
+<li>コマンドを途中まで入力するとヒントが表示されるので参考にしましょう。</li>
+<li>1w == 7d ではなく 1w = 5d なのでその点は注意しましょう。</li>
+<li>当然 1d = 24h でもありませんが、これに関して間違う方はいないと思われ</li>
+</ul>
+<p>見積もりを取り消す場合は <code>remove_estimate</code> で。</p>
+<p>変更する場合には <code>/estimate xxx</code> を再入力します。以前の値に加算されるのではなく、上書きされるようなのでこちらも注意しましょう。</p>
+<h3 id="shi-gong-shu">実工数</h3>
+<p>issue コメントで <code>/spend xxx</code> で入力します。時間のフォーマットは <code>estimate</code> と同じです。</p>
+<p>※ /spend に関しては入力した値は加算されます ( /estimate とは異なるようです )。</p>
+<p>estimate と spend 両方入力すると、issue 右側の <code>Time tracking</code> 欄に進捗がバー表示されるようになります。</p>
+<h3 id="qi-xian">期限</h3>
+<p>期限は issue の右側にある Due date 欄で入力します。</p>
+<p>issue コメントで <code>/due xxx</code> で設定する事も可能ですが、xxx 部分の書式は <code>in 2 days</code> とか <code>this Friday</code>, <code>December 31st</code> とか例に出てきて日本人的には馴染まない可能性が高いので、Due date 欄でカレンダー設定するのがお勧めです。</p>
+<p>期限を過ぎている issue は表示色が変わって表示されたり、<code>To-Do List</code> (GitLab右上にあるアイコンからアクセスできます) での表記が変わります。</p>
+<h3 id="reference-3">Reference</h3>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/time_tracking.html">Time tracking</a></li>
+<li><a href="https://docs.gitlab.com/ee/user/project/issues/due_dates.html">Due dates</a></li>
+</ul>
+<hr />
+<h3 id="gantotiyato">ガントチャート</h3>
+<p>Premium、Ultimate ならば <a href="https://docs.gitlab.com/user/group/roadmap/">Roadmap</a> 機能でできるらしい。
+https://github.com/lamact/react-issue-ganttchart を利用して Due date を元にしたガントチャート表示は行った事があります。CE などでガントチャートを利用してみたい場合には試してみても良いでしょう。<br />
+※ GitLab 自体の機能ではありません。</p>
+<hr />
+<h2 id="mrnodraftji-neng-jiu-wip">MRのDraft機能(旧WIP)</h2>
+<p>MRの Title 入力欄の下に <code>Start the title with Draft: to prevent a merge request that is a work in progress from being merged before it's ready.</code> という記載があり、<code>Start the title with Draft:</code> リンクをクリックすると、この MR がドラフト状態だと示す事ができます。<br />
+これは且て WIP (Work In Progress) と呼ばれていた機能で、Draft状態で作成された MR はマージボタンが押せない状態で作成されます。</p>
+<p>作業途中でまだ完成していないがレビューやコメントが欲しいといった(ドラフト)状態にある場合に、MR の Draft 機能を利用するとよいでしょう。</p>
+<p>GitLab上でドキュメントの管理をしている場合で、メンバーのコメントやチェックが欲しいといった場合にも活用できると思います。</p>
+<p>Draft 状態で作成した MR もレビュー内容を反映した後に <code>Mark as ready</code> ボタンで非 Draft 状態に変更する事も可能です。( 再度 Draft 状態に戻す事も可能 )</p>
+<h3 id="reference-4">Reference</h3>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/merge_requests/drafts.html">Draft merge requests</a></li>
+</ul>
+<hr />
+<h2 id="soredemofa-sheng-sitawen-ti">それでも発生した問題</h2>
+<p>上記のようなルールを策定しても、問題が発生する事はあります。<br />
+具体的例を示します。</p>
+<h3 id="he-suru-issue">何する issue ?</h3>
+<p>タイトルだけや、概要説明が不十分な issue が作られ、何するの?状態になった事がありました。</p>
+<p>流れを書くと、以下のような感じ</p>
+<ol>
+<li>メンバーＢ：「〇〇に関して××の問題があるので、対応すべき」</li>
+<li>メンバーＡ：「対応します」</li>
+<li>メンバーＢ：「issue 書いてください」</li>
+<li>メンバーＡ：「了解」</li>
+<li>メンバーＡ：issue 作成 (タイトルのみ)<br />
+タイトル内容も <code>〇〇を決める</code> 等、何の? となるようなタイトル。</li>
+</ol>
+<p>その後、暫く issue 対応はされずに放置される ( 他に優先するタスクがある等の理由 )。</p>
+<ol start="6">
+<li>メンバーＡ：「決める必要のあるものがない」といった理由で issue クローズ。</li>
+<li>メンバーＢ：問題は解決していない旨コメント。</li>
+<li>メンバーＡ：もう覚えていない旨告白。</li>
+</ol>
+<p>issue に必要十分な内容が記載されていれば、避けられる問題です。</p>
+<p>※ 同様の問題は繰り返し引き起こされる場合があります ( 経験的に )。<br />
+※ 繰り返し発生する場合には、メンバー自身に対応策を策定してもらうのがベストですが、無理な場合には <a href="https://qiita.com/e99h2121/items/2690103fce58cdbdc714">issueのテンプレートを用意</a> しましょう。</p>
+<h3 id="burantiming-gaming-ming-gui-yue-nicong-tuteinai">ブランチ名が命名規約に従っていない</h3>
+<p>命名ルールに従いましょう。<br />
+新規ブランチを GitLab に push する際には、</p>
+<ul>
+<li>ブランチ名が適切か？</li>
+<li>既存のブランチがどうなっているのか？</li>
+</ul>
+<p>といった点を確認するのをお勧めします。</p>
+<h3 id="burantinozuo-cheng-shou-shun-niwen-ti-duo-fen">ブランチの作成手順に問題 ( 多分 )</h3>
+<p>かつて、MR に既にマージ済みの変更が含まれていた問題がありました。<br />
+feature ブランチ作成時に最新の develop からではなく、( おそらく ) ローカルの develop を最新状態にせずにブランチを作成したのではないかと思われます。<br />
+仮に誤ってそのまま MR に進んだとしても、MR 作成前に差分を確認していれば ( GitLab 上で確認できる )、自分が当該の feature ブランチで行っていない変更が含まれるために気づくはずです。<br />
+この問題が発生した理由としては以下の二つが含まれます。</p>
+<ul>
+<li>ブランチ作成ルールがダメ</li>
+<li>MR時にレビューしていない<br />
+レビュアーがいない場合でも自分でMRに含まれる差分が適切かどうかの確認は必要です。セルフレビューの場合、自分自身できちんとチェックしましょう。</li>
+</ul>
+<hr />
+<h2 id="matome">まとめ</h2>
+<p>権限まわりザルな設定するのはホント止めた方がよいと思う。</p>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (JA)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/ja/">
+            <i class="fa-solid fa-home w-5"></i><span>ホーム</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>ブログ</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>作品</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/ja//tags">
+            <i class="fa-solid fa-tags w-5"></i><span>タグ</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/ja/tags/ato/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#アート</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/besutopurakuteisu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ベストプラクティス</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/burogu/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ブログ</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cai-feng/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#裁縫</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Github</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/jie-hun-shi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#結婚式</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/potari/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#ポタリー</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/puroziekuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#プロジェクト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rezakurahuto/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#レザークラフト</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/tao-qi/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#陶器</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/ja/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>

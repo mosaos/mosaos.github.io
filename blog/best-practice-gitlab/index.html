@@ -1,0 +1,1253 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="fantasy">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://mosaos.github.io/img/favicon.ico">
+  <title>
+    
+    Best Practices for GitLab | mosaos
+    
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="https://mosaos.github.io/css/style.css">
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph Protocol (OGP) -->
+<meta property="og:title" content="Best Practices for GitLab | mosaos">
+<meta property="og:description" content="A summary of how I use GitLab. Not how to use it as a system, but what to pay attention to when operating it.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-gitlab&#x2F;">
+<meta property="og:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-gitlab&#x2F;git-logo.webp">
+
+<!-- Twitter / X Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Best Practices for GitLab | mosaos">
+<meta name="twitter:description" content="A summary of how I use GitLab. Not how to use it as a system, but what to pay attention to when operating it.">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-gitlab&#x2F;git-logo.webp">
+<!-- You can also add your X account ID if necessary. -->
+<!-- <meta name="twitter:site" content="@your_twitter_id"> -->
+  
+
+
+<!-- Structured data for individual articles (blog posts, creative works, etc.) -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Best Practices for GitLab",
+    "description": "A summary of how I use GitLab. Not how to use it as a system, but what to pay attention to when operating it.",
+    "url": "https://mosaos.github.io/blog/best-practice-gitlab/",
+    
+    "datePublished": "2026-09-22",
+    
+    
+    "author": {
+      "@type": "Person",
+      "name": "mosaos"
+    }
+  }
+  </script>
+
+  
+  <script src="https://mosaos.github.io/js/fontsize-switcher.js"></script>
+  <script>
+    // apply saved theme.
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    // apply saved font-size.
+    const savedSize = localStorage.getItem('site-font-size');
+    if (savedSize) {
+      document.documentElement.classList.add('font-size-' + savedSize);
+    }
+  </script>
+  
+
+
+<link rel="stylesheet" href="https://mosaos.github.io/css/page.css?h=517a61c309ca828cfb05">
+
+
+<script src="https://mosaos.github.io/js/copy-button.js?h=f2eae633da60f018916c" defer></script>
+
+
+<script src="https://mosaos.github.io/js/carousel.js?h=5e5895ffdf7b20f560b1" defer></script>
+
+
+</head>
+
+<body class="bg-base-200 min-h-screen text-base-content">
+  <div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+      <!-- header -->
+      <header class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4">
+  <div class="flex-none lg:hidden">
+    <label for="sidebar-drawer" class="btn btn-square btn-ghost">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </label>
+  </div>
+  <div class="flex-1">
+    <a href="https://mosaos.github.io/" class="text-xl font-bold ml-2 lg:ml-0">
+      mosaos
+    </a>
+  </div>
+
+  <!-- Font Size Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Font&#10;Size">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-text-height text-base-content/70"></i>
+    </div>
+
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32 text-xs"
+      onclick="const sizeEl = event.target.closest('a[data-font-size]'); if(sizeEl){ const s = sizeEl.dataset.fontSize; const html = document.documentElement; html.classList.remove('font-size-sm', 'font-size-lg', 'font-size-xl'); if(s !== 'normal'){ html.classList.add('font-size-' + s); localStorage.setItem('site-font-size', s); } else { localStorage.removeItem('site-font-size'); } }">
+
+      <li class="menu-title"><span>Font Size</span></li>
+      <li><a data-font-size="sm">S</a></li>
+      <li><a data-font-size="normal">M</a></li>
+      <li><a data-font-size="lg">L</a></li>
+      <li><a data-font-size="xl">XL</a></li>
+    </ul>
+  </div>
+
+  <!-- Theme Switcher (Icon Dropdown) -->
+  <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Theme">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+      <!-- Theme Switcher Icon -->
+      <i class="fa-solid fa-palette"></i>
+    </div>
+
+    <ul tabindex="0"
+      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44 max-h-80 overflow-y-auto flex flex-col flex-nowrap text-xs"
+      onclick="const themeEl = event.target.closest('a[data-theme]'); if(themeEl){ const t = themeEl.dataset.theme; document.documentElement.setAttribute('data-theme', t); localStorage.setItem('theme', t); }">
+
+      <li class="menu-title"><span>Theme</span></li>
+      <li><a data-theme="light">Light</a></li>
+      <li><a data-theme="dark">Dark</a></li>
+      <li><a data-theme="cupcake">Cupcake</a></li>
+      <li><a data-theme="bumblebee">Bumblebee</a></li>
+      <li><a data-theme="emerald">Emerald</a></li>
+      <li><a data-theme="corporate">Corporate</a></li>
+      <li><a data-theme="synthwave">Synthwave</a></li>
+      <li><a data-theme="retro">Retro</a></li>
+      <li><a data-theme="cyberpunk">Cyberpunk</a></li>
+      <li><a data-theme="valentine">Valentine</a></li>
+      <li><a data-theme="halloween">Halloween</a></li>
+      <li><a data-theme="garden">Garden</a></li>
+      <li><a data-theme="forest">Forest</a></li>
+      <li><a data-theme="aqua">Aqua</a></li>
+      <li><a data-theme="lofi">Lofi</a></li>
+      <li><a data-theme="pastel">Pastel</a></li>
+      <li><a data-theme="fantasy">Fantasy</a></li>
+      <li><a data-theme="wireframe">Wireframe</a></li>
+      <li><a data-theme="black">Black</a></li>
+      <li><a data-type="luxury" data-theme="luxury">Luxury</a></li> <!-- data-themeがあればOK -->
+      <li><a data-theme="dracula">Dracula</a></li>
+      <li><a data-theme="cmyk">Cmyk</a></li>
+      <li><a data-theme="autumn">Autumn</a></li>
+      <li><a data-theme="business">Business</a></li>
+      <li><a data-theme="acid">Acid</a></li>
+      <li><a data-theme="lemonade">Lemonade</a></li>
+      <li><a data-theme="night">Night</a></li>
+      <li><a data-theme="coffee">Coffee</a></li>
+      <li><a data-theme="winter">Winter</a></li>
+      <li><a data-theme="dim">Dim</a></li>
+      <li><a data-theme="nord">Nord</a></li>
+      <li><a data-theme="sunset">Sunset</a></li>
+    </ul>
+  </div>
+
+  <!-- LANG switcher -->
+  <div class="flex gap-2 items-center">
+    <div class="dropdown dropdown-end tooltip tooltip-left" data-tip="Change&#10;Lang">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+        <!-- Lang Switcher Icon -->
+        <i class="fa-solid fa-earth-asia"></i>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
+        <li class="menu-title"><span>LANG</span></li>
+
+        
+        
+        
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;blog&#x2F;best-practice-gitlab&#x2F;"
+            class="active font-bold">
+            EN
+          </a>
+        </li>
+        
+        <li>
+          <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;ja&#x2F;blog&#x2F;best-practice-gitlab&#x2F;"
+            class="">
+            JA
+          </a>
+        </li>
+        
+        
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+      <!-- main content -->
+      <main class="p-6 space-y-8 flex-grow max-w-5xl w-full mx-auto">
+        
+
+<article class="w-full max-w-3xl mx-auto px-4 py-8 text-base-content">
+
+  <!-- If a 'page' exists, use it as 'current_item'; otherwise, use the 'section'. -->
+
+
+
+
+<!-- breadcrumbs -->
+<nav class="text-xs breadcrumbs text-base-content/60 mb-4">
+  <ul>
+    <!-- loop and output parent folders (sections) -->
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/" class="hover:text-primary transition-colors">
+        Home
+      </a>
+    </li>
+    
+    
+    
+    
+    <li>
+      <a href="https://mosaos.github.io/blog/" class="hover:text-primary transition-colors">
+        Blog
+      </a>
+    </li>
+    
+    
+    <!-- Title of the current page or current section (list) -->
+    <li class="text-base-content/80 font-medium truncate max-w-[180px] md:max-w-xs">
+      Best Practices for GitLab
+    </li>
+  </ul>
+</nav>
+
+  <!-- Article header -->
+  <header class="mb-10 border-b border-base-300 pb-5">
+    <h1 class="text-3xl font-black tracking-tight md:text-4xl mb-4 text-base-content">
+      Best Practices for GitLab
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/50 border-base-content/10">
+      
+      <time class="font-mono flex items-center gap-1">
+        <i class="fa-regular fa-calendar-days"></i>
+
+        2026-09-22
+      </time>
+      
+
+      <span class="font-mono flex items-center gap-1">
+        <span>By</span><span class="font-medium text-base-content/80">mosaos</span>
+      </span>
+      <!-- tags -->
+      
+      <div class="font-mono flex items-center gap-1.5">
+        <i class="fa-solid fa-tags"></i>
+
+        
+        <a href="https://mosaos.github.io/tags/git/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Git
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/project/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Project
+        </a>
+        
+        <a href="https://mosaos.github.io/tags/best-practices/"
+          class="hover:text-primary transition-colors text-base-content/80">
+          #Best Practices
+        </a>
+        
+      </div>
+      
+    </div>
+  </header>
+
+  
+
+  <!-- table of contents -->
+  <div class="fixed right-6 bottom-6 z-50">
+    <details class="dropdown dropdown-top dropdown-end">
+      <summary class="btn btn-circle btn-primary shadow-lg cursor-pointer list-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </summary>
+      <!-- The contents of the table of contents that pops up when clicked. -->
+      <ul
+        class="dropdown-content menu flex-nowrap p-4 shadow-2xl bg-base-200 rounded-box w-72 max-h-[70vh] overflow-y-auto mb-2 border border-base-300">
+        <li class="menu-title font-bold text-base mb-2">Table of contents</li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#introduction" class="hover:underline py-1">Introduction</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#git" class="hover:underline py-1">Git</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#permission-management" class="hover:underline py-1">Permission Management</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#branch-strategy" class="hover:underline py-1">Branch Strategy</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#creating-branches" class="hover:underline py-1">Creating Branches</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#commits" class="hover:underline py-1">Commits</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#merge-requests" class="hover:underline py-1">Merge Requests</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#creating-issues" class="hover:underline py-1">Creating Issues</a>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#labels" class="hover:underline py-1">Labels</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#for-kanban" class="text-xs opacity-80 hover:underline py-0.5">
+                For Kanban</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#close-related" class="text-xs opacity-80 hover:underline py-0.5">
+                Close-related</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#priority-related" class="text-xs opacity-80 hover:underline py-0.5">
+                Priority-related</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#type-related" class="text-xs opacity-80 hover:underline py-0.5">
+                Type-related</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#reference" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#milestones" class="hover:underline py-1">Milestones</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#reference-1" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#kanban" class="hover:underline py-1">Kanban</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#reference-2" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#time-management" class="hover:underline py-1">Time Management</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#estimate" class="text-xs opacity-80 hover:underline py-0.5">
+                Estimate</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#actual-effort" class="text-xs opacity-80 hover:underline py-0.5">
+                Actual Effort</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#due-date" class="text-xs opacity-80 hover:underline py-0.5">
+                Due Date</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#reference-3" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#gantt-chart" class="text-xs opacity-80 hover:underline py-0.5">
+                Gantt Chart</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#mr-draft-feature-formerly-wip" class="hover:underline py-1">MR Draft Feature (formerly WIP)</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#reference-4" class="text-xs opacity-80 hover:underline py-0.5">
+                Reference</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#problems-that-still-occurred" class="hover:underline py-1">Problems That Still Occurred</a>
+          
+          <ul class="pl-4 space-y-1 mt-1">
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#what-is-this-issue-supposed-to-do" class="text-xs opacity-80 hover:underline py-0.5">
+                What Is This Issue Supposed to Do?</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#branch-name-does-not-follow-the-naming-convention" class="text-xs opacity-80 hover:underline py-0.5">
+                Branch Name Does Not Follow the Naming Convention</a>
+            </li>
+            
+            <li>
+              <a href="https://mosaos.github.io/blog/best-practice-gitlab/#problems-with-the-branch-creation-procedure-probably" class="text-xs opacity-80 hover:underline py-0.5">
+                Problems with the Branch Creation Procedure (Probably)</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        <li>
+          <a href="https://mosaos.github.io/blog/best-practice-gitlab/#summary" class="hover:underline py-1">Summary</a>
+          
+        </li>
+        
+      </ul>
+    </details>
+  </div>
+
+  <!-- Article body -->
+  <div
+    class="blog-body prose prose-sm md:prose-base max-w-none 
+            prose-headings:font-bold prose-headings:tracking-tight 
+            prose-h2:border-l-4 prose-h2:border-primary prose-h2:pl-3 prose-h2:mt-10 prose-h2:mb-4
+            prose-h3:mt-8 prose-h3:mb-2
+            prose-p:leading-relaxed prose-p:mb-4
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-code:text-secondary-content prose-code:bg-secondary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded">
+    <p>The Best Practices series.</p>
+<p>My personal GitLab practices, so to speak.</p>
+<p>* This is a rewrite of an old article, so some parts may differ from the current GitLab UI.</p>
+<h2 id="introduction">Introduction</h2>
+<p>I have had both things that worked well and things that did not work well while using GitHub personally and GitLab for work.</p>
+<p>Based on these experiences, I will summarize some Tips such as:</p>
+<ul>
+<li>Things that may work well if you do them this way.</li>
+<li>Things that may fail if you do them this way.</li>
+<li>Features that may be useful if you use them.</li>
+</ul>
+<p>* These are my personal Tips, so feel free to customize them as appropriate for each project.</p>
+<p>* I will also describe some features that are probably rarely used at workplaces. Using them may improve the quality of a project.</p>
+<hr />
+<h2 id="git">Git</h2>
+<p><strong>Learn the basic operations yourself.</strong></p>
+<p>If you use GitLab, you will probably use Git.</p>
+<p>* There may be cases where Issue management is not used (for example, Redmine is used for task management while GitLab is used for source management, resulting in a mix of management tools).</p>
+<p>If you are not confident about how to use Git, use methods such as the following to master the basic operations.</p>
+<ul>
+<li>Learn / research by yourself (books / Internet)</li>
+<li>Get used to it personally using GitHub, etc.</li>
+<li>Ask someone who knows it well.</li>
+</ul>
+<p>Some companies may have few people who will teach someone from scratch when they have no idea what they are doing.</p>
+<p>If you are not confident about the operations, randomly touching and breaking a branch that is actually in operation may be something that could get you kicked out depending on the company/project. Prepare a test repository and practice.</p>
+<p>If you break the production environment without even practicing, you cannot really complain if people regard you as incompetent.</p>
+<p>It is also possible to build an environment including GitLab + GitLab Runner with docker-compose, so if you want to experiment with various things, I recommend building the environment with Docker.</p>
+<p>* I once saw someone who was not confident about how to use either Git or SVN, and people jokingly wondered whether they were really a developer (they weren't lying about their career history, were they?).</p>
+<hr />
+<h2 id="permission-management">Permission Management</h2>
+<p>When adding members to a project, assign appropriate roles.</p>
+<p>In <a href="../best-practice-cron/">Best Practices for cron</a>, I wrote:</p>
+<blockquote>
+<p>* GitLab should also allow you to restrict permissions for pushing. If you are going to require MRs, restrict direct pushes to designated branches, for example. Use tools to enforce the rules rather than relying on slogans.</p>
+</blockquote>
+<p>When taking measures such as the above, you need to configure the settings so that merge/push to specific branches is allowed only for members with a specific role or higher.<br />
+* This can be configured from [<code>Settings</code>] &gt; [<code>Repository</code>] &gt; [<code>Protected branches</code>] in the project.</p>
+<p>However, if everyone, including members of partner companies, has <code>Maintainer</code> permissions, appropriate restrictions cannot be enforced even if you configure the above settings.</p>
+<p>I mentioned the inability to properly restrict functionality, but this is a security problem in the first place.</p>
+<p>Maintainer permissions should be limited to employees only (preferably to a limited number of members who can make the appropriate settings), while normal developers should be assigned Developer permissions.</p>
+<p>* From an audit perspective as well, assigning unnecessary permissions without a reason is probably not acceptable.</p>
+<p>The following kind of situation is something I have seen fairly often even in companies, as is also the case with Redmine:</p>
+<p><strong>Why does this member have this role? The permission assignment is basically a free-for-all.</strong></p>
+<p>Giving permissions simply because they seem convenient is not a good idea. If you are doing this, fix it.</p>
+<hr />
+<h2 id="branch-strategy">Branch Strategy</h2>
+<p>For projects that are already in operation, I assume there is a branch strategy for each project.</p>
+<p>If there is already a defined way of operating the project and it is working well, use it.</p>
+<p>Here is an example of a branch strategy I used in the past.</p>
+<p><img src="https://mosaos.github.io/blog/best-practice-gitlab/mosaos-gitflow.webp" alt="git branch" /></p>
+<p>* It is similar to gitflow, so if you have used gitflow before, it should be easy to understand.</p>
+<ul>
+<li>
+<p><code>master</code>(or <code>main</code>)<br />
+For releases. It is deployed to the production environment.<br />
+Do not edit master directly.<br />
+When merging into master, create a tag.</p>
+</li>
+<li>
+<p><code>develop</code><br />
+The main development branch. Created from master.</p>
+</li>
+<li>
+<p><code>feature</code><br />
+A branch for each issue.<br />
+Created from the latest develop.<br />
+The branch name was <code>feature/issueNNN</code> (NNN is the issue number).<br />
+A separate branch is created for each issue, and after implementation is completed, it is merged into develop.<br />
+* Initially, there was also an idea of creating development branches for individual members rather than creating them by function. (A member had used that approach before.) However, with this approach, one functional change could span multiple branches (for example, when different developers are responsible for the frontend and server-side), so we stopped using this method.</p>
+</li>
+<li>
+<p><code>hotfix</code><br />
+Used when a critical bug occurs in master.<br />
+Created from master where the critical bug occurred.<br />
+The branch name is <code>hotfix/issueNNN</code> (NNN is the issue number).<br />
+After fixing the bug, it is merged into master.</p>
+</li>
+</ul>
+<p>When merging, create an MR and merge after review.</p>
+<p>* Depending on the project member structure and the contents of the MR, self-review was allowed.</p>
+<p>* The above rules work more easily when ticket-driven development is adopted as the development method (because an issue should always have been created). What should you do if you are not using ticket-driven development? Just make it ticket-driven development! (Recommended.)</p>
+<p>* By the way, I once used the <code>feature/#NNN</code> format for branch names, but this format was discontinued because having <code>#</code> in a branch name caused problems with links to GitLab (the link did not work from Slack notifications). It is better not to include <code>#</code> in branch names.</p>
+<hr />
+<h2 id="creating-branches">Creating Branches</h2>
+<p>When adding a new feature or fixing a bug, create a branch according to the <code>branch strategy</code> defined/adopted by the project.</p>
+<p>Branches can also be created on GitLab, but this has the following side effects.</p>
+<ul>
+<li>If you use <code>New Branch</code> on GitLab, the created branch is committed/pushed, so CI/CD (Pipeline) is executed.<br />
+It would be nice if there were a way to determine in gitlab-ci.yml whether <code>New Branch</code> was used from GitLab, but apparently this cannot currently be determined, so CI/CD is executed just by using <code>New Branch</code>.<br />
+This is inconvenient for the following reasons:
+<ul>
+<li>Unnecessary CI/CD runs. Various resources are wasted (computing resources, time, storage on the remote repository, etc.).</li>
+<li>It is easier to discover problems in CI/CD (Pipeline) if CI/CD runs only when a feature addition, bug fix, etc. is pushed. If a Pipeline runs every time a branch is created, there is a possibility that Pipelines will no longer be checked properly.</li>
+</ul>
+</li>
+</ul>
+<p>Based on the above, unless there is a special reason, I recommend creating branches using the following procedure.</p>
+<ol>
+<li>Create a branch locally from the source branch.</li>
+<li>Using the created local branch, make some changes (feature addition, bug fix, etc.), then build and test it locally.</li>
+<li>Commit locally.</li>
+<li>Push to the remote (GitLab).<br />
+For a newly created branch, the branch is created on the remote for the first time at this point, and CI/CD is executed.</li>
+</ol>
+<p>The advantages of using the above procedure are as follows.</p>
+<ul>
+<li>
+<p>The remote branch is not created until an actual change (local Commit) is reflected (Push).<br />
+You may create a branch but ultimately not Commit/Push anything. In this case, no GitLab resources are wasted.</p>
+</li>
+<li>
+<p>Unnecessary CI/CD does not run.<br />
+When <code>New Branch</code> is used on GitLab, CI/CD runs as described above. This means that the state of the latest commit on the branch from which the new branch was created (such as develop) is run through CI/CD again. Running CI/CD again for a Commit/Push that has already been checked by CI/CD is unnecessary.</p>
+</li>
+<li>
+<p>The Pipeline history does not get cluttered.<br />
+Related to the above, unnecessary Pipelines leave execution history that should not have been there in the first place. If a problem occurs in CI/CD and you need to investigate the past history, having a lot of this kind of history increases the investigation cost.</p>
+</li>
+</ul>
+<p>You can create branches in a development environment such as VSCode without using <code>New Branch</code> on GitLab. Create branches using the procedure above.</p>
+<p>* Most members were creating branches using the above procedure, but at one point a situation occurred where a Pipeline was executed when some members used New Branch on GitLab. This resulted in &quot;What is this Pipeline?&quot;, so I documented and rolled out the above procedure at the time.</p>
+<p>* Some people may say, &quot;Our project doesn't use CI, so it doesn't matter.&quot; However, there is always a possibility that CI will be introduced in the future. Fixing a method that members have already become accustomed to can be costly (depending on the members). I think it is better to adopt a method that causes fewer problems.</p>
+<hr />
+<h2 id="commits">Commits</h2>
+<p>When committing, write an appropriate commit message.</p>
+<p>When using ticket-driven development with GitLab, a commit is work corresponding to a ticket (issue) that was created beforehand, so include the issue ID in the commit message.</p>
+<p>This automatically associates the issue and commit (cross-links are created).</p>
+<p>When specifying the issue ID, use the <code>#nnn</code> format (nnn is the issue ID (a decimal number)).</p>
+<p>Writing it at the beginning of the commit message makes it easy to understand and less likely to be forgotten.</p>
+<p>* I have seen cases where someone put a space between <code>#</code> and <code>nnn</code>, as in <code># nnn</code>, and the link was not created, so do not put a space between them.</p>
+<p>* Even when tickets themselves are managed with Redmine, it is also possible to integrate them with the Git repository by using Redmine's repository feature (additional configuration is required).</p>
+<hr />
+<h2 id="merge-requests">Merge Requests</h2>
+<p>When performing a merge, always create a merge request (MR).<br />
+(Do not merge without an MR.)</p>
+<ol>
+<li>Click <code>Merge requests</code> from the GitLab menu.</li>
+<li>The MR list screen will be displayed, so click the <code>New merge request</code> button.</li>
+<li>Two branch input fields, Source / Target, will be displayed, so set each branch.<br />
+When doing normal feature development, they will be as follows. (This differs for hotfixes and merges to master. If you are unsure, consult someone knowledgeable.)</li>
+</ol>
+<ul>
+<li><code>Source branch</code>: the branch to be merged (<code>feature/issueNNN</code>)</li>
+<li><code>Target branch</code>: the branch to merge into (<code>develop</code>)</li>
+</ul>
+<ol start="4">
+<li>Click <code>Compare branches and continue</code>.</li>
+<li>You will be taken to the New merge request screen, so first check the changes.<br />
+If you scroll down the screen, the <code>Commits</code>, <code>Pipelines</code>, and <code>Changes</code> tabs are displayed. Check that the following are correct. If there is a problem, stop creating the MR for the time being, resolve any problems with the branch creation procedure or file editing, and then create the MR again.</li>
+</ol>
+<ul>
+<li><code>Commits</code><br />
+The commits included in the MR. If commits containing content different from what you are trying to merge are included, assume that there is some kind of problem.</li>
+<li><code>Changes</code><br />
+The file differences before and after the MR are included. Check whether the differences (changes) are correct. If changes that you did not make, or incorrect changes, are included, assume that there is some kind of problem.</li>
+</ul>
+<ol start="6">
+<li>If there are no problems with <code>Commits</code> or <code>Changes</code>, configure the following MR contents as appropriate.</li>
+</ol>
+<ul>
+<li><code>Title</code><br />
+Set the MR title as appropriate.</li>
+<li><code>Description</code><br />
+It is a good idea to write an overview of the changes included in the MR.</li>
+<li><code>Reviewer</code><br />
+If you want someone to review the MR, set that member as a reviewer. Even if you set this in GitLab, the other person may not notice it, so I recommend also notifying them that you would like a review via Slack or another means.</li>
+</ul>
+<ol start="7">
+<li>Click <code>Create merge request</code>.</li>
+<li>The member who was asked to review checks whether there are any problems with the MR and comments on the MR if necessary.</li>
+<li>The MR creator explains the reviewer's comments, makes code changes, etc., and resolves the issues.</li>
+<li>Repeat the 6 -&gt; 7 process until there are no problems, then the reviewer clicks the MR's <code>Approve</code> button.</li>
+<li>The MR creator (or the member assigned to the MR) confirms that it has been Approved and clicks the <code>Merge</code> button.<br />
+By default, <code>Delete source branch</code> is checked. If you do not want to delete the source branch (<code>feature/issueNNN</code>, etc.) after merging because you will continue working on that branch, uncheck it before clicking the <code>Merge</code> button.</li>
+</ol>
+<p>This is also effective for preventing problems such as the following, which sometimes occur even in companies:</p>
+<ul>
+<li>One person did all the work.</li>
+<li>There was no checking process, or it was not functioning.</li>
+<li>No review was performed.</li>
+</ul>
+<hr />
+<h2 id="creating-issues">Creating Issues</h2>
+<p>When creating an issue, create an appropriate issue.</p>
+<p>I wrote something similar in <a href="../best-practice-redmine/">Best Practices for Redmine</a>, but the following points are worth paying attention to.</p>
+<ul>
+<li>Create it at an appropriate level of granularity.</li>
+<li>Give it an appropriate title.</li>
+<li>Write a necessary and sufficient description (overview).</li>
+<li>Do not write multiple tasks.</li>
+<li>Make the completion conditions clear.</li>
+<li>Assign someone to it.</li>
+<li>Set a period (an estimated period is also fine).</li>
+<li>For bugs, include the necessary information such as reproduction steps, environment (browser used, etc.), version, etc.<br />
+* When I was working at a certain foreign-affiliated company, I once saw someone register a bug in the BTS (bug tracking system) without writing this kind of information, and get a reply saying, <strong>&quot;Don't write a shitty issue. Rewrite it right away.&quot;</strong> lol.</li>
+</ul>
+<hr />
+<p>From here on, features that are not used very often.</p>
+<h2 id="labels">Labels</h2>
+<p>Labels can be added to issues. Labels can be configured per Project. Using them improves the visibility of issues.</p>
+<p>* They are particularly useful when displaying a board (Kanban, described below) or a list of issues.</p>
+<p>* The background color can also be configured individually, so if labels are properly configured and used, you can eventually tell what kind of information an issue contains from the label color.</p>
+<p>They can be configured from the top icon [<code>Project information</code>] &gt; [<code>Labels</code>] in the project's left menu.</p>
+<p>I use labels such as the following.</p>
+<h3 id="for-kanban">For Kanban</h3>
+<ul>
+<li><code>Doing</code><br />
+In progress. Color: #5CB85C</li>
+<li><code>To Do</code><br />
+Planned. Color: #F0AD4E</li>
+</ul>
+<h3 id="close-related">Close-related</h3>
+<p>Used to classify Closed issues. Color: #808080</p>
+<ul>
+<li><code>Close: Fixed</code><br />
+Fixed / addressed.</li>
+<li><code>Close: Wontfix</code><br />
+Will not be addressed.</li>
+<li><code>Close: Duplicate</code><br />
+Duplicate.</li>
+<li><code>Close: Invalid</code><br />
+Incorrect.</li>
+<li><code>Close: Postponed</code><br />
+Postponed.</li>
+</ul>
+<h3 id="priority-related">Priority-related</h3>
+<p>Priority.</p>
+<ul>
+<li><code>Priority: Critical</code></li>
+<li><code>Priority: High</code></li>
+<li><code>Priority: Middle</code></li>
+<li><code>Priority: Low</code></li>
+</ul>
+<p>The priority labels can be ordered, so I set the label background colors as a gradient.</p>
+<p>From Critical onward: #ff0000, #ff4400, #ff8800, #ffbb00</p>
+<h3 id="type-related">Type-related</h3>
+<p>Issue classification. Color: #6699dd</p>
+<ul>
+<li><code>Type: Bug</code><br />
+Bug.</li>
+<li><code>Type: Documentation</code><br />
+Document/documentation creation.</li>
+<li><code>Type: Feature</code><br />
+Feature addition/extension.</li>
+<li><code>Type: Refactoring</code><br />
+Refactoring.</li>
+<li><code>Type: Review</code><br />
+Review.</li>
+<li><code>Type: Test</code></li>
+</ul>
+<p>Even if the issue list or Kanban simply becomes colorful and makes you feel somewhat better (* personal opinion), there seem to be few disadvantages in terms of improving visibility.</p>
+<p>Also, when I configured labels, there were members who interpreted this as meaning that every issue must have a label, but that is not the case.</p>
+<p>Depending on the type of label, there may be labels that should be mandatory, but it is not necessarily possible for the issue creator to immediately determine things such as the priority.</p>
+<p>Once a label has been assigned, it may be interpreted as meaning that it has already been set and that the assigned label is appropriate. Therefore, for things that cannot be determined reliably at the time of issue creation, I think it is better not to assign a label and instead set it during a discussion or similar.</p>
+<p>* There is a feature called <a href="https://docs.gitlab.com/ee/user/project/labels.html#scoped-labels">Scoped labels</a>, and I thought this would be useful, but it was not available in the non-PREMIUM version.</p>
+<p>This feature allows labels in <code>key::value</code> format by putting <code>::</code> in the label name. This format would be more convenient when assigning labels such as Priority or Severity.</p>
+<h3 id="reference">Reference</h3>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/labels.html">Labels</a></li>
+</ul>
+<hr />
+<h2 id="milestones">Milestones</h2>
+<p>They can be configured/used from <code>Issues</code> &gt; <code>Milestones</code>.</p>
+<p>I also use milestones in actual work projects to describe what is planned for each release, but it seems to me that there are not many projects around me that set milestones.</p>
+<p>Unless it is a contract development project where the work is simply considered finished once it is delivered, it makes the project easier to understand if you record what you are doing in the current development or what you will do up to the next release (the main purpose and major additions).</p>
+<p>You do not need to list individual issues in the milestone, but since a milestone can be set on each issue itself, it can also be used for looking back on things such as:</p>
+<ul>
+<li>Which milestone was this issue implemented in?</li>
+<li>Which issues were addressed in a particular release (Milestone)?</li>
+</ul>
+<p>It can also be used to indicate that although an issue has been raised, the task will not be performed in the current milestone (the request is acknowledged, but implementation has not been decided).</p>
+<h3 id="reference-1">Reference</h3>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/milestones/#milestones">Milestones</a></li>
+</ul>
+<hr />
+<h2 id="kanban">Kanban</h2>
+<p>It can be used from <code>Issues</code> &gt; <code>Boards</code>.</p>
+<p>GitLab calls this &quot;Boards&quot;, but I think many people are more familiar with the term Kanban.</p>
+<p>By default, GitLab provides the following states:</p>
+<ul>
+<li><code>Open</code><br />
+The state when an issue is created.</li>
+<li><code>Closed</code><br />
+Move to <code>Closed</code> when the work is completed.</li>
+<li>In addition to the above, labels representing states on the Kanban board can be configured.</li>
+</ul>
+<p>Personally, I often managed tasks using a Gantt chart in Redmine, but in some projects I also managed tasks using Kanban based on requests from the customer's manager, etc. (For Redmine, I used an Agile plugin.)</p>
+<p>We regularly checked tasks with the relevant people on the Kanban board and changed the state of each task.</p>
+<ul>
+<li>Everyone can see the general status of the tasks.</li>
+<li>By operating it with rules such as moving important tasks higher on the board, the importance/priority of tasks can also be visualized.</li>
+<li>Since the assignee is also displayed, it is easier to understand how many tasks each person is handling.</li>
+</ul>
+<p>Whether it is suitable or not depends on the type and size of the project, the characteristics of the participating members, etc., so it is not something that must always be used. However, if you have never used it, it may be worth trying.</p>
+<p>I think it has good compatibility with situations such as:</p>
+<ul>
+<li>&quot;It is too small a project to make a Gantt chart...&quot;</li>
+<li>When using an agile development methodology.</li>
+</ul>
+<h3 id="reference-2">Reference</h3>
+<ul>
+<li>
+<p><a href="https://docs.gitlab.com/ee/user/project/issue_board.html">Issue boards</a></p>
+</li>
+<li>
+<p><a href="https://qiita.com/tnir/items/a488334247f112b083f3">Trying Kanban and Scrum with GitLab Issue Boards</a></p>
+</li>
+</ul>
+<hr />
+<h2 id="time-management">Time Management</h2>
+<p>By using <code>Time tracking</code> and <code>Due dates</code>, it is possible to manage task time and schedules.</p>
+<p>Time management for each task (issue) is important when progressing a project.</p>
+<p>Personally, I do not think it is necessary to manage time rigidly for a project that is progressing smoothly without needing time tracking, but if situations such as the following continue:</p>
+<ul>
+<li>Progress is not going well.</li>
+<li>You do not know how much effort a task will require.</li>
+</ul>
+<p>then it is better to start by making the situation visible.</p>
+<p>Problems that are not visible are very often left unresolved / not improved, so making them visible is the first step.</p>
+<p>GitLab's <code>Time tracking</code> and <code>Due dates</code> can be used to manage task time and schedules.</p>
+<p>For each issue, you can make the situation visible by recording:</p>
+<ul>
+<li>How long it is expected to take<br />
+Estimate: <code>/estimate</code></li>
+<li>The actual effort spent<br />
+<code>/spend</code></li>
+<li>When it is expected to be completed<br />
+<code>Due date</code></li>
+</ul>
+<h3 id="estimate">Estimate</h3>
+<p>You can enter an estimated effort by entering something like <code>/estimate 1w 2d 5h</code> in an issue comment.</p>
+<ul>
+<li>Hints are displayed while entering the command, so use them as a reference.</li>
+<li>Note that 1w == 7d is not the case; 1w = 5d.</li>
+<li>Obviously, 1d = 24h is not the case either, but I do not think anyone gets this wrong.</li>
+</ul>
+<p>To cancel an estimate, use <code>remove_estimate</code>.</p>
+<p>To change it, enter <code>/estimate xxx</code> again. It seems to overwrite the previous value rather than adding to it, so be careful about this as well.</p>
+<h3 id="actual-effort">Actual Effort</h3>
+<p>Enter it using <code>/spend xxx</code> in an issue comment. The time format is the same as <code>estimate</code>.</p>
+<p>* With /spend, the entered value is added to the existing value (unlike /estimate).</p>
+<p>If you enter both estimate and spend, a progress bar is displayed in the <code>Time tracking</code> section on the right side of the issue.</p>
+<h3 id="due-date">Due Date</h3>
+<p>The due date can be entered in the <code>Due date</code> field on the right side of the issue.</p>
+<p>It is also possible to set it using <code>/due xxx</code> in an issue comment, but examples of the format for the xxx part include <code>in 2 days</code>, <code>this Friday</code>, and <code>December 31st</code>, which may be unfamiliar to Japanese users. I recommend setting it using the calendar in the Due date field.</p>
+<p>Issues that are past their due date are displayed with a different color, and their display in the <code>To-Do List</code> (accessible from the icon in the upper-right of GitLab) also changes.</p>
+<h3 id="reference-3">Reference</h3>
+<ul>
+<li>
+<p><a href="https://docs.gitlab.com/ee/user/project/time_tracking.html">Time tracking</a></p>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/user/project/issues/due_dates.html">Due dates</a></p>
+</li>
+</ul>
+<hr />
+<h3 id="gantt-chart">Gantt Chart</h3>
+<p>Apparently, this can be done with the <a href="https://docs.gitlab.com/user/group/roadmap/">Roadmap</a> feature with Premium or Ultimate.</p>
+<p>I have used https://github.com/lamact/react-issue-ganttchart to display a Gantt chart based on Due dates. If you want to use a Gantt chart with CE or similar, you may want to try it.</p>
+<p>* This is not a GitLab feature itself.</p>
+<hr />
+<h2 id="mr-draft-feature-formerly-wip">MR Draft Feature (formerly WIP)</h2>
+<p>Below the MR Title input field, there is a message saying <code>Start the title with Draft: to prevent a merge request that is a work in progress from being merged before it's ready.</code>. By clicking the <code>Start the title with Draft:</code> link, you can indicate that this MR is in a draft state.</p>
+<p>This feature was formerly called WIP (Work In Progress), and an MR created in Draft state is created with the merge button disabled.</p>
+<p>When work is still in progress and not yet complete, but you want reviews or comments (a draft state), you should use the MR Draft feature.</p>
+<p>If you manage documents on GitLab and want members to comment or check them, I think this can also be useful.</p>
+<p>An MR created in Draft state can also be changed to a non-Draft state using the <code>Mark as ready</code> button after reflecting the review comments. (It can also be returned to Draft state again.)</p>
+<h3 id="reference-4">Reference</h3>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/merge_requests/drafts.html">Draft merge requests</a></li>
+</ul>
+<hr />
+<h2 id="problems-that-still-occurred">Problems That Still Occurred</h2>
+<p>Even if you establish rules such as the above, problems can still occur.</p>
+<p>Here are some specific examples.</p>
+<h3 id="what-is-this-issue-supposed-to-do">What Is This Issue Supposed to Do?</h3>
+<p>An issue was created with only a title, or with an insufficient overview, and it ended up in a &quot;What is this supposed to do?&quot; state.</p>
+<p>The flow was something like this:</p>
+<ol>
+<li><strong>Member B</strong>: &quot;There is a problem with XX regarding OO, so we should address it.&quot;</li>
+<li><strong>Member A</strong>: &quot;I'll handle it.&quot;</li>
+<li><strong>Member B</strong>: &quot;Please write an issue.&quot;</li>
+<li><strong>Member A</strong>: &quot;Understood.&quot;</li>
+<li><strong>Member A</strong>: Creates an issue (title only).<br />
+The title itself was something like <code>Decide OO</code>, which leaves you wondering, &quot;Decide what?&quot;</li>
+</ol>
+<p>The issue then remained untouched for some time (for reasons such as other tasks having higher priority).</p>
+<ol start="6">
+<li><strong>Member A</strong>: Closes the issue because there was &quot;nothing that needed to be decided.&quot;</li>
+<li><strong>Member B</strong>: Comments that the problem has not been resolved.</li>
+<li><strong>Member A</strong>: Admits that they do not remember anymore.</li>
+</ol>
+<p>This problem can be avoided if the issue contains the necessary and sufficient information.</p>
+<p>* The same problem may occur repeatedly (based on experience).</p>
+<p>* If it keeps happening, it is best to have the members themselves come up with countermeasures, but if that is not possible, <a href="https://qiita.com/e99h2121/items/2690103fce58cdbdc714">prepare an issue template</a>.</p>
+<h3 id="branch-name-does-not-follow-the-naming-convention">Branch Name Does Not Follow the Naming Convention</h3>
+<p>Follow the naming rules.</p>
+<p>When pushing a new branch to GitLab, I recommend checking things such as:</p>
+<ul>
+<li>Is the branch name appropriate?</li>
+<li>What do the existing branches look like?</li>
+</ul>
+<h3 id="problems-with-the-branch-creation-procedure-probably">Problems with the Branch Creation Procedure (Probably)</h3>
+<p>There was once a problem where an MR included changes that had already been merged.</p>
+<p>When creating the feature branch, it seems that the branch was probably created not from the latest develop, but from a local develop that had not been updated to the latest state.</p>
+<p>Even if someone accidentally proceeded to create the MR as-is, if they checked the differences before creating the MR (which can be checked on GitLab), they should have noticed that the branch contained changes they had not made in that feature branch.</p>
+<p>The reasons for this problem included the following two things:</p>
+<ul>
+<li>The branch creation rules were inadequate.</li>
+<li>There was no review at the time of the MR.<br />
+Even when there is no reviewer, you still need to check whether the differences included in the MR are appropriate. In the case of self-review, check them properly yourself.</li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>I really think you should stop using overly lax permission settings.</p>
+
+  </div>
+
+</article>
+
+      </main>
+
+      <!-- footer -->
+      
+
+
+
+
+<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-4">
+  <aside>
+    <p>&copy; 2026 mosaos<br />Powered by
+      <a href="https://github.com/mosaos/zola-daisyui-blog" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i> zola-daisyui-blog</a>
+    </p>
+  </aside>
+  <nav>
+    <div class="grid grid-flow-col gap-4 text-2xl">
+      <!-- Atom(RSS) -->
+      <a href="https:&#x2F;&#x2F;mosaos.github.io&#x2F;atom.xml" class="hover:text-primary transition-colors tooltip"
+        data-tip="RSS Feed (EN)">
+        <i class="fa-solid fa-rss"></i>
+      </a>
+      <!-- github -->
+      <a href="https://github.com/mosaos/" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <!-- youtube -->
+      <a href="#" class="hover:text-primary transition-colors">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+  </nav>
+</footer>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="drawer-side z-20">
+  <label for="sidebar-drawer" class="drawer-overlay"></label>
+  <div class="menu bg-base-100 min-h-screen w-64 p-4 shadow-xl flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4 border-b border-base-200">
+        <i class="fa-solid fa-cubes text-2xl text-primary"></i>
+        <span class="text-xl font-black tracking-wider">Menu</span>
+      </div>
+      <ul class="space-y-1">
+        <li>
+          <a href="https://mosaos.github.io/">
+            <i class="fa-solid fa-home w-5"></i><span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/about/">
+            <i class="fa-solid fa-user w-5"></i><span>About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/blog/">
+            <i class="fa-solid fa-file w-5"></i><span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/works/">
+            <i class="fa-solid fa-palette w-5"></i><span>Works</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://mosaos.github.io/tags">
+            <i class="fa-solid fa-tags w-5"></i><span>Tags</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mx-auto max-w-3xl px-4 py-5 text-base-content">
+
+  <div class="flex flex-wrap gap-1">
+    
+    
+    
+    
+    <a href="https://mosaos.github.io/tags/art/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Art</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/best-practices/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Best Practices</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        4
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/blog/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Blog</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ceramics/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Ceramics</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/ci-cd/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#CI&#x2F;CD</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/cron/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#cron</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/daisyui/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#daisyUI</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/db/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#DB</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/docker/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Docker</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/git/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Git</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/github/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#GitHub</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/java/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Java</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/kvm/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Kvm</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/leathercraft/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Leathercraft</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/linux/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Linux</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        3
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/make/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Make</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/oracle/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Oracle</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/pottery/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Pottery</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/project/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Project</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        2
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/redmine/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Redmine</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/repository/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Repository</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/rule/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Rule</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/sewing/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Sewing</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/wedding/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Wedding</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    <a href="https://mosaos.github.io/tags/zola/"
+      class="inline-flex items-center gap-0.5 px-[3px] py-[2px] rounded-[var(--rounded-badge)] bg-base-200 hover:bg-primary hover:text-primary-content transition-colors text-xs">
+      <span>#Zola</span>
+      <!-- number badge -->
+      <!-- <span class="text-xs px-1.5 py-0 rounded-md bg-base-300/80 font-mono opacity-80">
+        1
+      </span> -->
+    </a>
+    
+    
+  </div>
+
+</div>
+    </div>
+  </div>
+</aside>
+  </div>
+</body>
+
+</html>
