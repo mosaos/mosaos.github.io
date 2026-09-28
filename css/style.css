@@ -1,0 +1,91 @@
+/* for internal link*/
+[id],
+a[name] {
+    scroll-margin-top: 80px;
+}
+
+/*-- For theme switcher --*/
+.dropdown:not(:focus-within) .dropdown-content {
+    pointer-events: none !important;
+    visibility: hidden !important;
+}
+
+.dropdown:focus-within .dropdown-content {
+    pointer-events: auto !important;
+    visibility: visible !important;
+}
+
+/*-- For font size switcher --*/
+html.font-size-sm {
+    font-size: 87.5%;
+}
+
+html.font-size-lg {
+    font-size: 112.5%;
+}
+
+html.font-size-xl {
+    font-size: 125%;
+}
+
+.tooltip::before {
+    white-space: pre-line;
+}
+
+.works-card:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/*-- override daisyUI--*/
+.footer {
+    row-gap: 0.5rem;
+}
+
+main .text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+}
+
+main .text-3xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+}
+
+article h1 {
+    margin-block-start: 0.3em;
+    margin-block-end: 0.3em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+article .font-black {
+    --tw-font-weight: var(--font-weight-black);
+    font-weight: var(--font-weight-black);
+}
+
+article .flex-nowrap {
+    flex-wrap: nowrap;
+}
+
+article .dropdown-content li a {
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+header .flex-nowrap {
+    flex-wrap: nowrap;
+}
+
+.breadcrumbs>ol>li+li::before,
+.breadcrumbs>ul>li+li::before {
+    content: ">";
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
+    display: block;
+    width: auto;
+    height: auto;
+    border: none;
+    transform: none;
+    opacity: 0.4;
+}
